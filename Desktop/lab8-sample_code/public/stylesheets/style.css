@@ -1,0 +1,22 @@
+* {
+  text-align:center;
+}
+
+article {
+  padding: 20px;
+  border: 1px solid;
+}
+
+.poster {
+  width:400px;
+  height:500px;
+}
+
+.rating {
+  width:30px;
+  height:30px;
+}
+
+.btn-back {
+  margin:10px;
+}

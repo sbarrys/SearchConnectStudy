@@ -1,0 +1,16 @@
+extends layout
+block content
+    article
+        img(class="poster" src=`${data.poster}`)
+        h1 #{data.name}
+        hr(size='3px')
+        p #{data.actors}
+        p #{data.genre}
+        hr(size='3px')
+        p
+            - let i=0;
+            while i < data.rating
+                img(class='rating' src='/images/star.svg')
+                - ++i;
+    button(class='btn-back')
+        a(href='/') Go Home

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1 Ajou Movie Information
+  form(action='/result', method='POST')
+    h3 Register Movie
+    p Please enter the movie information to add a review.
+    p
+      input(type='text' name='name' placeholder='Movie Name')
+    p
+      input(type='text' name='actors' placeholder='Starring Actors')
+    p
+      input(type='text' name='genre' placeholder='Genre Type')
+    p
+      input(type='text' name='poster' placeholder='Poster (image url)')
+    p   Movie Ratings
+    label 0
+      input(type="radio", name="rating", value="0")
+    label 1
+      input(type="radio", name="rating", value="1")
+    label 2
+      input(type="radio", name="rating", value="2")
+    label 3
+      input(type="radio", name="rating", value="3")
+    label 4
+      input(type="radio", name="rating", value="4")
+    label 5
+      input(type="radio", name="rating", value="5")
+    p
+      input(type='submit')
