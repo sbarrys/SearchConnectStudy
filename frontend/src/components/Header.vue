@@ -10,7 +10,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item>
-            <router-link class="text-unset" to="/asd">스터디모집</router-link>
+            <router-link class="text-unset" to="/notice">스터디모집</router-link>
           </b-nav-item>
           <b-nav-item-dropdown text="나의스터디" class="transition-slow" right>
             <b-dropdown-item href="#">
