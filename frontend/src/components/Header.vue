@@ -32,14 +32,26 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
-            <template v-slot:button-content>
-              <em>User</em>
-            </template>
+            <template v-slot:button-content>User</template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#"><Login/></b-dropdown-item>
           </b-nav-item-dropdown>
+          <template>
+            <router-link class="text-unset" to="/signup">회원가입</router-link>
+          </template>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
+
+
+<script>
+import Login from "@/components/Login.vue";
+export default {
+  components: {
+    Login
+  }
+};
+</script>
