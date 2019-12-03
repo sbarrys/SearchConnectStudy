@@ -4,25 +4,26 @@
               <div class="inner">
                      <table class="notice">
                             <tr>
-                                   <td>Writer</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <td>Title</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <td>Content</td>
+                                   <td></td>&nbsp;&nbsp;&nbsp;
+                                   <td>Type</td>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <td>Writer</td>&nbsp;&nbsp;
+                                   <td>Title</td>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <td>Date</td>
                             </tr>
 
                             <tr  v-for ="value in notices"  @click="detail(value)" >
-                                   <td >{{value.writer}}</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                   <td >{{value.title}}</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                   <td >{{value.content}}</td>
-
+                                   <td></td>&nbsp;&nbsp;&nbsp;
+                                   <td>{{value.studyType}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <td >{{value.writer}}</td>&nbsp;&nbsp;
+                                   <td >{{value.title}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <td >{{value.create_date}}</td>
                             </tr>
                             <br>
                      </table>
                      <br>
                      <br>
                      <br>
-                     <button type="submit" class = "mybtn" @click="write()">글쓰기</button>
+                     <button type="submit" class = "mybtn" @click="write()"> Study 생성 </button>
               </div>
        </div>
 </template>
