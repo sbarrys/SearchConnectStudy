@@ -12,7 +12,7 @@
           <b-nav-item>
             <router-link class="text-unset" to="/notice">스터디모집</router-link>
           </b-nav-item>
-          <b-nav-item-dropdown text="나의스터디" class="transition-slow" right>
+          <b-nav-item-dropdown text="나의스터디" class="transition-slow" v-if='id' right>
             <b-dropdown-item href="#">
               <router-link class="text-unset" to="/st1">StudyA</router-link>
             </b-dropdown-item>
@@ -30,20 +30,18 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown v-if="id" right>
             <!-- Using 'button-content' slot -->
-            <template v-slot:button-content>
-              <span v-if="id">{{id}}</span>
-              <span v-else>로그인필요</span>
+            <template  v-slot:button-content>
+              <span>{{id}} 님</span>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-            <b-dropdown-item href="#">
-              <Login />
-            </b-dropdown-item>
+            <b-dropdown-item @click="logout">로그아웃</b-dropdown-item>
           </b-nav-item-dropdown>
           <template>
-            <router-link class="text-unset" to="/signup">회원가입</router-link>
+            <div v-if="!id">
+              <Login />
+            </div>
           </template>
         </b-navbar-nav>
       </b-collapse>
@@ -54,7 +52,7 @@
 
 <script>
 import Login from "@/components/Login.vue";
-import dataManger from "../../util/data-manager.js"
+import dataManager from "../../util/data-manager.js";
 export default {
   data() {
     return {
@@ -66,11 +64,18 @@ export default {
     Login
   },
   created() {
-          // console.log('doc: '+document.cookie)
-    console.log("(header.vue)store: "+ this.$store.getters.id)
-    if (this.$store.getters.id) {
+    console.log("(header.vue)store: " + this.$store.getters.id);
+    this.id = this.$store.getters.id;
+  },
+  methods: {
+    logout() {
+      dataManager.clearData("id");
+      this.$store.commit("logout");
       this.id = this.$store.getters.id;
     }
-  },
+  }
 };
 </script>
+
+<style scoped>
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <button v-b-modal.modal-prevent-closing>Login</button>
+    <a class="pr-3 py-1 text-unset" v-b-modal.modal-prevent-closing>Login</a>
 
     <b-modal
       id="modal-prevent-closing"
@@ -11,13 +11,17 @@
       @ok="handleOk"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group label="ID" label-for="id-input" invalid-feedback="ID는 6~12입니다">
+        <b-form-group label="ID" label-for="id-input" invalid-feedback="ID는 5~12입니다">
           <b-form-input id="id-input" v-model="id" :state="iddState" required></b-form-input>
         </b-form-group>
-        <b-form-group label="Password" label-for="pw-input" invalid-feedback="PW는 6~12입니다">
-          <b-form-input id="pw-input" v-model="password" :state="pwwState" required></b-form-input>
+        <b-form-group label="Password" label-for="pw-input" invalid-feedback="PW는 5~12입니다">
+          <b-form-input id="pw-input" type="password" v-model="password" :state="pwwState" required></b-form-input>
         </b-form-group>
       </form>
+      <div class="justify-content-end row">
+        <span class="small pr-3">설마..아직도..?</span>
+        <a class="text-unset small mr-3" href="#" v-on:click="modaloff">회원가입</a>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -69,14 +73,17 @@ export default {
         })
         .then(res => {
           dataManager.saveData("id", res.data.id);
-        //   console.log(res.data);
-          return res.data;
         });
 
       // Hide the modal manually
       this.$nextTick(() => {
         this.$refs.modal.hide();
+        location.reload();
       });
+    },
+    modaloff() {
+      this.$refs.modal.hide();
+      this.$router.push('/signup').catch(err=>{})
     }
   }
 };
@@ -86,6 +93,6 @@ button {
   border: 0;
   outline: 0;
   padding: 0;
-  background-color: white;
+  background-color: inherit;
 }
 </style>

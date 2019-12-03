@@ -1,25 +1,25 @@
 <template>
   <div>
-    <h1 class="text-center">Signup Form</h1>
+    <h2 class="text-center mt-4">회원가입</h2>
 
     <div class="row justify-content-center">
       <form class="col-md-8 col-12" @submit.prevent="signup">
-        <b-form-group label="Enter your user id">
+        <b-form-group label="ID">
           <b-form-input type="text" v-model="id"></b-form-input>
         </b-form-group>
-        <b-form-group label="Enter your password">
+        <b-form-group label="PASSWORD">
           <b-form-input type="password" v-model="password"></b-form-input>
         </b-form-group>
-        <b-form-group label="Enter your name">
+        <b-form-group label="이름">
           <b-form-input type="text" v-model="name"></b-form-input>
         </b-form-group>
-        <b-form-group label="Enter your major">
+        <b-form-group label="전공">
           <b-form-input type="text" v-model="major"></b-form-input>
         </b-form-group>
-        <b-form-group label="Enter your role">
+        <b-form-group label="성별">
           <b-select v-model="gender" :options="genderopt"></b-select>
         </b-form-group>
-        <b-button size="lg" variant="success" type="submit">Signup</b-button>
+        <b-button size="lg bg-custom6 text-dark border-0" type="submit">Signup</b-button>
       </form>
     </div>
   </div>
