@@ -8,7 +8,7 @@ var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var joinRouter = require('./routes/join');
-var userRouter = require('./routes/user');
+var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var app = express();
 var session= require('express-session')
@@ -53,7 +53,7 @@ app.use(flash());
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use('/', indexRouter);
-app.use('/user', userRouter);
+app.use('/login', loginRouter);
 app.use('/join', joinRouter);
 app.use('/logout', logoutRouter);
 
