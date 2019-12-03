@@ -94,7 +94,7 @@
         margin: auto;
         text-align: center;
         border: 1px solid #e5ccc8 !important;
-        overflow: scroll;
+        overflow-y: scroll;
     }
 
 </style>
