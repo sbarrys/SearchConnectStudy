@@ -14,8 +14,6 @@ autoInc.initialize(mongoose.connection)
 const db = mongoose.connection;
 
 
-
-
 var app = express();
 
 

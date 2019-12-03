@@ -2,6 +2,11 @@
 <div class="outer">
     <div class="inner">
     <div class="notice">
+
+        <div>{{notice.studyName}}</div>
+        <hr />
+        <div>{{notice.studyType}}</div>
+        <hr />
         <div>{{notice.writer}}</div>
         <hr />
         <div>{{notice.title}}</div>

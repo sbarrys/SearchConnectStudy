@@ -5,6 +5,7 @@ const autoInc = require('mongoose-auto-increment')
 var noticeSchema = new Schema({
 
     studyType : String,
+    maxMember: Number,
     studyName:String,
    writer : String,
     title: String,

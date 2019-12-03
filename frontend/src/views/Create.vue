@@ -3,6 +3,19 @@
         <div class ="outer">
             <div class="inner">
          <div class ="notice">
+             Study Type  <select v-model ="selected">
+                 <option disabled value=""> select one </option>
+                 <option>멘토 멘티</option>
+                 <option>자율 스터디</option>
+             </select>
+             <br>
+             <br>
+             Member <input type="Number" name="studyMember" required v-model="notice.maxMember">
+             <br>
+             <br>
+             Study Name : <input type="text" name="studyName" required v-model="notice.studyName" placeholder="스터디 이름">
+             <br>
+             <br>
             Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
             <br>
             <br>
@@ -25,17 +38,42 @@
         data(){
             return{
                 notice:{
+                    studyType: "",
+                    studyName:"",
+                    maxMember:"",
                     writer: "",
                     title: "",
                     content: ""
-                }
+                },
+                selected :""
             }
         },
         methods:{
             async postNotice() {
+                if(this.selected===""){
+                    alert("Study Type을 선택해주세요")
+                    return
+                }
+                if(this.notice.maxMember<=0){
+                    alert("모집 인원을 설정해주세요")
+                    return
+                }
                 const res = await this.$store.dispatch('appendNotice', this.notice)
                 if(res.success === false) alert(res.message)
                 else this.$router.push("/notice")
+            }
+
+        },
+        watch: {
+            selected:function () {
+                if(this.selected ==="멘토 멘티"){
+                    this.notice.studyType = this.selected
+                }
+                else if(this.selected==="자율 스터디"){
+                    this.notice.studyType = this.selected
+
+                }
+
             }
 
         }

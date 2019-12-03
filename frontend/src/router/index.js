@@ -59,7 +59,7 @@ const routes = [
     }
   },
   {
-    path:'/create/:id',
+    path:'/edit/:id',
     name : 'Edit',
     component : function () {
       return import('../views/Edit.vue')

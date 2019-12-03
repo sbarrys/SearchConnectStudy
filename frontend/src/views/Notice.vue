@@ -4,17 +4,18 @@
               <div class="inner">
                      <table class="notice">
                             <tr>
-                                   <td></td>&nbsp;&nbsp;&nbsp;
-                                   <td>Type</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <td>Writer</td>&nbsp;&nbsp;
+
+                                   <td>Type</td>
+                                   <td>Member</td>
+                                   <td>Writer</td>&nbsp;&nbsp;&nbsp;
                                    <td>Title</td>&nbsp;&nbsp;&nbsp;&nbsp;
                                    <td>Date</td>
                             </tr>
 
                             <tr  v-for ="value in notices"  @click="detail(value)" >
-                                   <td></td>&nbsp;&nbsp;&nbsp;
-                                   <td>{{value.studyType}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <td >{{value.writer}}</td>&nbsp;&nbsp;
+                                   <td>{{value.studyType}}</td>
+                                   <td>{{value.maxMember}}</td>
+                                   <td >{{value.writer}}</td>&nbsp;&nbsp;&nbsp;
                                    <td >{{value.title}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
                                    <td >{{value.create_date}}</td>
                             </tr>

@@ -42,28 +42,28 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchNotices({ commit }) {
-      const res = await Vue.axios.get('/notices/notice')
+      const res = await Vue.axios.get(API_HOST+'/notices/notice')
       if (res.data.success === true) commit('updateList', res.data.result)
       // return success/result to action caller
       return res.data
     },
     async appendNotice({}, data) {
-      const res = await Vue.axios.post('/notices/create', data)
+      const res = await Vue.axios.post(API_HOST+'/notices/create', data)
       // return success/result to action caller
       return res.data
     },
     async fetchNotice({}, { id }) {
-      const res = await Vue.axios.get(`/notices/${id}`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}`)
       // return success/result to action caller
       return res.data
     },
     async updateNotice({}, { id, data }) {
-      const res = await Vue.axios.put( `/notices/create/${id}`, data)
+      const res = await Vue.axios.put( API_HOST+`/notices/edit/${id}`, data)
       // return success/result to action caller
       return res.data
     },
     async deleteNotice({}, { id }) {
-      const res = await Vue.axios.delete(`/notices/${id}`)
+      const res = await Vue.axios.delete(API_HOST+`/notices/${id}`)
       // return success/result to action caller
       return res.data
     }
