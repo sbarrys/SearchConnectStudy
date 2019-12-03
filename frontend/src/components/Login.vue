@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <a class="pr-3 py-1 text-unset" v-b-modal.modal-prevent-closing>Login</a>
+    <a href="#" class="pr-3 py-1 text-unset" v-b-modal.modal-prevent-closing>Login</a>
 
     <b-modal
       id="modal-prevent-closing"
