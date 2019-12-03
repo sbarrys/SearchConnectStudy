@@ -42,6 +42,28 @@ const routes = [
     component: function () {
       return import('../views/test.vue')
     }
+  },
+  {
+    path:'/create',
+    name : 'Create',
+
+    component: function(){
+      return import('../views/Create.vue')
+    }
+  },
+  {
+    path:'/:id',
+    name : 'Detail',
+    component:function () {
+      return import('../views/Detail.vue')
+    }
+  },
+  {
+    path:'/create/:id',
+    name : 'Edit',
+    component : function () {
+      return import('../views/Edit.vue')
+    }
   }
 ]
 
