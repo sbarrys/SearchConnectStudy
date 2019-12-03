@@ -1,10 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="03eeac1c-07e3-4aa2-9941-f213ba94aa90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/wepproject/backend/data/notice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wepproject/backend/routes/notice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wepproject/frontend/src/plugins/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wepproject/frontend/src/plugins/vuetify.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wepproject/frontend/src/views/Create.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wepproject/frontend/src/views/Detail.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wepproject/frontend/src/views/Edit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wepproject/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/wepproject/backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wepproject/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/wepproject/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wepproject/frontend/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/wepproject/frontend/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wepproject/frontend/src/views/Notice.vue" beforeDir="false" afterPath="$PROJECT_DIR$/wepproject/frontend/src/views/Notice.vue" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/wepproject" />
   </component>
   <component name="ProjectId" id="1UT4amSWnjde3EwYtzxJekFvdpq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/wepproject/frontend/src/views" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vlwk0\WebstormProjects\webpro\wepproject\frontend\src\views" />
+      <recent name="C:\Users\vlwk0\WebstormProjects\webpro\wepproject\frontend\src" />
+      <recent name="C:\Users\vlwk0\WebstormProjects\webpro\wepproject\backend\routes" />
+      <recent name="C:\Users\vlwk0\WebstormProjects\webpro\wepproject\backend" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="03eeac1c-07e3-4aa2-9941-f213ba94aa90" name="Default Changelist" comment="" />
+      <created>1575367316496</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575367316496</updated>
+      <workItem from="1575367318149" duration="1986000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
