@@ -4,7 +4,6 @@
               <div class="inner">
                      <table class="notice">
                             <tr>
-
                                    <td>Type</td>
                                    <td>Member</td>
                                    <td>Writer</td>&nbsp;&nbsp;&nbsp;
@@ -12,7 +11,7 @@
                                    <td>Date</td>
                             </tr>
 
-                            <tr  v-for ="value in notices"  @click="detail(value)" >
+                            <tr v-for ="value in notices"  @click="detail(value)" >
                                    <td>{{value.studyType}}</td>
                                    <td>{{value.maxMember}}</td>
                                    <td >{{value.writer}}</td>&nbsp;&nbsp;&nbsp;
@@ -21,6 +20,12 @@
                             </tr>
                             <br>
                      </table>
+                     <button class="mybtn2" @click="prevPage">
+                            Previous
+                     </button>&nbsp;&nbsp;&nbsp;
+                     <button class="mybtn2" @click="nextPage">
+                            Next
+                     </button>
                      <br>
                      <br>
                      <br>
@@ -32,13 +37,18 @@
        export default {
               data:function (){
                      return {
-                            //notices:[]
+                            pageNumber:0,
+                            size :5,
                      }
               },
               computed:{
                      notices(){
-                            return this.$store.state.notices
+                            const start = this.pageNumber * this.size,
+                                    end = start + this.size
+                            var temp =this.$store.state.notices
+                            return temp.slice(start,end)
                      },
+
               },
               methods:{
                      write(){
@@ -57,10 +67,14 @@
                             })
 
                      },
-                     createStudy(){
-
+                     nextPage(){
+                            this.pageNumber++;
+                     },
+                     prevPage(){
+                            this.pageNumber--;
                      }
               },
+
               async beforeCreate() {
                      await this.$store.dispatch('fetchNotices')
               }
@@ -91,7 +105,7 @@
        }
        .mybtn2{
               border-radius: 10px;
-              background-color: #7abaff !important;
+              background:rgba(230, 230, 230, 0.517);
        }
 
 </style>
