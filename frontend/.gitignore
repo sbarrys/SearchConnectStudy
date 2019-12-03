@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+/wepproject/backend/public/dist
 
 # local env files
 .env.local
