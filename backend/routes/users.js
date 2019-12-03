@@ -24,8 +24,6 @@ router.get('/logincheck', function(req,res,next){
   res.send(req.body);
 })
 
-router.get('/logincheck', function(req,res,next){
-  res.send(req.body);
-})
+
 
 module.exports = router;
