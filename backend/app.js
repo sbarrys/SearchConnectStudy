@@ -3,7 +3,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var session = require('express-session');
+
+
 var app = express();
+
+
+app.use(session({
+    secret: '@#@$MYSIGN#@$#$',
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.use(logger('dev'));
 app.use(express.json());

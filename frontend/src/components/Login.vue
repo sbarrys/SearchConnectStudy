@@ -11,18 +11,10 @@
       @ok="handleOk"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group
-          label="ID"
-          label-for="id-input"
-          invalid-feedback="ID는 6~12입니다"
-        >
+        <b-form-group label="ID" label-for="id-input" invalid-feedback="ID는 6~12입니다">
           <b-form-input id="id-input" v-model="id" :state="iddState" required></b-form-input>
         </b-form-group>
-        <b-form-group
-          label="Password"
-          label-for="pw-input"
-          invalid-feedback="PW는 6~12입니다"
-        >
+        <b-form-group label="Password" label-for="pw-input" invalid-feedback="PW는 6~12입니다">
           <b-form-input id="pw-input" v-model="password" :state="pwwState" required></b-form-input>
         </b-form-group>
       </form>
@@ -31,29 +23,32 @@
 </template>
 
 <script>
+import dataManager from "../../util/data-manager.js";
+
 export default {
   computed: {
     iddState() {
       return this.id.length > 4 && this.id.length < 13 ? true : false;
     },
     pwwState() {
-      return this.password.length > 4 && this.password.length < 13 ? true : false;
+      return this.password.length > 4 && this.password.length < 13
+        ? true
+        : false;
     }
   },
   data() {
     return {
       id: "",
-      password: "",
+      password: ""
     };
   },
   methods: {
     checkFormValidity() {
-    
-      return this.iddState&&this.pwwState;
+      return this.iddState && this.pwwState;
     },
     resetModal() {
       this.id = "";
-      this.password=''
+      this.password = "";
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -67,7 +62,16 @@ export default {
         return;
       }
       // Push the name to submitted names
-      const res = this.$http.post('http://localhost:3000/api/users/login', {id:this.id,password:this.password});
+      const res = this.$http
+        .post("http://localhost:3000/api/users/login", {
+          id: this.id,
+          password: this.password
+        })
+        .then(res => {
+          dataManager.saveData("id", res.data.id);
+        //   console.log(res.data);
+          return res.data;
+        });
 
       // Hide the modal manually
       this.$nextTick(() => {

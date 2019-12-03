@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import dataManager from '../../util/data-manager.js';
+
 
 Vue.use(VueRouter)
 
@@ -13,7 +15,7 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-   
+
     component: function () {
       return import('../views/About.vue')
     }
@@ -21,7 +23,7 @@ const routes = [
   {
     path: '/notice',
     name: 'Notice',
-   
+
     component: function () {
       return import('../views/Notice.vue')
     }
@@ -29,7 +31,7 @@ const routes = [
   {
     path: '/signup',
     name: 'Signup',
-   
+
     component: function () {
       return import('../views/Signup.vue')
     }
@@ -49,4 +51,8 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  dataManager.loadDataFromCookie();
+  next();
+});
 export default router
