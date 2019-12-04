@@ -88,11 +88,12 @@ export default {
   }
 };
 </script>
-<style closure>
+<style scoped>
 button {
   border: 0;
   outline: 0;
   padding: 0;
   background-color: inherit;
 }
+
 </style>

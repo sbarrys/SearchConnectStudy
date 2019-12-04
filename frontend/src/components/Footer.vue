@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer text-font1">
     <div class="footer_inner_wrap">
       <div class="footer_wrap_menu row">
         <div class="footer_wrap_menu_intro col-12 col-md-6">
@@ -166,12 +166,11 @@ export default {};
 
 .footer_wrap_sub > div {
   margin: 1rem 0 0 0;
-  font-size: 0.65rem;
+  /* font-size: 0.65rem; */
   line-height: 0.85rem;
 }
 
 .footer_wrap_sub > div > a:nth-of-type(1) {
-  font-weight: 700;
   display: inline-flex;
   margin-right: 0.25rem;
 }
