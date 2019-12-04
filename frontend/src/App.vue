@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-    <Navbar/>
-    <router-view />
-    <Footer/>
+    <Navbar />
+    <div class="container-cus">
+      <router-view :key="$route.fullPath" />
+    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Footer from "@/components/Footer.vue";
-import Navbar from '@/components/Header.vue';
+import Navbar from "@/components/Header.vue";
 export default {
-  name: 'home',
+  name: "home",
   components: {
     Navbar,
     Footer
   }
-}
+};
 </script>
 
 <style>
@@ -61,5 +63,28 @@ export default {
 
 .transition-slow {
   transition-duration: 2s;
+}
+
+.container-cus {
+  width: 100%;
+  /* min-height: 100vh; footer 하단 고정 */
+  padding-bottom: 250px;
+  min-height: 100%;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .container-cus {
+    /* min-height: 100vh; footer 하단 고정 */
+    padding-bottom: 315px;
+  }
 }
 </style>
