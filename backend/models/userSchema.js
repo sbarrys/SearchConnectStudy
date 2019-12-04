@@ -52,24 +52,24 @@ userSchema.virtual('newPassword')
 //비밀번호 가능한건지 확인
 var passwordRegex=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
 var passwordRegexErrorMessage = 'Should be minimum 8 characters of alphabet and number combination!';
-userSchema.path('password').validate(function(v) {
-  var user = this;
-  //유저생성시
-  if(user.isNew){
-    if(!user.passwordConfirmation){
-      user.invalidate('passwordConfirmation','Password Confirmation is required!');
-    }
-    if(!passwordRegex.test(user.password)){
-      user.invalidate('password',passwordRegexErrorMessage);
-    }
-    else if(user.password!==user.passwordConfirmation){
-      user.invalidate('passwordConfirmation','Password Confirmation does not matched!')
-    }
-  }
+// userSchema.path('password').validate(function(v) {
+//   var user = this;
+//   //유저생성시
+//   if(user.isNew){
+//     if(!user.passwordConfirmation){
+//       user.invalidate('passwordConfirmation','Password Confirmation is required!');
+//     }
+//     if(!passwordRegex.test(user.password)){
+//       user.invalidate('password',passwordRegexErrorMessage);
+//     }
+//     else if(user.password!==user.passwordConfirmation){
+//       user.invalidate('passwordConfirmation','Password Confirmation does not matched!')
+//     }
+//   }
 
-  //업데이트시
-  //생략
-  });
+//   //업데이트시
+//   //생략
+//   });
   
 //패스워드 저장전 암호화 거치기
 userSchema.pre('save',function(next){
@@ -84,13 +84,13 @@ userSchema.pre('save',function(next){
 })
 
 //비밀번호 확을 위해서 메소드 만들어주기
-userSchema.methods.authenticate=function(password){
-  var user = this;
-  console.log("참거짓?"+bcrypt.compareSync(password,user.password));
+// userSchema.methods.authenticate=function(password){
+//   var user = this;
+//   console.log("참거짓?"+bcrypt.compareSync(password,user.password));
   
-  return bcrypt.compareSync(password,user.password);
+//   return bcrypt.compareSync(password,user.password);
 
-}
+// }
 //모델 내보내기
 
  const User = mongoose.models.user || mongoose.model('user', userSchema);
