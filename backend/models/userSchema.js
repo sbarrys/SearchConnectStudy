@@ -19,7 +19,7 @@ var userSchema= mongoose.Schema({
     required:[true,'Name is required!'],
     match:[/^.{3,12}$/,'Should be 3-12 characters!'],
     trim:true,
-    unique:true
+    unique:false
   },
   major:{
     type:String,
