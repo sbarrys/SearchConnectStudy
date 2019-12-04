@@ -11,6 +11,10 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.17.0",
+    "mongoose": "^5.7.13",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "mongoose-auto-increment": "^5.0.1"
   }
 }

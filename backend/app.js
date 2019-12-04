@@ -4,6 +4,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 var session = require('express-session');
+var mongoose = require('mongoose')
+const autoInc = require('mongoose-auto-increment')
+
+
+
+mongoose.connect('mongodb://localhost:27017/mainNotice',{useFindAndModify:false});
+autoInc.initialize(mongoose.connection)
+const db = mongoose.connection;
 
 
 var app = express();
@@ -24,9 +32,11 @@ app.use(cors()); // CORS 미들웨어 추가
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var noticeRouter = require('./routes/notice');
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/notices', noticeRouter); ///
 
 
 
