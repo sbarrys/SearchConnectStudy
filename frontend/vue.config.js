@@ -1,6 +1,5 @@
+var path = require("path")
 module.exports = {
-    devServer: {
+    outputDir: path.resolve(__dirname, "../backend/public/"),
 
-        host: 'localhost'
-    }
-};
+}
