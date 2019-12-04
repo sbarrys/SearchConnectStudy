@@ -11,6 +11,7 @@
 <script>
 import Footer from "@/components/Footer.vue";
 import Navbar from "@/components/Header.vue";
+
 export default {
   name: "home",
   components: {
@@ -18,9 +19,15 @@ export default {
     Footer
   }
 };
+
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap&subset=korean');
+
+.text-font1{
+  font-family: 'Yeon Sung', cursive;
+}
 .text-unset {
   color: unset !important;
 }

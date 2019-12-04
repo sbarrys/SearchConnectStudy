@@ -1,5 +1,5 @@
 <template>
-  <div id="nav">
+  <div id="nav" class="text-font1">
     <!-- <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>-->
     <b-navbar class="py-3 bg-custom4" toggleable="lg" type="light">

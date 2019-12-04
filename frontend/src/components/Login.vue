@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <a class="pr-3 py-1 text-unset" v-b-modal.modal-prevent-closing>Login</a>
+    <a href="#" class="pr-3 py-1 text-unset" v-b-modal.modal-prevent-closing>Login</a>
 
     <b-modal
       id="modal-prevent-closing"
@@ -88,11 +88,12 @@ export default {
   }
 };
 </script>
-<style closure>
+<style scoped>
 button {
   border: 0;
   outline: 0;
   padding: 0;
   background-color: inherit;
 }
+
 </style>
