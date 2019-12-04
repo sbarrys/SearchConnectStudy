@@ -1,25 +1,22 @@
 <template>
-<div class="outer">
-    <div class="inner">
-    <div class="notice">
-<div class="notice_">
-    <br>
-    <br>
-    <br>
-    <div class="com1">
-        <a>Study: {{notice.studyName}} </a><a> Type: {{notice.studyType}}</a>
-        <br/>
-        <a>작성자: {{notice.writer}}</a><a>제목: {{notice.title}}</a>
-    </div><br/>
-    <a>content</a>
-        <div class="com2">{{notice.content}}</div>
-</div>
-        <button @click="editNotice" class="mybtn">수정</button>&nbsp;
-        <button @click="deleteNotice" class="mybtn">삭제</button>&nbsp;
-        <button class="mybtn">참가</button>
+    <div class="outer">
+        <div class="inner">
+            <div class="notice">
+                <div class="notice_">
+                    <br>
+                    <br>
+                    <br>
+                    <div class="com1">
+                        <a>작성자: {{study.lecture.writer}}</a><a>제목: {{study.lecture.title}}</a>
+                    </div><br/>
+                    <a>content</a>
+                    <div class="com2">{{study.lecture.content}}</div>
+                </div>
+                <button @click="editNotice" class="mybtn">수정</button>&nbsp;
+                <button @click="deleteNotice" class="mybtn">삭제</button>&nbsp;
+            </div>
+        </div>
     </div>
-    </div>
-</div>
 </template>
 <script>
     /* eslint-disable */
@@ -27,20 +24,20 @@
         data:function () {
             return {
 
-                notice: {}
+                study: {}
             };
 
         },
         methods:{
-           editNotice(){
-               var id = this.$route.params.id
-               this.$router.push({
-                   name:'Edit',
-                   params:{
-                       id: id
-                   }
-               })
-           },
+            editNotice(){
+                var id = this.$route.params.id
+                this.$router.push({
+                    name:'Edit',
+                    params:{
+                        id: id
+                    }
+                })
+            },
             async deleteNotice() {
                 const res = await this.$store.dispatch('deleteNotice', { id: this.$route.params.id})
                 if(res.success === false) alert(res.message)

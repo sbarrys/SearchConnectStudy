@@ -2,6 +2,9 @@
 <template>
        <div class ="outer">
               <div class="inner">
+                     <br>
+                     <br>
+                     <br>
                      <table class="notice">
                             <tr>
                                    <td>Type</td>
@@ -11,13 +14,14 @@
                                    <td>Date</td>
                             </tr>
 
-                            <tr v-for ="value in notices"  @click="detail(value)" >
+                            <tr v-for ="value in notices"  @click="detail(value)" style="border: 1px solid #e5ccc8 !important" >
                                    <td>{{value.studyType}}</td>
                                    <td>{{value.maxMember}}</td>
                                    <td >{{value.writer}}</td>&nbsp;&nbsp;&nbsp;
                                    <td >{{value.title}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <td >{{value.create_date}}</td>
+                                   <td >{{value.date}}</td>
                             </tr>
+                            <br>
                             <br>
                      </table>
                      <button class="mybtn2" @click="prevPage">
@@ -38,7 +42,7 @@
               data:function (){
                      return {
                             pageNumber:0,
-                            size :5,
+                            size :10,
                      }
               },
               computed:{
@@ -102,10 +106,14 @@
        .mybtn{
               border-radius:10px;
               background-color: #ecd7d2 !important;
+              box-shadow: 3px 3px 3px 1px #e5ccb8;
+              width: 100px;
+              height: 30px;
        }
        .mybtn2{
               border-radius: 10px;
               background:rgba(230, 230, 230, 0.517);
+              box-shadow: 3px 3px 3px 1px gray;
        }
 
 </style>

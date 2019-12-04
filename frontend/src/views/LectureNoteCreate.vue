@@ -4,34 +4,28 @@
             <div class="inner">
                 <br>
                 <br>
-         <div class ="notice">
-             Study Type  <select v-model ="selected">
-                 <option disabled value=""> select one </option>
-                 <option>멘토 멘티</option>
-                 <option>자율 스터디</option>
-             </select>
-             <br>
-             <br>
-             Member <input type="Number" name="studyMember" required v-model="notice.maxMember">
-             <br>
-             <br>
-             Study Name : <input type="text" name="studyName" required v-model="notice.studyName" placeholder="스터디 이름">
-             <br>
-             <br>
-            Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
-            <br>
-            <br>
-            Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
-            <br>
-            <br>
-            Content
-            <br>
-            <textarea name="content" required v-model="notice.content" placeholder="내용"></textarea>
-            <br>
-            <button type ="submit" class="mybtn">작성</button>
-         </div>
+                <div class ="notice">
+                    Study Type  <select v-model ="selected">
+                    <option disabled value=""> select one </option>
+                    <option>멘토 멘티</option>
+                    <option>자율 스터디</option>
+                </select>
+                    <br>
+                    <br>
+                    Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
+                    <br>
+                    <br>
+                    Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
+                    <br>
+                    <br>
+                    Content
+                    <br>
+                    <textarea name="content" required v-model="notice.content" placeholder="내용"></textarea>
+                    <br>
+                    <button type ="submit" class="mybtn">작성</button>
+                </div>
+            </div>
         </div>
-    </div>
     </form>
 </template>
 <script>
@@ -40,8 +34,6 @@
         data(){
             return{
                 notice:{
-                    studyType: "",
-                    studyName:"",
                     maxMember:"",
                     writer: "",
                     title: "",
