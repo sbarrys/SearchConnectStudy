@@ -4,11 +4,11 @@
       <div >
         <h4 >스터디</h4>
         <b-card-group deck>
-          <b-card header='신규 스터디모집' img-src="https://placekitten.com/1000/300" img-alt="Card image" img-top>
-            <b-card-text>Some quick example text to build on the card and make up the bulk of the card's content.</b-card-text>
+          <b-card header='신규 스터디모집' img-src="/study.jpg" img-alt="Card image" img-bottom>
+            <b-card-text>Some quick example text to build on the card and t to build on the card and make up the bulk of the card's content.</b-card-text>
           </b-card>
 
-          <b-card header="나의 스터디" img-src="https://placekitten.com/1000/300" img-alt="Card image" img-bottom>
+          <b-card header="나의 스터디" img-src="/study2.jpg" img-alt="Card image" img-bottom>
             <b-card-text>Some quick example text to build on the card and make up the bulk of the card's content.</b-card-text>
           </b-card>
         </b-card-group>
@@ -44,3 +44,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .card-header{
+    background-color: #e5ccc8;
+  }
+</style>
