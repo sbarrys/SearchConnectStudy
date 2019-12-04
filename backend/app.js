@@ -4,21 +4,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
-var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var joinRouter = require('./routes/join');
-var loginRouter = require('./routes/login');
-var logoutRouter = require('./routes/logout');
+var authRouter = require('./routes/auth');
+var userRouter = require('./routes/user');
 var app = express();
-var session= require('express-session')
-var passport = require('passport');
-require('./passport');
 // CONNECT TO MONGODB SERVER//////////////////////////
 var db = mongoose.connection;
 console.log('데이터베이스 연결 시도')
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost/teamproject',{ useNewUrlParser: true   , useUnifiedTopology: true});
+
+mongoose.connect('mongodb://localhost/teamproject',{useMongoClient: true, useNewUrlParser: true   , useUnifiedTopology: true});
 
 db.on('error', console.error);
 db.once('open', function(){
@@ -38,24 +35,26 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 // [CONFIGURE SERVER PORT]
 var port = process.env.PORT || 8080;
-// [CONFIGURE APP TO USE express]
-app.use(passport.initialize()); // passport 초기화 passport 를 초기화 해주면 user 정보가 req.user 로 들어가게 된다
-app.use(passport.session());    //로그인을 지속시키기 위해서 필수
-app.use(session({ secret :'sessionsecret' }));   //secret 은 필수 옵션으로 우리가 보내주는 session ID를 암호화 해줄 것이다
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'content-type, x-access-token'); //1
+    next();
+  });
+  
+  
 
 
-
-app.use(flash());
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use('/', indexRouter);
-app.use('/login', loginRouter);
+app.use('/user', userRouter);
+app.use('/auth', authRouter);
 app.use('/join', joinRouter);
-app.use('/logout', logoutRouter);
 
 module.exports = app;
 

@@ -1,8 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var bcrypt = require('bcryptjs');
 var User = require('../models/userSchema'); 
 
 router.post('/', function (req, res) {
