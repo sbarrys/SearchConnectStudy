@@ -15,7 +15,7 @@ router.get('/', util.isLoggedin, function(req,res,next){
 
   
 // create
-router.post('/signup', function(req,res,next){
+router.post('/', function(req,res,next){
     var user = new User(req.body);
     console.log(req.body);
     user.save(function(err,user){
