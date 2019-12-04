@@ -10,7 +10,7 @@ var noticeSchema = new Schema({
    writer : String,
     title: String,
     content:String,
-    create_date:{type:Date, default:Date.now}
+    date:String
 
 });
 

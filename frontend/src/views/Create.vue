@@ -2,6 +2,8 @@
     <form method="post" @submit.stop.prevent="postNotice">
         <div class ="outer">
             <div class="inner">
+                <br>
+                <br>
          <div class ="notice">
              Study Type  <select v-model ="selected">
                  <option disabled value=""> select one </option>
@@ -43,7 +45,8 @@
                     maxMember:"",
                     writer: "",
                     title: "",
-                    content: ""
+                    content: "",
+                    date:this.$moment(new Date()).format('YYYYMMDD')
                 },
                 selected :""
             }
@@ -103,5 +106,6 @@
     .mybtn{
         border-radius:10px;
         background-color: #ecd7d2 !important;
+        box-shadow: 3px 3px 3px 1px #e5ccb8;
     }
 </style>

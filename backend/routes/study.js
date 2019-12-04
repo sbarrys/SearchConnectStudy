@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const notices= require('../data/notice');
-const study =  require('../data/study')
+const notices= require('../data/study');
+
 
 router.get('/notice', function(req, res){
     notices.find( (err, post) => {
@@ -13,22 +13,9 @@ router.get('/notice', function(req, res){
 router.post('/create', function(req, res) {
     notices.create(req.body, function (err, post) {
         if (err) return console.log(err);
-        else {
-            var temp = new study();
-            temp.studyType = req.body.studyType;
-            temp.studyName = req.body.studyName;
-            temp.manager = req.body.writer;
-            temp.maxMember = req.body.maxMember;
-            temp.studyID = req.params.id;
 
-            temp.save(function (err) {
-                if (err) {
-                    res.json({success: false})
-                }
-            });
+        res.json({success: true});
 
-            res.json({success: true});
-        }
     });
 });
 
