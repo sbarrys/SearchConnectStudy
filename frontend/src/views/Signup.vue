@@ -4,11 +4,11 @@
 
     <div class="row justify-content-center">
       <form class="col-md-8 col-12" @submit.prevent="signup">
-        <b-form-group label="ID">
-          <b-form-input type="text" v-model="id"></b-form-input>
+        <b-form-group label="ID" invalid-feedback="ID는 5~12입니다">
+          <b-form-input type="text" v-model="id" :state="iddState" required></b-form-input>
         </b-form-group>
-        <b-form-group label="PASSWORD">
-          <b-form-input type="password" v-model="password"></b-form-input>
+        <b-form-group label="PASSWORD" invalid-feedback="PW는 5~12입니다">
+          <b-form-input type="password" v-model="password" :state="pwwState" required></b-form-input>
         </b-form-group>
         <b-form-group label="이름">
           <b-form-input type="text" v-model="name"></b-form-input>
@@ -30,9 +30,19 @@ import axios from "axios";
 
 export default {
   name: "Signup",
+  computed: {
+    iddState() {
+      return this.id.length > 4 && this.id.length < 13 ? true : false;
+    },
+    pwwState() {
+      return this.password.length > 4 && this.password.length < 13
+        ? true
+        : false;
+    }
+  },
   data() {
     return {
-      id: "jeky",
+      id: "jeky22",
       password: "asdasd",
       name: "이제찬",
       gender: "male",
@@ -54,7 +64,8 @@ export default {
       if (!id || !password || !name || !major || !gender) {
         return false;
       }
-      const res = this.$http.post("http://localhost:3000/api/users/signup", {
+      const res = this.$http
+        .post("http://localhost:3000/api/users/signup", {
           id,
           password,
           major,
@@ -62,9 +73,10 @@ export default {
           gender
         })
         .then(res => {
-          if (res.status === 200) {
+          if (res === 200) {
             // 성공적으로 회원가입이 되었을 경우
-            this.$router.push({ name: "Signin" });
+            alert('회원가입 성공')
+            this.$router.push('/');
           }
         });
     }

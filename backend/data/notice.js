@@ -7,7 +7,7 @@ var noticeSchema = new Schema({
     studyType : String,
     maxMember: Number,
     studyName:String,
-   writer : String,
+    writer : String,
     title: String,
     content:String,
     create_date:{type:Date, default:Date.now}

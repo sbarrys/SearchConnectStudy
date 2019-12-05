@@ -59,7 +59,7 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/user', userRouter);
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 app.use('/join', joinRouter);
 app.use('/api/users', usersRouter);
 app.use('/notices', noticeRouter); ///

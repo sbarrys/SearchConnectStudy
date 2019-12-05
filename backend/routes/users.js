@@ -12,8 +12,6 @@ router.get('/', util.isLoggedin, function(req,res,next){
     });
 });
 
-
-  
 // create
 router.post('/signup', function(req,res,next){
     var user = new User(req.body);
