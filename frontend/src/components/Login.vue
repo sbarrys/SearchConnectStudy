@@ -67,23 +67,29 @@ export default {
       }
       // Push the name to submitted names
       const res = this.$http
-        .post("http://localhost:3000/api/users/login", {
+        .post("http://localhost:3000/api/auth/login", {
           id: this.id,
           password: this.password
         })
         .then(res => {
-          dataManager.saveData("id", res.data.id);
+          console.log(res.data);
+          if (res.data.success) {
+            dataManager.saveData("id", res.data.data.id);
+            dataManager.saveData("token", res.data.data.token);
+
+            alert(res.data.data.id + "님 환영합니다");
+            location.reload();
+          } else {
+            alert(res.data.message);
+            this.$refs.modal.hide();
+          }
         });
 
       // Hide the modal manually
-      this.$nextTick(() => {
-        this.$refs.modal.hide();
-        location.reload();
-      });
     },
     modaloff() {
       this.$refs.modal.hide();
-      this.$router.push('/signup').catch(err=>{})
+      this.$router.push("/signup").catch(err => {});
     }
   }
 };
@@ -95,5 +101,4 @@ button {
   padding: 0;
   background-color: inherit;
 }
-
 </style>

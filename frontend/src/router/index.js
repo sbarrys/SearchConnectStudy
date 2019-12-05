@@ -44,24 +44,24 @@ const routes = [
     }
   },
   {
-    path:'/create',
-    name : 'Create',
+    path: '/create',
+    name: 'Create',
 
-    component: function(){
+    component: function () {
       return import('../views/Create.vue')
     }
   },
   {
-    path:'/:id',
-    name : 'Detail',
-    component:function () {
+    path: '/:id',
+    name: 'Detail',
+    component: function () {
       return import('../views/Detail.vue')
     }
   },
   {
-    path:'/edit/:id',
-    name : 'Edit',
-    component : function () {
+    path: '/edit/:id',
+    name: 'Edit',
+    component: function () {
       return import('../views/Edit.vue')
     }
   },
@@ -120,8 +120,14 @@ const routes = [
       return import('../views/LectureNoteDetail.vue')
 
     }
-  }
 
+  }, {
+    path: '/study/:id',
+    name: 'study',
+    component: function () {
+      return import('../views/study.vue')
+    }
+  }
 ]
 
 const router = new VueRouter({

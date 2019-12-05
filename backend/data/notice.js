@@ -46,8 +46,8 @@ var noticeSchema = new Schema({
 
     studyType: String,
     maxMember: Number,
-    studyName: String,
-    writer: String,
+    studyName:String,
+    writer : String,
     title: String,
     content: String,
     date: String,

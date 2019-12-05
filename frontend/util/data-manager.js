@@ -33,10 +33,14 @@ export default {
   loadDataFromCookie: () => {
     // string 으로 받아서 json파싱
     const userId = JSON.parse(cookieManager.getCookie('id'));
+    const token = JSON.parse(cookieManager.getCookie('token'));
+
 
     // 쿠키에 데이터가 있었는지 확인 후 vuex에 저장
     if (userId != null) {
       saveDataVuex('id', userId);
+      saveDataVuex('token', token);
+
     }
   },
   /**
@@ -45,8 +49,11 @@ export default {
   clearData: () => {
     // Vuex에서 tabStack들을 삭제
     store.commit('id', []);
+    store.commit('token', []);
 
     // Cookie에서 tabStack들을 삭제
     cookieManager.deleteCookie('id');
+    cookieManager.deleteCookie('token');
+
   },
 };

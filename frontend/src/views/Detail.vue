@@ -1,7 +1,7 @@
 <template>
   <div class="outer text-center">
     <h2 class="bg-custom6 my-3 py-3">{{notice.title}}</h2>
-    <div class="container ">
+    <div class="container">
       <table class="notice table table-borderless">
         <tr>
           <td style="width:15%">이름</td>
@@ -21,8 +21,8 @@
           <td>{{notice.content}}</td>
         </tr>
       </table>
-      <button @click="editNotice" class="mybtn btn">수정</button>
-      <button @click="deleteNotice" class="mybtn btn">삭제</button>
+      <button v-if="chkwriter" @click="editNotice" class="mybtn btn">수정</button>
+      <button v-if="chkwriter" @click="deleteNotice" class="mybtn btn">삭제</button>
     </div>
   </div>
 </template>
@@ -31,9 +31,14 @@
 export default {
   data: function() {
     return {
-      notice: {}
+      notice: {},
+      chkwriter: false
     };
   },
+  //   created() {
+  //     if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
+  //     console.log(this.notice.writer + "???" + this.$store.getters.id);
+  //   },
   methods: {
     editNotice() {
       var id = this.$route.params.id;
@@ -57,7 +62,10 @@ export default {
       id: this.$route.params.id
     });
     if (res.success === false) alert(res.message);
-    else this.notice = res.result;
+    else {
+      this.notice = res.result;
+      if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
+    }
   }
 };
 </script>

@@ -6,6 +6,7 @@ var util = {};
 //success json 을 만드는 함수입니다. API가 return하는 json의 형태를 통일시키기 위해 
 //바로 함수를 통해 json 오브젝트를 만들고 이를 return하게 됩니다.
 util.successTrue = function (data) {
+    console.log(data);
     return {
         success: true,
         message: null,
