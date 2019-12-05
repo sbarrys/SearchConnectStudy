@@ -32,7 +32,7 @@
 export default {
   data: function() {
     return {
-//       fields: ["studyType", "maxMember", "writer", "title", "create_date"],
+//       fields: ["studyType", "maxMember", "writer", "title", "date"],
       pageNumber: 0,
       size: 5
     };

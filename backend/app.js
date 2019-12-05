@@ -51,8 +51,8 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'content-type, x-access-token'); //1
     next();
   });
-  
-  
+
+
 
 
 app.use(logger('dev'));
@@ -63,6 +63,13 @@ app.use('/auth', authRouter);
 app.use('/join', joinRouter);
 app.use('/api/users', usersRouter);
 app.use('/notices', noticeRouter); ///
+app.use(multer({
+    dest: "../upload/",
+    limits:{
+        fileSize:1024*1000*16
+    }
+}
+));
 
 
 

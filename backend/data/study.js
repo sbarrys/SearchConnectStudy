@@ -51,8 +51,27 @@ var studySchema = new Schema({
     notice: NoticeSchema,
     board:BoardSchema,
     schedule:ScheduleSchema,
-    lecture:LectureSchema,
-    assignment:AssignmentSchema,
+    lecture:[
+        new mongoose.Schema(
+            {
+                title : String,
+                writer:String,
+                content: Number,
+                anonymous : String,
+                file:Object,
+                userID:Number
+            })
+    ],
+    assignment:[
+        new mongoose.Schema(
+            {
+                title: String,
+                writer: String,
+                content: String,
+                file: Object
+            }
+        )
+    ],
     studyID :Number
 
 });

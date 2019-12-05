@@ -98,7 +98,7 @@ const routes = [
     }
   },
   {
-    path:'/study/:id/lecturenotecreate',
+    path:'/study/:id/lecturenote/create',
     name:'LectureNoteCreate',
     component:function () {
       return import('../views/LectureNoteCreate.vue')
@@ -114,7 +114,7 @@ const routes = [
     }
   },
   {
-    path:'/study/:id/lecturenotedetail',
+    path:'/study/:id/lecturenote/:id',
     name:'LectureNoteDetail',
     component:function () {
       return import('../views/LectureNoteDetail.vue')

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const notices= require('../data/study');
-
+const study= require('../data/study');
+const notices= require('../data/notice');
 
 router.get('/notice', function(req, res){
     notices.find( (err, post) => {
@@ -10,12 +10,25 @@ router.get('/notice', function(req, res){
     })
 });
 
-router.post('/create', function(req, res) {
+router.post('/lecturenotecreate', function(req, res) {
     notices.create(req.body, function (err, post) {
         if (err) return console.log(err);
+        else {
+            var temp = new notices();
+            temp.lecture.push({title : req.body.title,
+                writer:req.body.writer,
+                content: req.body.content,
+                file:req.body.file,
+                studyID:Number})
 
-        res.json({success: true});
+            temp.save(function (err) {
+                if (err) {
+                    res.json({success: false})
+                }
+            });
 
+            res.json({success: true});
+        }
     });
 });
 
