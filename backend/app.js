@@ -17,7 +17,7 @@ var db = mongoose.connection;
 console.log('데이터베이스 연결 시도')
 mongoose.set('useCreateIndex', true);
 //테스트
-mongoose.connect('mongodb://localhost:27017/test',{useNewUrlParser: true   , useUnifiedTopology: true, useFindAndModify:false});
+mongoose.connect('mongodb://localhost/teamproject',{useNewUrlParser: true   , useUnifiedTopology: true, useFindAndModify:false});
 autoInc.initialize(mongoose.connection)
 
 db.on('error', console.error);
