@@ -112,6 +112,8 @@ export default {
       if (res.success === false) alert(res.message);
       else this.$router.push("/notice");
     }
+  }, created() {
+    this.notice.writer = this.$store.getters.id;
   },
   watch: {
     selected: function() {
@@ -122,6 +124,7 @@ export default {
       }
     }
   }
+
 };
 </script>
 <style scoped>

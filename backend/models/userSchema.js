@@ -19,7 +19,7 @@ var userSchema= mongoose.Schema({
     required:[true,'Name is required!'],
     match:[/^.{3,12}$/,'Should be 3-12 characters!'],
     trim:true,
-    unique:true
+    unique:false
   },
   major:{
     type:String,
@@ -32,9 +32,9 @@ var userSchema= mongoose.Schema({
   toObject:{virtuals:true}
 });
 
-userSchema.virtual('passwordConfirmation')
-.get(function(){return this._passwordConfirmation;})
-.set(function(value){this._passwordConfirmation=value;});
+// userSchema.virtual('passwordConfirmation')
+// .get(function(){return this._passwordConfirmation;})
+// .set(function(value){this._passwordConfirmation=value;});
 
 userSchema.virtual('originalPassword').
 get(function(){return this._originalPassword;})
@@ -49,9 +49,9 @@ userSchema.virtual('newPassword')
 .set(function(value){ this._newPassword=value; });
 
 
-//비밀번호 가능한건지 확인
-var passwordRegex=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
-var passwordRegexErrorMessage = 'Should be minimum 8 characters of alphabet and number combination!';
+// //비밀번호 가능한건지 확인
+// var passwordRegex=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+// var passwordRegexErrorMessage = 'Should be minimum 8 characters of alphabet and number combination!';
 // userSchema.path('password').validate(function(v) {
 //   var user = this;
 //   //유저생성시
@@ -83,14 +83,14 @@ userSchema.pre('save',function(next){
   }
 })
 
-//비밀번호 확을 위해서 메소드 만들어주기
-// userSchema.methods.authenticate=function(password){
-//   var user = this;
-//   console.log("참거짓?"+bcrypt.compareSync(password,user.password));
+// 비밀번호 확을 위해서 메소드 만들어주기
+userSchema.methods.authenticate=function(password){
+  var user = this;
+  console.log("참거짓?"+bcrypt.compareSync(password,user.password));
   
-//   return bcrypt.compareSync(password,user.password);
+  return bcrypt.compareSync(password,user.password);
 
-// }
+}
 //모델 내보내기
 
  const User = mongoose.models.user || mongoose.model('user', userSchema);
