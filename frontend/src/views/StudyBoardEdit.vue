@@ -18,8 +18,6 @@
     </div>
 </template>
 <script>
-    // import temp from '../../../backend/data/notice.json'
-
     export default {
 
         data(){
@@ -28,7 +26,8 @@
                 notice:{
                     writer: "",
                     title: "",
-                    content: ""
+                    content: "",
+                    noticeID:""
                 },
 
             }
@@ -37,15 +36,18 @@
             async editNotice() {
                 const res = await this.$store.dispatch('updateNotice', { id: this.$route.params.id, data: this.notice })
                 if(res.success === false) alert(res.message)
-                else this.$router.push("/notice")
+                else this.$router.push(`/study/${this.$route.params.id}/board`)
             }
 
         },
         async beforeCreate() {
             const res = await this.$store.dispatch('fetchNotice', {id : this.$route.params.id })
             if(res.success === false) alert(res.message)
-            else this.notice = res.result
-        }
+            else {
+                this.notice = res.result
+                this.notice.noticeID =this.$route.params.temp
+            }
+            },
 
     }
 
@@ -71,6 +73,7 @@
     .mybtn{
         border-radius:10px;
         background-color: #ecd7d2 !important;
+        box-shadow: 3px 3px 3px 1px #e5ccb8;
     }
 
 </style>

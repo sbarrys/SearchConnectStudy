@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const notices= require('../data/study');
+const notices= require('../data/study'); //수정
 
 
 router.get('/notice', function(req, res){
@@ -8,6 +8,7 @@ router.get('/notice', function(req, res){
         if(err) return res.status(500).send({error: 'database failure'});
         res.json({success : true, result : post});
     })
+
 });
 
 router.post('/create', function(req, res) {

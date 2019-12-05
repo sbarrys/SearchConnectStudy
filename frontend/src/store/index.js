@@ -9,7 +9,9 @@ export default new Vuex.Store({
     token: '',
     id: '',
     role: '',
-    notices:[]
+    notices:[],
+    studyNotices:[],
+    studyBoards:[]
   },
   getters:{
     id(state) {
@@ -64,6 +66,60 @@ export default new Vuex.Store({
     },
     async deleteNotice({}, { id }) {
       const res = await Vue.axios.delete(API_HOST+`/notices/${id}`)
+      // return success/result to action caller
+      return res.data
+    },
+
+    async fetchStudyNotices({commit},{id}) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/notice`)
+      if (res.data.success === true) commit('updateList', res.data.result)
+      // return success/result to action caller
+      return res.data
+    },
+    async appendStudyNotice({}, {id,data}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/notice/create`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async fetchStudyNotice({}, { id,idx }) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/notice/detail/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+    async updateStudyNotice({}, { id, data,idx }) {
+      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/notice/edit/${idx}`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async deleteStudyNotice({}, { id,idx }) {
+      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/notice/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+
+    async fetchStudyBoards({commit},{id}) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board`)
+      if (res.data.success === true) commit('updateList', res.data.result)
+      // return success/result to action caller
+      return res.data
+    },
+    async appendStudyBoard({}, {id,data}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/board/create`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async fetchStudyBoard({}, { id,idx }) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board/detail/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+    async updateStudyBoard({}, { id, data,idx }) {
+      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/board/edit/${idx}`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async deleteStudyBoard({}, { id,idx }) {
+      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/board/${idx}`)
       // return success/result to action caller
       return res.data
     }

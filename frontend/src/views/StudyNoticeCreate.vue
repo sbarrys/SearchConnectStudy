@@ -1,44 +1,8 @@
 <template>
     <form method="post" @submit.stop.prevent="postNotice">
-        <h2 class="text-center mt-3">스터디 생성</h2>
+        <h2 class="text-center mt-3">글쓰기</h2>
         <div class="container">
             <table class="table mt-3 table-striped">
-                <tr>
-                    <th>Study Type:</th>
-                    <td>
-                        <select v-model="selected" class="form-control">
-                            <option disabled value>select one</option>
-                            <option>멘토 멘티</option>
-                            <option>자율 스터디</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Member:</th>
-                    <td>
-                        <input
-                                class="form-control"
-                                type="Number"
-                                name="studyMember"
-                                required
-                                v-model="notice.maxMember"
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <th>Study Name :</th>
-                    <td>
-                        <input
-                                class="form-control"
-                                type="text"
-                                name="studyName"
-                                required
-                                v-model="notice.studyName"
-                                placeholder="스터디 이름"
-                        />
-                    </td>
-                </tr>
                 <tr>
                     <th>Writer :</th>
                     <td>
@@ -88,40 +52,20 @@
         data() {
             return {
                 notice: {
-                    studyType: "",
-                    studyName: "",
-                    maxMember: "",
                     writer: "",
                     title: "",
                     content: ""
-                },
-                selected: ""
+                }
             };
         },
         methods: {
             async postNotice() {
-                if (this.selected === "") {
-                    alert("Study Type을 선택해주세요");
-                    return;
-                }
-                if (this.notice.maxMember <= 0) {
-                    alert("모집 인원을 설정해주세요");
-                    return;
-                }
-                const res = await this.$store.dispatch("appendNotice", this.notice);
+                const res = await this.$store.dispatch("appendStudyNotice", {id:this.$route.params.id});
                 if (res.success === false) alert(res.message);
-                else this.$router.push("/notice");
+                else this.$router.push(`/study/${this.$route.params.id}/notice`); //
             }
         },
-        watch: {
-            selected: function() {
-                if (this.selected === "멘토 멘티") {
-                    this.notice.studyType = this.selected;
-                } else if (this.selected === "자율 스터디") {
-                    this.notice.studyType = this.selected;
-                }
-            }
-        }
+
     };
 </script>
 <style scoped>

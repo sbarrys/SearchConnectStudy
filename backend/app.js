@@ -33,10 +33,12 @@ app.use(cors()); // CORS 미들웨어 추가
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var noticeRouter = require('./routes/notice');
+var studyRouter = require('./routes/study')
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
-app.use('/notices', noticeRouter); ///
+app.use('/notices', noticeRouter);
+app.use('./room',studyRouter) //
 
 
 

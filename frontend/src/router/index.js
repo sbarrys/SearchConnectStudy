@@ -104,7 +104,56 @@ const routes = [
       return import('../views/Schedule.vue')
 
     }
-  }
+  },
+  {
+    path: '/study/:id/notice/create',
+    name: 'StudyNoticeCreate',
+    component: function () {
+      return import('../views/StudyNoticeCreate.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/notice/edit/:idx',
+    name: 'StudyNoticeEdit',
+    component: function () {
+      return import('../views/StudyNoticeEdit.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/notice/detail/:idx',
+    name: 'StudyNoticeDetail',
+    component: function () {
+      return import('../views/StudyNoticeDetail.vue')
+
+    }
+  },
+  {
+    path:'/study/:id/board/create',
+    name:'StudyBoardCreate',
+    component:function () {
+      return import('../views/StudyBoardCreate.vue')
+
+    }
+  },
+  {
+    path:'/study/:id/board/edit/:idx',
+    name:'StudyBoardEdit',
+    component:function () {
+      return import('../views/StudyBoardEdit.vue')
+
+    }
+  },
+  {
+    path:'/study/:id/board/detail/:idx',
+    name:'StudyBoardDetail',
+    component:function () {
+      return import('../views/StudyBoardDetail.vue')
+
+    }
+  },
+
 
 ]
 
