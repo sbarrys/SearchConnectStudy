@@ -1,29 +1,56 @@
-var express = require('express');
-var router = express.Router();
-//https://m.blog.naver.com/PostView.nhn?blogId=kangminser88&logNo=221152151491&proxyReferer=https%3A%2F%2Fwww.google.com%2F
-//https://velopert.com/406
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  //세션 초기 설정
-  sess = req.session;
-  console.log(sess)
-  res.send('req-session: debug-> \n'+sess);
+var express  = require('express');
+var router   = express.Router();
+var User     = require('../models/UserSchema');
+var util     = require('../models/util');
+
+// index
+router.get('/', util.isLoggedin, function(req,res,next){
+    User.find({})
+    .sort({username:1})
+    .exec(function(err,users){
+      res.json(err||!users? util.successFalse(err): util.successTrue(users)); //실패하면 오류메세지,  성공하면 유저와 함꼐 성공메세지
+    });
 });
 
-router.post('/login', function(req, res, next) {
-  // res.send(req.body);
-  console.log(req.body)
-  res.json({id:req.body.id})
+
+  
+// create
+router.post('/signup', function(req,res,next){
+    var user = new User(req.body);
+    console.log(req.body);
+    user.save(function(err,user){
+      res.json(err||!user? util.successFalse(err): util.successTrue(user));
+    });//성공하면 user보낸다. ##이거를 로그인 페이지로 이동하게 해주면 딱좋음
 });
 
-router.post('/signup', function(req, res, next) {
-  res.send(req.body);
+
+// show
+router.get('/:username', util.isLoggedin, function(req,res,next){
+    User.findOne({username:req.params.username})
+    .exec(function(err,user){
+      res.json(err||!user? util.successFalse(err): util.successTrue(user));
+    });
 });
 
-router.get('/logincheck', function(req,res,next){
-  res.send(req.body);
-})
 
+// destroy 
+router.delete('/:username', util.isLoggedin, checkPermission, function(req,res,next){
+    User.findOneAndRemove({username:req.params.username})
+    .exec(function(err,user){
+      res.json(err||!user? util.successFalse(err): util.successTrue(user));
+    });
+  });//로그인되어있는지 확인후 삭제해준다.
 
-
+  
 module.exports = router;
+
+// private functions
+//token의 _id와 DB에서 찾은 user의 _id를 확인하는 것으로 바뀌었습니다.
+function checkPermission(req,res,next){ //*
+    User.findOne({username:req.params.username}, function(err,user){
+      if(err||!user) return res.json(util.successFalse(err));
+      else if(!req.decoded || user._id != req.decoded._id) 
+        return res.json(util.successFalse(null,'You don\'t have permission'));
+      else next();
+    });
+  }
