@@ -11,43 +11,13 @@ router.get('/notice', function(req, res){
 });
 
 router.post('/create', function(req, res) {
-
-
-    var temp = new notices()
-    temp.studyType = req.body.studyType;
-    temp.studyName = req.body.studyName;
-    temp.writer = req.body.writer;
-    temp.maxMember = req.body.maxMember;
-    temp.title = req.body.title;
-    temp.content = req.body.content;
-
-    //temp.notice.push({writer:"yebin",title:"bin",content:"ddd"})
-    //temp.notice.push({writer:"ysds",title:"sdds",content:"sdw"})
-
-    console.log(temp.notice)
-   // notices.notice.push(temp)
-    temp.save()
-    res.json({success:true})
-
-   // notices.notice.push({writer:req.body.writer,title:req.body.title,content:req.body.content});//
-    //notices.save();
-
-  //  res.json({success:true})
-
-
-     notices.notice.create({
-            writer:"de",
-            title:"dd",
-            content:"oko"
-        })
-        notices.save();
-
     notices.notice.create(req.body, function (err, post) {
         if (err) return console.log(err);
         else {
             res.json({success: true});
         }
     });
+
 
 });
 
@@ -78,51 +48,59 @@ router.delete('/:id', (req, res) => {
 ///
 router.get("/study/:id/notice", function(req, res){
 
-    notices.find({_id: req.params.id}).select('notice').exec(function (err, result) {
-        if (err) return res.status(500).send({error: 'database failure'});
-        res.json({success: true, result: result});
+    notices.findOne({_id:req.params.id}).select('notice').exec(function (err, result) {
+        var temp = result.notice //이렇게 보내야됨 나중에 요청 들어왔을때
+        res.json({success: true, result: temp});
     })
 
 });
 
 router.post('/study/:id/notice/create', function(req, res) {
-    notices.notice.push({writer:req.body.writer,title:req.body.title,content:req.body.content});//
-    notices.save();
-
-});
-
-router.get('/study/:id/notice/detail/:id', function(req, res){
 
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
-        post.findOne({'notice._id':req.body.noticeID}).select('notice').exec(function (err,result) {
-            res.json({success : true, result : result});
-        })
-    });
+        post.notice.push(req.body) // .. 안되면 직접 대입
+        post.save()
+        res.json({success: true});
+    }); //이게 최종 push
 
 });
 
-router.put('/study/:id/notice/edit/:id', function(req, res) {
-/////
-    notices.findById(req.params.id, function (err, post) {
+router.get('/study/:id/notice/detail/:idx', function(req, res){
+
+    notices.findOne({_id:req.params.id}).select('notice').exec(function (err, result) {
         if (err) return next(err);
-        post.findOne({'notice._id':req.body.noticeID}),function (err,result) {
-           // result.
-            res.json({success : true, result : result});
+        var temp = result.notice ;
+        var dum = temp[req.params.nowIndex];
+        res.json({success : true, result : dum});
+
+    })
+    //okok
+
+});
+
+router.put('/study/:id/notice/edit/:idx', function(req, res) {
+
+    notices.findOneAndUpdate(
+        {_id:req.params.id, notice:{$elemMatch:{_id:req.body._id}}},
+        {$set:{"notice.$.title":req.body.title,
+            "notice.$.content":req.body.content}},
+        function (err, result) {
+            if (err) return next(err);
+            res.json({success: true});
         }
-    });
+    ) //완성
 
-    notices.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-        if (err) res.json({success:false, message:'cannot find notice'})
-        else res.json({success:true});
-    });
 });
 
-router.delete('/study/:id/notice/:id', (req, res) => {
+router.delete('/study/:id/notice/:idx', (req, res) => {
 
-    notices.notice.pull({_id:req.body.noticeID})
-    notices.save();
-    res.json({success:true})
+    notices.findById(req.params.id,function (err, post) {
+        if(err) return next(err)
+        post.notice.pull({_id:req.body._id}) //
+        post.save()
+        res.json({success:true})
+     })//c최종 딜리트
 
 });
 
@@ -143,7 +121,7 @@ router.post('/study/:id/board/create', function(req, res) {
 
 });
 
-router.get('/study/:id/board/detail/:id', function(req, res){
+router.get('/study/:id/board/detail/:idx', function(req, res){
 
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
@@ -154,7 +132,7 @@ router.get('/study/:id/board/detail/:id', function(req, res){
 
 });
 
-router.put('/study/:id/board/edit/:id', function(req, res) {
+router.put('/study/:id/board/edit/:idx', function(req, res) {
 /////
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
@@ -170,7 +148,7 @@ router.put('/study/:id/board/edit/:id', function(req, res) {
     });
 });
 
-router.delete('/study/:id/board/:id', (req, res) => {
+router.delete('/study/:id/board/:idx', (req, res) => {
 
     notices.board.pull({_id:req.body.noticeID})
     notices.save();

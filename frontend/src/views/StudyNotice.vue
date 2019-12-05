@@ -1,34 +1,26 @@
 <template>
-    <div class ="outer">
-        <div class="inner">
-            <br>
-            <br>
-            <br>
-            <table class="notice">
-                <tr>
-                    <td>Writer</td>&nbsp;&nbsp;&nbsp;
-                    <td>Title</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <td>Date</td>
-                </tr>
-                <tr v-for ="value in notices"  @click="detail(value)" style="border: 1px solid #e5ccc8 !important" >
-                    <td >{{value.writer}}</td>&nbsp;&nbsp;&nbsp;
-                    <td >{{value.title}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <td >{{value.date}}</td>
-                </tr>
-                <br>
-                <br>
-            </table>
-            <button class="mybtn2" @click="prevPage">
-                Previous
-            </button>&nbsp;&nbsp;&nbsp;
-            <button class="mybtn2" @click="nextPage">
-                Next
-            </button>
-            <br>
-            <br>
-            <br>
-            <button type="submit" class = "mybtn" @click="write()"> 글쓰기 </button>
-        </div>
+    <div class="container-fluid text-center" >
+        <b-table-simple hover class="table small table-hover">
+            <b-thead>
+                <b-tr>
+                    <b-th>Writer</b-th>
+                    <b-th>Title</b-th>
+                    <b-th>Date</b-th>
+                </b-tr>
+            </b-thead>
+
+            <b-tbody>
+                <b-tr v-for="(value,index )in notices" :key="value.id" @click="detail(value,index)">
+                    <b-td>{{value.writer}}</b-td>
+                    <b-td>{{value.title}}</b-td>
+                    <b-td>{{value.date}}</b-td>
+                </b-tr>
+            </b-tbody>
+        </b-table-simple>
+        <p><button class="btn mybtn2" @click="prevPage">Previous</button>
+            <button class="btn mybtn2" @click="nextPage">Next</button></p>
+
+        <button type="submit" class="mybtn btn" @click="write()">Study 생성</button>
     </div>
 </template>
 <script>
@@ -53,16 +45,17 @@
         methods:{
             write(){
                 this.$router.push({
-                    name: 'Create',
+                    name: 'StudyNoticeCreate',
 
                 })
             },
-            detail(index){
+            detail(value,index){
                 this.$router.push({
                     name :'StudyNoticeDetail',
                     params:{
-                        temp:index._id,
-                        id:this.id
+                        temp:value._id,
+                        id:this.id,
+                        nowIndex:index
                     }
                 })
 
@@ -83,34 +76,21 @@
 </script>
 
 <style scoped>
-    .outer{
-        display: table;
-        width: 100%;
-        height: 100%;
-    }
-    .inner{
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-    }
-    .notice{
-        width: 60%;
-        height: 100px;
-        margin: auto;
-        text-align: center;
-
-    }
-    .mybtn{
-        border-radius:10px;
-        background-color: #ecd7d2 !important;
-        box-shadow: 3px 3px 3px 1px #e5ccb8;
-        width: 100px;
-        height: 30px;
-    }
-    .mybtn2{
+    .mybtn {
         border-radius: 10px;
-        background:rgba(230, 230, 230, 0.517);
-        box-shadow: 3px 3px 3px 1px gray;
+        background-color: #ecd7d2 !important;
+    }
+    .mybtn2 {
+        border-radius: 10px;
+        background: rgba(230, 230, 230, 0.517);
     }
 
-</style>
+    table > td {
+        word-break: break-all;
+    }
+    table {
+        text-align: center;
+    }
+
+    </style>
+

@@ -17,7 +17,7 @@
           <b-td>{{value.maxMember}}</b-td>
           <b-td>{{value.writer}}</b-td>
           <b-td>{{value.title}}</b-td>
-          <b-td>{{value.create_date}}</b-td>
+          <b-td>{{value.date}}</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
