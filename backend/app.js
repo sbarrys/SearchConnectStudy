@@ -7,7 +7,6 @@ var mongoose    = require('mongoose');
 const autoInc = require('mongoose-auto-increment')
 
 var indexRouter = require('./routes/index');
-var joinRouter = require('./routes/join');
 var authRouter = require('./routes/auth');
 var userRouter = require('./routes/user');
 var usersRouter = require('./routes/users');
@@ -60,7 +59,6 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/api/auth', authRouter);
-app.use('/join', joinRouter);
 app.use('/api/users', usersRouter);
 app.use('/notices', noticeRouter); ///
 

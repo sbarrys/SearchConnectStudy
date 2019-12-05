@@ -72,18 +72,20 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res.data)
-          if (res.data.id) {
-            dataManager.saveData("id", res.data.id);
-            alert(res.data.id + "님 환영합니다");
+          console.log(res.data);
+          if (res.data.success) {
+            dataManager.saveData("id", res.data.data.id);
+            dataManager.saveData("token", res.data.data.token);
+
+            alert(res.data.data.id + "님 환영합니다");
+            location.reload();
+          } else {
+            alert(res.data.message);
+            this.$refs.modal.hide();
           }
         });
 
       // Hide the modal manually
-      // this.$nextTick(() => {
-      //   this.$refs.modal.hide();
-      //   location.reload();
-      // });
     },
     modaloff() {
       this.$refs.modal.hide();

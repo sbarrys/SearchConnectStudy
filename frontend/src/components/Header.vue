@@ -10,20 +10,20 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item>
-            <router-link class="text-unset" to="/notice">스터디모집</router-link>
+            <router-link class="text-unset pr-4 py-2" to="/notice">스터디모집</router-link>
           </b-nav-item>
-          <b-nav-item-dropdown text="나의스터디" class="transition-slow" v-if='id' right>
+          <b-nav-item-dropdown text="나의스터디" class="transition-slow pr-4 py-2" v-if='id' right>
             <b-dropdown-item href="#">
-              <router-link class="text-unset" to="/st1">StudyA</router-link>
+              <router-link class="text-unset pr-4 py-2" to="/st1">StudyA</router-link>
             </b-dropdown-item>
             <b-dropdown-item href="#">
-              <router-link class="text-unset" to="/st2">StudyB</router-link>
+              <router-link class="text-unset pr-4 py-2" to="/st2">StudyB</router-link>
             </b-dropdown-item>
             <b-dropdown-item href="#">
-              <router-link class="text-unset" to="/st3">Studyexample</router-link>
+              <router-link class="text-unset pr-4 py-2" to="/st3">Studyexample</router-link>
             </b-dropdown-item>
             <b-dropdown-item href="#">
-              <router-link class="text-unset" to="/st4">Studyexmaple2</router-link>
+              <router-link class="text-unset pr-4 py-2" to="/st4">Studyexmaple2</router-link>
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

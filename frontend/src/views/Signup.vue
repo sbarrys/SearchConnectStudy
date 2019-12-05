@@ -73,10 +73,18 @@ export default {
           gender
         })
         .then(res => {
-          if (res === 200) {
+          console.log(res.data);
+          if (res.data.success == true) {
             // 성공적으로 회원가입이 되었을 경우
-            alert('회원가입 성공')
-            this.$router.push('/');
+            alert("회원가입 성공");
+            this.$router.push("/");
+          } else {
+            console.log(res.data)
+            if (res.data.errors.unhandled.code == 11000) {
+              alert("ID 중복");
+            } else {
+              alert("회원가입 실패");
+            }
           }
         });
     }

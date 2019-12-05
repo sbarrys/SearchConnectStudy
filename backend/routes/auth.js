@@ -51,7 +51,7 @@ router.post('/login',
         var options = {expiresIn: 60*60*24};
         jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
           if(err) {return res.json(util.successFalse(err));}                
-          res.json(util.successTrue(token));                //토큰 보내준다.
+          res.json(util.successTrue({token:token , id: user.id}));                //토큰 보내준다.
         });
       }
     });
