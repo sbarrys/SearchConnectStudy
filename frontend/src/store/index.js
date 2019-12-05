@@ -12,22 +12,30 @@ export default new Vuex.Store({
     notices:[],
     studyNotices:[],
     studyBoards:[]
+
   },
-  getters:{
+  getters: {
     id(state) {
       return state.id
+    }, token(state) {
+      return state.token
     },
-    
+
   },
   //setter
   mutations: {
     id: function (state, payload) {
       state.id = payload;
-      console.log("(store/index.js)vuex의 id값:"+state.id)
+      console.log("(store/index.js)vuex의 id값:" + state.id)
+    },
+    token: function (state, payload) {
+      state.token = payload;
+      console.log("(store/index.js)vuex의 token값:" + state.token)
     },
     logout: (state) => {
       if (state.id) {
         state.id = '';
+        state.token = '';
         alert('로그아웃성공')
       }
     },
@@ -41,38 +49,44 @@ export default new Vuex.Store({
     updateList(state, notices) {
       state.notices = notices
     },
+    updateStudyNotice(state, studyNotices){
+      state.studyNotices = studyNotices
+    },
+    updateStudyBoard(state, studyBoards){
+      state.studyBoards = studyBoards
+    }
   },
   actions: {
     async fetchNotices({ commit }) {
-      const res = await Vue.axios.get(API_HOST+'/notices/notice')
+      const res = await Vue.axios.get(API_HOST + '/notices/notice')
       if (res.data.success === true) commit('updateList', res.data.result)
       // return success/result to action caller
       return res.data
     },
-    async appendNotice({}, data) {
-      const res = await Vue.axios.post(API_HOST+'/notices/create', data)
+    async appendNotice({ }, data) {
+      const res = await Vue.axios.post(API_HOST + '/notices/create', data)
       // return success/result to action caller
       return res.data
     },
-    async fetchNotice({}, { id }) {
-      const res = await Vue.axios.get(API_HOST+`/notices/${id}`)
+    async fetchNotice({ }, { id }) {
+      const res = await Vue.axios.get(API_HOST + `/notices/${id}`)
       // return success/result to action caller
       return res.data
     },
-    async updateNotice({}, { id, data }) {
-      const res = await Vue.axios.put( API_HOST+`/notices/edit/${id}`, data)
+    async updateNotice({ }, { id, data }) {
+      const res = await Vue.axios.put(API_HOST + `/notices/edit/${id}`, data)
       // return success/result to action caller
       return res.data
     },
-    async deleteNotice({}, { id }) {
-      const res = await Vue.axios.delete(API_HOST+`/notices/${id}`)
+    async deleteNotice({ }, { id }) {
+      const res = await Vue.axios.delete(API_HOST + `/notices/${id}`)
       // return success/result to action caller
       return res.data
     },
 
     async fetchStudyNotices({commit},{id}) {
       const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/notice`)
-      if (res.data.success === true) commit('updateList', res.data.result)
+      if (res.data.success === true) commit('updateStudyNotice', res.data.result)
       // return success/result to action caller
       return res.data
     },
@@ -99,7 +113,7 @@ export default new Vuex.Store({
 
     async fetchStudyBoards({commit},{id}) {
       const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board`)
-      if (res.data.success === true) commit('updateList', res.data.result)
+      if (res.data.success === true) commit('updateStudyBoard', res.data.result)
       // return success/result to action caller
       return res.data
     },
