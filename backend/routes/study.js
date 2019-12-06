@@ -29,6 +29,7 @@ router.get('/:id', function(req, res){
     });
 
 });
+
 router.put('/:id', function(req, res) {
     notices.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) res.json({success:false, message:'cannot find notice'})
@@ -46,6 +47,7 @@ router.delete('/:id', (req, res) => {
     })
 });
 
+///
 router.get("/:id/notice", function(req, res){
 
     notices.findOne({_id:req.params.id}).select('notice').exec(function (err, result) {
@@ -68,14 +70,11 @@ router.post('/:id/notice', function(req, res) {
 
 router.get('/:id/notice/:idx', function(req, res){
 
-    notices.findOne({_id:req.params.id}).select('notice').exec(function (err, result) {
-        if (err) return next(err);
-        var temp = result.notice ;
-        var dum = temp[req.body.nowIndex];
-        //var dum = temp[req.params.nowIndex];///수정
-        res.json({success : true, result : dum});
-
+    notices.findOne({_id:req.params.id}).select({notice:{$elemMatch:{_id:req.params.idx}}}).exec(function (err, result) {
+        var temp = result.notice
+        res.json({success: true, result: temp});
     })
+
 });
 
 
@@ -83,7 +82,7 @@ router.get('/:id/notice/:idx', function(req, res){
 router.put('/:id/notice/:idx', function(req, res) {
 
     notices.findOneAndUpdate(
-        {_id:req.params.id, notice:{$elemMatch:{_id:req.body._id}}},
+        {_id:req.params.id, notice:{$elemMatch:{_id:req.params.idx}}},
         {$set:{"notice.$.title":req.body.title,
             "notice.$.content":req.body.content}},
         function (err, result) {
@@ -130,13 +129,11 @@ router.post('/:id/board', function(req, res) {
 //board detail
 router.get('/:id/board/:idx', function(req, res){
 
-    notices.findOne({_id:req.params.id}).select('board').exec(function (err, result) {
-        if (err) return next(err);
-        var temp = result.board ;
-        var dum = temp[req.body.nowIndex]; //수정
-        res.json({success : true, result : dum});
-
+    notices.findOne({_id:req.params.id}).select({board:{$elemMatch:{_id:req.params.idx}}}).exec(function (err, result) {
+        var temp = result.board
+        res.json({success: true, result: temp});
     })
+
 });
 
 //board edit
@@ -144,7 +141,7 @@ router.put('/:id/board/:idx', function(req, res) {
 
 
     notices.findOneAndUpdate(
-        {_id:req.params.id, board:{$elemMatch:{_id:req.body._id}}},
+        {_id:req.params.id, board:{$elemMatch:{_id:req.params.idx}}},
         {$set:{"board.$.title":req.body.title,
                 "board.$.content":req.body.content}},
         function (err, result) {

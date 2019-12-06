@@ -75,7 +75,6 @@ var noticeSchema = new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-
     title: String,
     content:String,
     studyMember:[
