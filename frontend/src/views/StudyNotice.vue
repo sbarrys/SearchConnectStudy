@@ -29,7 +29,7 @@
             return {
                 pageNumber:0,
                 size :10,
-                id:"",
+                id:"",  //스터디 초기화면에서 넘어오는 스터디 id
             }
         },
         computed:{
@@ -37,7 +37,7 @@
                 const start = this.pageNumber * this.size,
                     end = start + this.size
                 var temp =this.$store.state.studyNotices
-                temp = temp.sort((a,b)=>{return b._id - a._id})
+                temp = temp.sort((a,b)=>{return b._id - a._id}) //정렬 ..?
                 return temp.slice(start,end)
             },
 
@@ -54,7 +54,7 @@
                     name :'StudyNoticeDetail',
                     params:{
                         temp:value._id,
-                        id:this.id,
+                        id:this.id, //스터디 아이디
                         nowIndex:index
                     }
                 })
@@ -69,7 +69,7 @@
         },
 
         async beforeCreate() {
-            await this.$store.dispatch('fetchStudyNotices') //
+            await this.$store.dispatch('fetchStudyNotices',{id:this.$route.params.id}) //
             this.id =this.$route.params.id
         }
     }

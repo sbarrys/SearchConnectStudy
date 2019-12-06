@@ -68,7 +68,7 @@
         },
 
         async beforeCreate() {
-            await this.$store.dispatch('fetchStudyBoards') //
+            await this.$store.dispatch('fetchStudyBoards',{id:this.$route.params.id}) //
             this.id = this.$route.params.id
         }
     }

@@ -29,8 +29,12 @@ var LectureSchema = new Schema({
 var imageSchema = new Schema({
 
     data:Buffer,
-
+    /*
+    drgFileName:String,
+    saveFileName:String,
+    */
     writer:{
+
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     }
@@ -71,6 +75,7 @@ var noticeSchema = new Schema({
     studyType : String,
     maxMember: Number,
     studyName:String,
+
     writer :  {
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'

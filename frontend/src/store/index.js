@@ -11,7 +11,9 @@ export default new Vuex.Store({
     role: '',
     notices:[],
     studyNotices:[],
-    studyBoards:[]
+    studyBoards:[],
+    studySchedules:[],
+    boardComments:[]
 
   },
   getters: {
@@ -54,6 +56,12 @@ export default new Vuex.Store({
     },
     updateStudyBoard(state, studyBoards){
       state.studyBoards = studyBoards
+    },
+    updateStudySchedule(state,studySchedules){
+      state.studySchedules = studySchedules
+    },
+    updateBoardComment(state,boardComments){
+      state.boardComments = boardComments
     }
   },
   actions: {
@@ -134,6 +142,44 @@ export default new Vuex.Store({
     },
     async deleteStudyBoard({}, { id,idx }) {
       const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/board/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+    //추가한 부분
+    async fetchStudySchedules({commit},{id}) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/schedule`)
+      if (res.data.success === true) commit('updateStudySchedule', res.data.result)
+      // return success/result to action caller
+      return res.data
+    },
+    async fetchStudySchedule({}, { id,idx }) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/schedule/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+    async appendStudySchedule({}, {id,data}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/schedule`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async deleteStudySchedule({}, { id,idx }) {
+      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/schedule/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+    async fetchBoardComments({commit},{id,idx,index}) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board/${idx}/${index}`)
+      if (res.data.success === true) commit('updateBoardComment', res.data.result)
+      // return success/result to action caller
+      return res.data
+    },
+    async appendBoardComment({}, {id,data,idx,index}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/board/${idx}/${index}`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async deleteBoardComment({}, { id,idx,index,cid }) {
+      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/board/${idx}/${index}/${cid}`)
       // return success/result to action caller
       return res.data
     }

@@ -16,10 +16,9 @@ router.post('/create', function(req, res) {
     notices.create(req.body, function (err, post) {
         if (err) return console.log(err);
         else {
-           res.json({success: true});
+          res.json({success: true});
         }
     });
-
 });
 
 router.get('/:id', function(req, res){
@@ -98,7 +97,7 @@ router.delete('/:id/notice/:idx', (req, res) => {
 
     notices.findById(req.params.id,function (err, post) {
         if(err) return next(err)
-        post.notice.pull({_id:req.body._id}) //
+        post.notice.pull({_id:req.params.idx}) //
         post.save()
         res.json({success:true})
      })
@@ -109,10 +108,10 @@ router.delete('/:id/notice/:idx', (req, res) => {
 
 router.get("/:id/board", function(req, res){
 
-
     notices.find({_id: req.params.id}).select('board').exec(function (err, result) {
         if (err) return res.status(500).send({error: 'database failure'});
-        res.json({success: true, result: result});
+        var temp = result.board
+        res.json({success: true, result: temp});
     })
 
 });
@@ -139,7 +138,6 @@ router.get('/:id/board/:idx', function(req, res){
 //board edit
 router.put('/:id/board/:idx', function(req, res) {
 
-
     notices.findOneAndUpdate(
         {_id:req.params.id, board:{$elemMatch:{_id:req.params.idx}}},
         {$set:{"board.$.title":req.body.title,
@@ -157,11 +155,10 @@ router.delete('/:id/board/:idx', (req, res) => {
 
     notices.findById(req.params.id,function (err, post) {
         if(err) return next(err)
-        post.board.pull({_id:req.body._id}) //
+        post.board.pull({_id:req.params.idx}) //
         post.save()
         res.json({success:true})
     })
-
 
 });
 
@@ -171,21 +168,18 @@ router.get("/:id/schedule", function(req, res){
 
     notices.find({_id: req.params.id}).select('schedule').exec(function (err, result) {
         if (err) return res.status(500).send({error: 'database failure'});
-        res.json({success: true, result: result});
+        var temp = result.schedule
+        res.json({success: true, result: temp});
     })
-
 });
 
 router.post('/:id/schedule',function (req,res) {
-
+//미완성
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
 
-        //파일 path
-        //var temp =fs.readFileSync(req.body.data) ///
-        var temp = fs.readFileSync(req.body.data) //안에 Path
-        post.schedule.push({data:temp})
-        //writer 추가 ??
+        var temp = fs.readFileSync(req.body.path) //안에 Path
+        post.schedule.push({data:temp})//writer 추가 ??
         post.save()
         res.json({success: true});
     });
@@ -222,7 +216,7 @@ router.delete('/:id/schedule/:idx', (req, res) => {
 
     notices.findById(req.params.id,function (err, post) {
         if(err) return next(err)
-        post.board.pull({_id:req.body._id})
+        post.board.pull({_id:req.params.idx})
         post.save()
         res.json({success:true})
     })
@@ -232,13 +226,46 @@ router.delete('/:id/schedule/:idx', (req, res) => {
 //schedule detail
 router.get('/:id/schedule/:idx', function(req, res){
 
-    notices.findOne({_id:req.params.id}).select('schedule').exec(function (err, result) {
+    notices.findOne({_id:req.params.id}).select({schedule:{$elemMatch:{_id:req.params.idx}}}).exec(function (err, result) {
+        var temp = result.schedule
+        res.json({success: true, result: temp});
+    })
+
+});
+
+//index는 보드 인덱스
+router.get('/:id/board/:idx/:index',function (req,res) {
+
+    notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
-        var temp = result.schedule ;
-        var dum = temp[req.body.nowIndex]; //index
-        res.json({success : true, result : dum});
+        var temp = post.board[req.params.index].comment
+        res.json({success : true, result : temp});
+
+    });
+
+})
+
+router.post('/:id/board/:idx/:index',function (req,res) {
+
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err);
+        post.board[req.params.index].comment.push({content:req.body.content}) //
+        post.save()
+        console.log(post)
+        res.json({success: true});
+    });
+})
+
+router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
+
+    notices.findById(req.params.id,function (err, post) {
+        if(err) return next(err)
+        post.board[req.params.index].comment.pull({_id:req.params.cid})
+        post.save()
+        res.json({success:true})
     })
 
 });
 
 module.exports = router;
+

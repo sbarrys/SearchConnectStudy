@@ -27,8 +27,15 @@
 
                 notice: {
                     noticeID:""
-                }
+                },
+                comment:""
             };
+
+        },
+        computed:{
+            comments(){
+                return this.$store.state.boardComments //해당 board의 댓글 전체
+            },
 
         },
         methods:{
@@ -48,6 +55,15 @@
                 if(res.success === false) alert(res.message)
                 else this.$router.push(`/study/${this.$route.params.id}/board`)
             },
+            async deleteComment(value){ //value = 댓글 v-for 돌릴때 받는 삭제할 comment
+                const res = await this.$store.dispatch('deleteBoardComment', { id: this.$route.params.id,idx:this.$route.params.temp,index:this.$route.params.nowIndex,cid:value._id})
+                if(res.success === false) alert(res.message)
+            },
+            async postComment() {
+                const res = await this.$store.dispatch('appendBoardComment', {id:this.$route.params.id,data:this.comment,idx:this.$route.params.temp,index:this.$route.params.nowIndex})
+                if(res.success === false) alert(res.message)
+
+            }
 
         },
         async beforeCreate() {
@@ -57,6 +73,9 @@
                 this.notice = res.result
                 this.notice.noticeID =this.$route.params.temp
             }
+
+            await this.$store.dispatch('fetchBoardComments', {id : this.$route.params.id,idx:this.$route.params.temp,index:this.$route.params.nowIndex })
+
         }
     };
 </script>
