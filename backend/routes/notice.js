@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const notices= require('../data/notice');
+var multer = require('multer');
+var upload = multer({
+    dest:"../upload",
+    limits:{
+        fileSize: 1024*1000*16
+    }
+});
 
 router.get('/notice', function(req, res){
     notices.find( (err, post) => {

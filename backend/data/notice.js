@@ -60,7 +60,7 @@ var noticeSchema = new Schema({
     studyType : String,
     maxMember: Number,
     studyName:String,
-    writer :  {
+    writer : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
@@ -71,7 +71,7 @@ var noticeSchema = new Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'User'
         }],
-    date : { type: Date, default: Date.now },
+    date : String,
     notice:[studyNoticeSchema], //writer
     board:[boardSchema], //writer
     schedule: [imageSchema],
