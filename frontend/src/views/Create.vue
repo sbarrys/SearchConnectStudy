@@ -114,6 +114,7 @@ export default {
       else this.$router.push("/notice");
     }
   }, created() {
+
     this.notice.writer = this.$store.getters.id;
   },
   watch: {

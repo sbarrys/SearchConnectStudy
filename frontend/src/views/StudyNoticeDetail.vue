@@ -25,6 +25,7 @@
 
                 notice: {
                     noticeID:"",
+                    nowIndex:this.$route.params.nowIndex,
                     chkwriter: false
                 }
             };
