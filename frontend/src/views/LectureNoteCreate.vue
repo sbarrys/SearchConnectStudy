@@ -1,5 +1,5 @@
 <template>
-    <form method="post" @submit.stop.prevent="postNotice">
+    <form method="post" @submit.stop.prevent="postLecture">
         <h2 class="text-center mt-3">공지사항 생성</h2>
         <div class="container">
             <table class="table mt-3 table-striped">
@@ -12,7 +12,7 @@
                                 type="text"
                                 name="writer"
                                 required
-                                v-model="notice.writer"
+                                v-model="lecture.writer"
                                 placeholder="글쓴이"
                         />
                     </td>
@@ -25,7 +25,7 @@
                                 type="text"
                                 name="title"
                                 required
-                                v-model="notice.title"
+                                v-model="lecture.title"
                                 placeholder="제목"
                         />
                     </td>
@@ -37,11 +37,23 @@
                     class="form-control"
                     name="content"
                     required
-                    v-model="notice.content"
+                    v-model="lecture.content"
                     placeholder="내용"
             ></textarea>
                     </td>
                 </tr>
+                <tr>
+                    <th>File</th>
+                    <td>
+                        <input
+                                class="form-control"
+                                type="file"
+                                name="userfile"
+                                v-model="lecture.file"
+                        />
+                    </td>
+                </tr>
+            <button>업로드</button>
             </table>
             <button type="submit" class="mybtn btn bg-custom4">작성</button>
         </div>
@@ -52,23 +64,21 @@
     export default {
         data() {
             return {
-                notice: {
-                    studyType: "",
-                    studyName: "",
-                    maxMember: "",
+                lecture: {
                     writer: "",
                     title: "",
                     content: "",
+                    file: '',
                     date:this.$moment(new Date()).format('YYYYMMDD')
                 },
                 selected: ""
             };
         },
         methods: {
-            async postNotice() {
-                const res = await this.$store.dispatch("appendNotice", this.notice);
+            async postLecture() {
+                const res = await this.$store.dispatch("appendLecture", this.lecture);
                 if (res.success === false) alert(res.message);
-                else this.$router.push("/notice");
+                else this.$router.push(`/study/${id}/lecturenote`);
             }
         }
     };

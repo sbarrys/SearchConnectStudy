@@ -114,14 +114,22 @@ const routes = [
     }
   },
   {
-    path:'/study/:id/lecturenote/:id',
+    path:'/study/:id/lecturenote/detail/:idd',
     name:'LectureNoteDetail',
     component:function () {
       return import('../views/LectureNoteDetail.vue')
 
     }
+  },
+  {
+    path:'/study/:id/lecturenote/edit/:idd',
+    name:'LectureNoteEdit',
+    component:function () {
+      return import('../views/LectureNoteEdit.vue')
 
-  }, {
+    }
+  },
+  {
     path: '/study/:id',
     name: 'study',
     component: function () {

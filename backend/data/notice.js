@@ -4,58 +4,83 @@ const autoInc = require('mongoose-auto-increment')
 
 var AssignmentSchema = new Schema({
 
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
     title : String,
-    writer:String,
     content: String,
     anonymous : String,
     file:Object,
     userID:Number
-}); //keep
+});
+ //keep
 var LectureSchema = new Schema({
 
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
     title : String,
-    writer:String,
     content:String,
     file:Object,
     date:String
 
 });
-var ScheduleSchema = new Schema({
-
+var imageSchema = new Schema({
     imagePath:String
-});
 
-var BoardSchema = new Schema({
-    title : String,
-    writer:String,
-    anonymous:String,
-    content: String,
-    comment:Array
-});
+})
 
-var NoticeSchema = new Schema({
 
-    title : String,
-    writer:String,
-    content: String,
-});
+var boardSchema = new Schema({
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    title:String,
+    content:String,
+    date : { type: Date, default: Date.now }
+})
 
+var studyNoticeSchema=new Schema({
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    title:String,
+    content:String,
+    date : { type: Date, default: Date.now }
+})
 
 
 var noticeSchema = new Schema({
 
-    studyType: String,
+    noticeID : Number, //index 값 -Notice.vue에서 v-for 돌때 설정
+    studyType : String,
     maxMember: Number,
     studyName:String,
-    writer : String,
+    writer :  {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
     title: String,
-    content: String,
-    date: String,
-    studyMember: Array,
-    lecture: [LectureSchema],
-    assignment:[AssignmentSchema]
+    content:String,
+    studyMember:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }],
+    date : { type: Date, default: Date.now },
+    notice:[studyNoticeSchema], //writer
+    board:[boardSchema], //writer
+    schedule: [imageSchema],
+    lecture:[LectureSchema],
+    assignment:[AssignmentSchema],
 
 });
 
-noticeSchema.plugin(autoInc.plugin, 'notice')
-module.exports = mongoose.model('notice',noticeSchema);
+const notice =  mongoose.model('notice',noticeSchema);
+
+module.exports = notice
+

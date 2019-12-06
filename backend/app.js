@@ -5,6 +5,7 @@ var logger = require('morgan');
 var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
 const autoInc = require('mongoose-auto-increment')
+var multer = require('multer');
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
@@ -61,14 +62,6 @@ app.use('/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/notices', noticeRouter); ///
-app.use(multer({
-    dest: "../upload/",
-    limits:{
-        fileSize:1024*1000*16
-    }
-}
-));
-
 
 
 module.exports = app;
