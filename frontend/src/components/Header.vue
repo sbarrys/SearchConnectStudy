@@ -12,7 +12,7 @@
           <b-nav-item>
             <router-link class="text-unset pr-4 py-2" to="/notice">스터디모집</router-link>
           </b-nav-item>
-          <b-nav-item-dropdown text="나의스터디" class="transition-slow pr-4 py-2" v-if='id' right>
+          <b-nav-item-dropdown text="나의스터디" class="transition-slow pr-4 py-2" v-if="id" right>
             <b-dropdown-item href="#">
               <router-link class="text-unset pr-4 py-2" to="/st1">StudyA</router-link>
             </b-dropdown-item>
@@ -32,7 +32,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="id" right>
             <!-- Using 'button-content' slot -->
-            <template  v-slot:button-content>
+            <template v-slot:button-content>
               <span>{{id}} 님</span>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
@@ -72,6 +72,8 @@ export default {
       dataManager.clearData("id");
       this.$store.commit("logout");
       this.id = this.$store.getters.id;
+      if(window.location.pathname=='/')location.reload();
+      else this.$router.push('/')
     }
   }
 };

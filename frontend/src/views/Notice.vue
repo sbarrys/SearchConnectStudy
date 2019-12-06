@@ -15,7 +15,7 @@
         <b-tr v-for="value in notices" :key="value.id" @click="detail(value)">
           <b-td>{{value.studyType}}</b-td>
           <b-td>{{value.maxMember}}</b-td>
-          <b-td>{{value.writer}}</b-td>
+          <b-td>{{value.writer.name}}</b-td>
           <b-td>{{value.title}}</b-td>
           <b-td>{{value.date}}</b-td>
         </b-tr>

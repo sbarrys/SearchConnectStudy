@@ -10,7 +10,7 @@
             </b-thead>
 
             <b-tbody>
-                <b-tr v-for="(value,index )in notices" :key="value.id" @click="detail(value,index)">
+                <b-tr v-for="value in notices" :key="value.id" @click="detail(value,index)">
                     <b-td>{{value.writer}}</b-td>
                     <b-td>{{value.title}}</b-td>
                     <b-td>{{value.date}}</b-td>

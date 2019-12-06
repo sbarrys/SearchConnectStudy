@@ -2,9 +2,6 @@
     <div class="outer">
         <div class="inner">
             <div class="notice">
-                Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
-                <br>
-                <br>
                 Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
                 <br>
                 <br>
@@ -26,7 +23,6 @@
             return{
 
                 notice:{
-                    writer: "",
                     title: "",
                     content: ""
                 },

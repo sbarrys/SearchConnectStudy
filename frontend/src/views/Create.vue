@@ -41,20 +41,6 @@
           </td>
         </tr>
         <tr>
-          <th>Writer :</th>
-          <td>
-            <input
-              class="form-control"
-              type="text"
-              name="writer"
-              required
-              v-model="notice.writer"
-              placeholder="글쓴이"
-              readonly
-            />
-          </td>
-        </tr>
-        <tr>
           <th>Title :</th>
           <td>
             <input
