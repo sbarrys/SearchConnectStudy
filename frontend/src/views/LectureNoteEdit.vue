@@ -34,12 +34,12 @@
             async editLecture() {
                 const res = await this.$store.dispatch('updateLecture', { id: this.$route.params.id, data: this.lecture })
                 if(res.success === false) alert(res.message)
-                else this.$router.push(`/study/${id}/lecturenote`)
+                else this.$router.push(`/study/${this.$route.params.id}/lecturenote`)
             }
 
         },
         async beforeCreate() {
-            const res = await this.$store.dispatch('fetchLecture', {id : this.$route.params.id })
+            const res = await this.$store.dispatch('fetchLecture', {id : this.$route.params.id, idd:this.$route.params.temp })
             if(res.success === false) alert(res.message)
             else this.lecture = res.result
         }

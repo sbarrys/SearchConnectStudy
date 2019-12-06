@@ -12,9 +12,8 @@ router.get('/notice', function(req, res){
 router.post('/create', function(req, res) {
     notices.create(req.body, function (err, post) {
         if (err) return console.log(err);
+        else res.json({success: true});
     });
-
-    res.json({success: true});
 });
 
 router.get('/:id', function(req, res){

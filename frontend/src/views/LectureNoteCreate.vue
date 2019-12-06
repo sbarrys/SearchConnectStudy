@@ -76,9 +76,9 @@
         },
         methods: {
             async postLecture() {
-                const res = await this.$store.dispatch("appendLecture", this.lecture);
+                const res = await this.$store.dispatch("appendLecture", {id: this.$route.params.id, data:this.lecture});
                 if (res.success === false) alert(res.message);
-                else this.$router.push(`/study/${id}/lecturenote`);
+                else this.$router.push(`/study/${this.$route.params.id}/lecturenote`);
             }
         }
     };

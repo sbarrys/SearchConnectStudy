@@ -46,11 +46,13 @@
                     name: "LectureNoteCreate"
                 });
             },
-            detail(index) {
+            detail(value, index) {
                 this.$router.push({
                     name: "LectureNoteDetail",
                     params: {
-                        id: index._id
+                        id: this.id,
+                        temp: value._id,
+                        nowIndex:index
                     }
                 });
             },
@@ -64,6 +66,7 @@
 
         async beforeCreate() {
             await this.$store.dispatch("fetchLectures");
+            this.id = this.$route.params.id;
         }
     };
 </script>

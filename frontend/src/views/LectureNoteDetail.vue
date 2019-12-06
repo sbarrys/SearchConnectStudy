@@ -22,40 +22,38 @@
     export default {
         data: function() {
             return {
-                lecture: {},
-                chkwriter: false
+                lecture: {}
             };
         },
-        //   created() {
-        //     if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
-        //     console.log(this.notice.writer + "???" + this.$store.getters.id);
-        //   },
         methods: {
             editLecture() {
                 var id = this.$route.params.id;
                 this.$router.push({
                     name: "LectureNoteEdit",
                     params: {
-                        id: id
+                        id: id,
+                        temp:this.$route.params.temp,
+                        nowIndex:this.$route.params.nowIndex
                     }
                 });
             },
             async deleteLecture() {
                 const res = await this.$store.dispatch("deleteLecture", {
-                    id: this.$route.params.id
+                    id: this.$route.params.id,
+                    idd:this.$route.params.temp
                 });
                 if (res.success === false) alert(res.message);
-                else this.$router.push(`/study/${id}/lecturenote`);
+                else this.$router.push(`/study/${this.route.params.id}/lecturenote`);
             }
         },
         async beforeCreate() {
             const res = await this.$store.dispatch("fetchLecture", {
-                id: this.$route.params.id
+                id: this.$route.params.id,
+                idd: this.$route.params.temp
             });
             if (res.success === false) alert(res.message);
             else {
                 this.lecture = res.result;
-                if (this.lecture.writer == this.$store.getters.id) this.chkwriter = true;
             }
         }
     };
