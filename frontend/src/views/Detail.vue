@@ -75,5 +75,4 @@ export default {
   border-radius: 10px;
   background-color: #ecd7d2 !important;
 }
-
 </style>

@@ -40,6 +40,7 @@ export default {
     notices() {
       const start = this.pageNumber * this.size,
         end = start + this.size;
+      console.log(this.$store.state.notices)
       var temp = this.$store.state.notices;
       return temp.slice(start, end);
     }
