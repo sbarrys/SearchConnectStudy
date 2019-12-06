@@ -1,21 +1,19 @@
 <template>
-    <div class="outer">
-        <div class="inner">
-            <div class="notice">
-                <div class="notice_">
-                    <br>
-                    <br>
-                    <br>
-                    <div class="com1">
-                        <br/>
-                        <a>작성자: {{notice.writer}}</a><a>제목: {{notice.title}}</a>
-                    </div><br/>
-                    <a>content</a>
-                    <div class="com2">{{notice.content}}</div>
-                </div>
-                <button @click="editNotice" class="mybtn">수정</button>&nbsp;
-                <button @click="deleteNotice" class="mybtn">삭제</button>&nbsp;
-            </div>
+    <div class="outer text-center">
+        <h2 class="bg-custom6 my-3 py-3">{{notice.title}}</h2>
+        <div class="container">
+            <table class="notice table table-borderless">
+                <tr>
+                    <td>작성자</td>
+                    <td>{{notice.writer}}</td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td>{{notice.content}}</td>
+                </tr>
+            </table>
+            <button v-if="chkwriter" @click="editNotice" class="mybtn btn">수정</button>
+            <button v-if="chkwriter" @click="deleteNotice" class="mybtn btn">삭제</button>
         </div>
     </div>
 </template>
@@ -26,7 +24,8 @@
             return {
 
                 notice: {
-                    noticeID:""
+                    noticeID:"",
+                    chkwriter: false
                 }
             };
 
@@ -35,11 +34,14 @@
             editNotice(){
                 var id = this.$route.params.id
                 var temp = this.$route.params.temp
+                var index = this.$route.params.nowIndex
                 this.$router.push({
-                    name:'StudyBoardEdit',
+                    name:'StudyNoticeEdit',
                     params:{
                         id: id,
-                        temp:temp
+                        temp:temp,
+                        nowIndex:index
+
                     }
                 })
             },
@@ -51,6 +53,16 @@
 
         },
         async beforeCreate() {
+            const res = await this.$store.dispatch("fetchStudyNotice", {id: this.$route.params.id,idx:this.$route.params.temp});
+            if (res.success === false) alert(res.message);
+            else {
+                this.notice = res.result;
+                this.notice.noticeID = this.$route.params.temp
+                if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
+            }
+        }
+        /*
+        async beforeCreate() {
             const res = await this.$store.dispatch('fetchStudyNotice', {id :this.$route.params.id ,idx: this.$route.params.temp}) //
             if(res.success === false) alert(res.message)
             else {
@@ -58,52 +70,15 @@
                 this.notice.noticeID = this.$route.params.temp
             }
         }
+        */
+
     };
 </script>
 <style>
-    .outer{
-        display: table;
-        width: 100%;
-        height: 100%;
-    }
-    .inner{
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-    }
-    .notice_{
-        width: 60%;
-        height: 300px;
-        margin: auto;
-        text-align: center;
-    }
-    .notice{
-        width: 60%;
-        height: 400px;
-        margin: auto;
-        text-align: center;
-    }
-    .mybtn{
-        border-radius:10px;
+    .mybtn {
+        border: 2px solid #e5ccc8;
+        border-radius: 10px;
         background-color: #ecd7d2 !important;
-        box-shadow: 3px 3px 3px 1px #e5ccb8;
-        width: 50px;
-        height: 30px;
-    }
-    .com1{
-        width: 60%;
-        height: 50px;
-        margin: auto;
-        text-align: center;
-        border: 1px solid #e5ccc8 !important;
-    }
-    .com2{
-        width: 60%;
-        height: 180px;
-        margin: auto;
-        text-align: center;
-        border: 1px solid #e5ccc8 !important;
-        overflow-y: scroll;
     }
 
 </style>

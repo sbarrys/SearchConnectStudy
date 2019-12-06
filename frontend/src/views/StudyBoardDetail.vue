@@ -38,7 +38,8 @@
                     name:'StudyBoardEdit',
                     params:{
                         id: id,
-                        temp:this.$route.params.temp
+                        temp:this.$route.params.temp,
+                        nowIndex:this.$route.params.nowIndex
                     }
                 })
             },

@@ -1,26 +1,48 @@
 <template>
     <form method="post" @submit.stop.prevent="postNotice">
-        <div class ="outer">
-            <div class="inner">
-                <br>
-                <br>
-                <div class ="notice" >
-
-                    <br>
-                    <br>
-                    Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
-                    <br>
-                    <br>
-                    Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
-                    <br>
-                    <br>
-                    Content
-                    <br>
-                    <textarea name="content" required v-model="notice.content" placeholder="내용"></textarea>
-                    <br>
-                    <button type ="submit" class="mybtn">작성</button>
-                </div>
-            </div>
+        <h2 class="text-center mt-3">글쓰기</h2>
+        <div class="container">
+            <table class="table mt-3 table-striped">
+                <tr>
+                    <th>Writer :</th>
+                    <td>
+                        <input
+                                class="form-control"
+                                type="text"
+                                name="writer"
+                                required
+                                v-model="notice.writer"
+                                placeholder="글쓴이"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Title :</th>
+                    <td>
+                        <input
+                                class="form-control"
+                                type="text"
+                                name="title"
+                                required
+                                v-model="notice.title"
+                                placeholder="제목"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>
+            <textarea
+                    class="form-control"
+                    name="content"
+                    required
+                    v-model="notice.content"
+                    placeholder="내용"
+            ></textarea>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" class="mybtn btn bg-custom4">작성</button>
         </div>
     </form>
 </template>
@@ -41,8 +63,7 @@
         },
         methods:{
             async postNotice() {
-                //고치기
-                const res = await this.$store.dispatch('appendStudyBoard', this.notice)
+                const res = await this.$store.dispatch('appendStudyBoard', {id:this.$route.params.id,data:this.notice})
                 if(res.success === false) alert(res.message)
                 else this.$router.push(`/study/${this.$route.params.id}/board`)
             }

@@ -40,7 +40,7 @@
             }
         },
         async beforeCreate() {
-            const res = await this.$store.dispatch('fetchStudyNotice', {id : this.$route.params.id }) //
+            const res = await this.$store.dispatch('fetchStudyNotice', {id : this.$route.params.id, idx:this.$route.params.temp}) //
             if(res.success === false) alert(res.message)
             else {
                 this.notice = res.result
@@ -72,7 +72,7 @@
     .mybtn{
         border-radius:10px;
         background-color: #ecd7d2 !important;
-        box-shadow: 3px 3px 3px 1px #e5ccb8;
     }
+
 
 </style>

@@ -60,7 +60,7 @@
         },
         methods: {
             async postNotice() {
-                const res = await this.$store.dispatch("appendStudyNotice", {id:this.$route.params.id});
+                const res = await this.$store.dispatch("appendStudyNotice", {id:this.$route.params.id,data:this.notice});
                 if (res.success === false) alert(res.message);
                 else this.$router.push(`/study/${this.$route.params.id}/notice`); //
             }

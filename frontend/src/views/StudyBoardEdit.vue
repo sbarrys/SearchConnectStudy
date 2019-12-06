@@ -34,14 +34,14 @@
         },
         methods:{
             async editNotice() {
-                const res = await this.$store.dispatch('updateNotice', { id: this.$route.params.id, data: this.notice })
+                const res = await this.$store.dispatch('updateStudyBoard', { id: this.$route.params.id, data: this.notice })
                 if(res.success === false) alert(res.message)
                 else this.$router.push(`/study/${this.$route.params.id}/board`)
             }
 
         },
         async beforeCreate() {
-            const res = await this.$store.dispatch('fetchNotice', {id : this.$route.params.id })
+            const res = await this.$store.dispatch('fetchStudyBoard', {id : this.$route.params.id, idx:this.$route.params.temp})
             if(res.success === false) alert(res.message)
             else {
                 this.notice = res.result
@@ -73,7 +73,6 @@
     .mybtn{
         border-radius:10px;
         background-color: #ecd7d2 !important;
-        box-shadow: 3px 3px 3px 1px #e5ccb8;
     }
 
 </style>

@@ -37,7 +37,8 @@ var boardSchema = new Schema({
         ref:'User'
     },
     title:String,
-    content:String
+    content:String,
+    date : { type: Date, default: Date.now }
 })
 
 var studyNoticeSchema=new Schema({
@@ -46,7 +47,8 @@ var studyNoticeSchema=new Schema({
         ref:'User'
     },
     title:String,
-    content:String
+    content:String,
+    date : { type: Date, default: Date.now }
 })
 
 var noticeSchema = new Schema({
@@ -55,16 +57,17 @@ var noticeSchema = new Schema({
     studyType : String,
     maxMember: Number,
     studyName:String,
-    writer :{
+    writer :  {
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
     title: String,
     content:String,
-    studyMember:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-    }],
+    studyMember:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }],
     date : { type: Date, default: Date.now },
     notice:[studyNoticeSchema], //writer
     board:[boardSchema], //writer
