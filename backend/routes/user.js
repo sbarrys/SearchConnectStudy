@@ -24,8 +24,8 @@ router.post('/', function(req,res,next){
 
 
 // show
-router.get('/:username', util.isLoggedin, function(req,res,next){
-    User.findOne({username:req.params.username})
+router.get('/:name', util.isLoggedin, function(req,res,next){
+    User.findOne({name:req.params.name})
     .exec(function(err,user){
       res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });
@@ -33,8 +33,8 @@ router.get('/:username', util.isLoggedin, function(req,res,next){
 
 
 // destroy 
-router.delete('/:username', util.isLoggedin, checkPermission, function(req,res,next){
-    User.findOneAndRemove({username:req.params.username})
+router.delete('/:name', util.isLoggedin, checkPermission, function(req,res,next){
+    User.findOneAndRemove({name:req.params.name})
     .exec(function(err,user){
       res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });
