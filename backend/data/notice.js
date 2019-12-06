@@ -27,10 +27,23 @@ var LectureSchema = new Schema({
 
 });
 var imageSchema = new Schema({
-    imagePath:String
+
+    data:Buffer,
+
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
 
 })
 
+var commentSchema = new Schema({
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    content:String
+})
 var boardSchema = new Schema({
     writer:{
         type:mongoose.Schema.Types.ObjectId,
@@ -38,6 +51,7 @@ var boardSchema = new Schema({
     },
     title:String,
     content:String,
+    comment:[commentSchema],
     date : { type: Date, default: Date.now }
 })
 

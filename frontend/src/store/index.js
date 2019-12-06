@@ -66,6 +66,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    
     async fetchNotices({ commit }) {
       const res = await Vue.axios.get(API_HOST + '/notices/notice')
       if (res.data.success === true) commit('updateList', res.data.result)
@@ -83,7 +84,7 @@ export default new Vuex.Store({
       return res.data
     },
     async updateNotice({ }, { id, data }) {
-      const res = await Vue.axios.put(API_HOST + `/notices/edit/${id}`, data)
+      const res = await Vue.axios.put(API_HOST + `/notices/${id}`, data)
       // return success/result to action caller
       return res.data
     },
@@ -99,18 +100,18 @@ export default new Vuex.Store({
       // return success/result to action caller
       return res.data
     },
-    async appendStudyNotice({ }, { id, data }) {
-      const res = await Vue.axios.post(API_HOST + `/notices/study/${id}/notice/create`, data)
+    async appendStudyNotice({}, {id,data}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/notice`, data)
       // return success/result to action caller
       return res.data
     },
-    async fetchStudyNotice({ }, { id, idx }) {
-      const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/notice/detail/${idx}`)
+    async fetchStudyNotice({}, { id,idx }) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/notice/${idx}`)
       // return success/result to action caller
       return res.data
     },
-    async updateStudyNotice({ }, { id, data, idx }) {
-      const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/notice/edit/${idx}`, data)
+    async updateStudyNotice({}, { id, data,idx }) {
+      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/notice/${idx}`, data)
       // return success/result to action caller
       return res.data
     },
@@ -126,18 +127,18 @@ export default new Vuex.Store({
       // return success/result to action caller
       return res.data
     },
-    async appendStudyBoard({ }, { id, data }) {
-      const res = await Vue.axios.post(API_HOST + `/notices/study/${id}/board/create`, data)
+    async appendStudyBoard({}, {id,data}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/board`, data)
       // return success/result to action caller
       return res.data
     },
-    async fetchStudyBoard({ }, { id, idx }) {
-      const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/board/detail/${idx}`)
+    async fetchStudyBoard({}, { id,idx }) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board/${idx}`)
       // return success/result to action caller
       return res.data
     },
-    async updateStudyBoard({ }, { id, data, idx }) {
-      const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/board/edit/${idx}`, data)
+    async updateStudyBoard({}, { id, data,idx }) {
+      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/board/${idx}`, data)
       // return success/result to action caller
       return res.data
     },

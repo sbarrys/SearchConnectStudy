@@ -51,13 +51,17 @@ export default {
         }
       });
     },
-    regist() {
-      const res = this.$http
-        .put("http://localhost:3000/notices/" + this.id + "/member", {
-          idx: this.$store.getters.idx
-        })
+    async regist() {
+      await this.$http
+        .put(
+          "http://localhost:3000/notices/" +
+            this.$route.params.id +
+            "/member/" +
+            this.$store.getters.idx,
+          {}
+        )
         .then(res => {
-          alert('신청완료')
+          if (res.data.success == true) alert("신청완료");
         });
     },
     async deleteNotice() {
