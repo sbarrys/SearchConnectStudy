@@ -1,4 +1,5 @@
 <template>
+
   <form method="post" @submit.stop.prevent="postNotice">
     <h2 class="text-center mt-3">스터디 생성</h2>
     <div class="container">
@@ -49,6 +50,7 @@
               required
               v-model="notice.writer"
               placeholder="글쓴이"
+              readonly
             />
           </td>
         </tr>
@@ -113,7 +115,7 @@ export default {
       else this.$router.push("/notice");
     }
   }, created() {
-    this.notice.writer = this.$store.getters.id;
+    this.notice.writer = this.$store.getters.idx;
   },
   watch: {
     selected: function() {
@@ -144,4 +146,5 @@ export default {
   margin: auto;
   text-align: center;
 }
+
 </style>

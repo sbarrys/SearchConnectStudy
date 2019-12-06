@@ -1,19 +1,19 @@
 <template>
     <div class="outer">
         <div class="inner">
-    <div class="notice">
-        Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
-        <br>
-        <br>
-        Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
-        <br>
-        <br>
-        Content
-        <br>
-        <textarea name="content" required v-model="notice.content" placeholder="내용"></textarea>
-        <br>
-        <button  @click="editNotice" class="mybtn">수정</button>
-    </div>
+            <div class="notice">
+                Writer :  <input type="text" name="writer" required v-model="notice.writer" placeholder="글쓴이">
+                <br>
+                <br>
+                Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
+                <br>
+                <br>
+                Content
+                <br>
+                <textarea name="content" required v-model="notice.content" placeholder="내용"></textarea>
+                <br>
+                <button  @click="editNotice" class="mybtn">수정</button>
+            </div>
         </div>
     </div>
 </template>

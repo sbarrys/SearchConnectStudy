@@ -1,4 +1,3 @@
-
 <template>
   <div class="container-fluid text-center" >
     <b-table-simple hover class="table small table-hover">
@@ -41,6 +40,7 @@ export default {
     notices() {
       const start = this.pageNumber * this.size,
         end = start + this.size;
+      console.log(this.$store.state.notices)
       var temp = this.$store.state.notices;
       return temp.slice(start, end);
     }
@@ -89,4 +89,5 @@ table > td {
 table {
   text-align: center;
 }
+
 </style>

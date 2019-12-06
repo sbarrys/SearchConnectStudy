@@ -50,8 +50,8 @@ router.post('/login',
         var secretOrPrivateKey ="abcd"  //process.env.JWT_SECRET;
         var options = {expiresIn: 60*20};//20분간 로그인 유효기간 
         jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
-          if(err) {return res.json(util.successFalse(err));}                
-          res.json(util.successTrue({token:token , id: user.id}));                //토큰 보내준다.
+          if(err) {return res.json(util.successFalse(err));}        
+          res.json(util.successTrue({token:token , id: user.id, idx: user._id}));                //토큰 보내준다.
         });
       }
     });

@@ -43,6 +43,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 var noticeRouter = require('./routes/notice');
+var studyRouter = require('./routes/study')
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -60,7 +61,8 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/notices', noticeRouter); ///
+app.use('/notices', noticeRouter);
+app.use('./room',studyRouter) //
 
 
 
