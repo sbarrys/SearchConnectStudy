@@ -1,7 +1,13 @@
 <template>
 
+<div>
+    <hr />
+    <img v-bind:src="schedule.data" class="detailImg" >
+    <br>
+    <hr />
+    <button type="submit" class="mybtn btn" @click="deleteImage">삭제</button>
 
-
+</div>
 </template>
 
 <script>
@@ -34,3 +40,11 @@
     }
 
 </script>
+<style>
+    .mybtn {
+        border: 2px solid #e5ccc8;
+        border-radius: 10px;
+        background-color: #ecd7d2 !important;
+    }
+
+</style>

@@ -16,6 +16,29 @@
                 <button @click="editNotice" class="mybtn">수정</button>&nbsp;
                 <button @click="deleteNotice" class="mybtn">삭제</button>&nbsp;
             </div>
+            <div class ="commentList" v-for="(value,index) in comments">
+               <div >
+                {{value.content}}
+               </div>
+                <div class="comment-button">
+                <b-button variant="info" @click="deleteComment(index)">삭제</b-button>
+                </div>
+            </div>
+            <div class ="comment-create">
+                <b-input-group :prepend="commentWriter" class="comment-create-2">
+                    <b-form-textarea
+                        class="comment-content"
+                        v-model="comment"
+                        :placeholder="commentPlaceholder"
+                        rows="3"
+                        max-rows="6"
+                ></b-form-textarea>
+                <b-input-group-append>
+                    <b-button variant="info" @click="postComment">작성</b-button>
+                </b-input-group-append>
+                </b-input-group>
+            </div>
+
         </div>
     </div>
 </template>
@@ -28,7 +51,9 @@
                 notice: {
                     noticeID:""
                 },
-                comment:""
+                comment:"",
+                commentWriter:"익명",
+                commentPlaceholder:"댓글을 남겨주세요."
             };
 
         },
@@ -40,7 +65,7 @@
         },
         methods:{
             editNotice(){
-                var id = this.$route.params.id
+                var id = this.$route.params.id //스터디 아이디
                 this.$router.push({
                     name:'StudyBoardEdit',
                     params:{
@@ -73,7 +98,6 @@
                 this.notice = res.result
                 this.notice.noticeID =this.$route.params.temp
             }
-
             await this.$store.dispatch('fetchBoardComments', {id : this.$route.params.id,idx:this.$route.params.temp,index:this.$route.params.nowIndex })
 
         }
@@ -123,6 +147,25 @@
         text-align: center;
         border: 1px solid #e5ccc8 !important;
         overflow-y: scroll;
+    }
+    .comment-create{
+        display: flex;
+        margin-bottom: 1em;
+    }
+    .commentList{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #e5ccc8 !important;
+        padding: 1em;
+    }
+    .comment-button{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #e5ccc8 !important;
     }
 
 </style>
