@@ -188,10 +188,9 @@ router.put('/notice/:id/member/:idx',async function(req,res){
     // 유저의 스터디목록 추가
 
 
-
     await User.findByIdAndUpdate(
         req.params.idx,
-        {$push: {"studyList": req.params.id}},
+        {$addToSet: {"studyList": req.params.id}},
         {safe: true, upsert: true, new : true},
         function(err, model) {
             if(err) res.json(util.successFalse(err));
@@ -199,7 +198,7 @@ router.put('/notice/:id/member/:idx',async function(req,res){
     );
     await notices.findByIdAndUpdate(
         req.params.id,
-        {$push: {"studyMember": req.params.idx}},
+        {$addToSet: {"studyMember": req.params.idx}},
         {safe: true, upsert: true, new : true , useFindAndModify: false},
         function(err, model) {
             if(err) res.json(util.successFalse(err));

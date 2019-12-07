@@ -29,9 +29,10 @@ var userSchema= mongoose.Schema({
     type:String
   },
   studyList:
-    [
+  [
       { type: mongoose.Schema.Types.ObjectId, ref: 'notice' }
-    ]
+  ]
+  
 },{
   toObject:{virtuals:true}
 });
