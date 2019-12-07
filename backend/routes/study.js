@@ -269,8 +269,6 @@ router.post('/:id/lecturenote/create', function(req, res) {
     });
 
 });
-
-
 router.get('/:id/lecturenote/:idd', function(req, res){
     notices.findOne({_id:req.params.id}).select('lecture').exec(function (err, result) {
         if (err) return next(err);
@@ -281,7 +279,7 @@ router.get('/:id/lecturenote/:idd', function(req, res){
     })
 
 });
-router.put('/:id/notice/edit/:idd', function(req, res) {
+router.put('/:id/lecturenote/edit/:idd', function(req, res) {
 
     notices.findOneAndUpdate(
         {_id:req.params.id, lecture:{$elemMatch:{_id:req.body._id}}},
@@ -295,7 +293,7 @@ router.put('/:id/notice/edit/:idd', function(req, res) {
     )
 
 });
-router.delete('/:id/notice/:idd', (req, res) => {
+router.delete('/:id/lecturenote/:idd', (req, res) => {
 
     notices.findById(req.params.id,function (err, post) {
         if(err) return next(err)
@@ -305,9 +303,6 @@ router.delete('/:id/notice/:idd', (req, res) => {
     })
 
 });
-
-
-
 
 module.exports = router;
 /*
