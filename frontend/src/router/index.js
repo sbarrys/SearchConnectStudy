@@ -83,9 +83,33 @@ const routes = [
   },
   {
     path:'/study/:id/assignment',
-    name:'StudyAssignment',
+    name:'Assignment',
     component:function () {
       return import('../views/Assignment.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/assignment/create',
+    name: 'AssignmentCreate',
+    component: function () {
+      return import('../views/AssignmentCreate.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/assignment/edit/:idd',
+    name: 'AssignmentEdit',
+    component: function () {
+      return import('../views/AssignmentEdit.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/assignment/detail/:idd',
+    name: 'AssignmentSubmit',
+    component: function () {
+      return import('../views/AssignmentSubmit.vue')
 
     }
   },

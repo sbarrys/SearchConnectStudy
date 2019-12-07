@@ -173,7 +173,35 @@ export default new Vuex.Store({
           const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/lecturenote/${idd}`, data)
           // return success/result to action caller
           return res.data
-      }
+      },
+    //
+    async fetchAssignments({ commit }, { id }) {
+      const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/assignment`)
+      if (res.data.success === true) commit('updateAssignment', res.data.result)
+      // return success/result to action caller
+      return res.data
+    },
+    async appendAssignment({}, {id,data}) {
+      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/assignment`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async fetchAssignment({}, { id,idx }) {
+      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/assignment/${idx}`)
+      // return success/result to action caller
+      return res.data
+    },
+    async updateAssignment({}, { id, data,idx }) {
+      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/assignment/${idx}`, data)
+      // return success/result to action caller
+      return res.data
+    },
+    async deleteAssignment({ }, { id, idx }) {
+      const res = await Vue.axios.delete(API_HOST + `/notices/study/${id}/assignment/${idx}`)
+      // return success/result to action caller
+      return res.data
+    }
+
   },
   modules: {
   }

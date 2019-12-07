@@ -295,6 +295,50 @@ router.delete('/:id/lecturenote/:idd', (req, res) => {
         res.json({success:true})
     })
 });
+//
+router.get('/:id/assignment', function(req, res){
+    notices.findOne({_id:req.params.id}).select('assignment').exec(function (err, result) {
+        var temp = result.assignment
+        res.json({success: true, result: temp});
+    })
+});
+router.post('/:id/assignment/create', function(req, res) {
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err);
+        post.assignment.push(req.body)
+        post.save()
+        res.json({success: true});
+    });
+});
+router.get('/:id/assignment/:idd', function(req, res){
+    notices.findOne({_id:req.params.id}).select('assignment').exec(function (err, result) {
+        if (err) return next(err);
+        var temp = result.assignment;
+        var dum = temp[req.body.nowIndex];
+        res.json({success : true, result : dum});
+
+    })
+});
+router.put('/:id/assignment/edit/:idd', function(req, res) {
+    notices.findOneAndUpdate(
+        {_id:req.params.id, assignment:{$elemMatch:{_id:req.body._id}}},
+        {$set:{"assignment.$.title":req.body.title,
+                "assignment.$.content":req.body.content
+        }},
+        function (err, result) {
+            if (err) return next(err);
+            res.json({success: true});
+        }
+    )
+});
+router.delete('/:id/assignment/:idd', (req, res) => {
+    notices.findById(req.params.id,function (err, post) {
+        if(err) return next(err)
+        post.assignment.pull({_id:req.body._id})
+        post.save()
+        res.json({success:true})
+    })
+});
 
 module.exports = router;
 /*
