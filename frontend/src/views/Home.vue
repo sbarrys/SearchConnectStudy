@@ -60,7 +60,7 @@ export default {
   computed: {
     notices() {
       var temp = this.$store.state.notices;
-      console.log(temp);
+      // console.log(temp);
       return temp.slice(0, 6);
     }
   },

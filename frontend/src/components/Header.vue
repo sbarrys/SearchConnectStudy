@@ -3,7 +3,9 @@
     <!-- <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>-->
     <b-navbar class="py-3 bg-custom4" toggleable="lg" type="light">
-      <b-navbar-brand href="/" class="text-custom2 h2">Cir.cu.s</b-navbar-brand>
+      <b-navbar-brand class="text-custom2 h2">
+        <router-link class="text-custom2" to="/">Cir.cu.s</router-link>
+      </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -13,18 +15,11 @@
             <router-link class="text-unset pr-4 py-2" to="/notice">스터디모집</router-link>
           </b-nav-item>
           <b-nav-item-dropdown text="나의스터디" class="transition-slow pr-4 py-2" v-if="id" right>
-            <b-dropdown-item href="#">
-              <router-link class="text-unset pr-4 py-2" to="/st1">StudyA</router-link>
-            </b-dropdown-item>
-            <b-dropdown-item href="#">
-              <router-link class="text-unset pr-4 py-2" to="/st2">StudyB</router-link>
-            </b-dropdown-item>
-            <b-dropdown-item href="#">
-              <router-link class="text-unset pr-4 py-2" to="/st3">Studyexample</router-link>
-            </b-dropdown-item>
-            <b-dropdown-item href="#">
-              <router-link class="text-unset pr-4 py-2" to="/st4">Studyexmaple2</router-link>
-            </b-dropdown-item>
+            <div v-for="st in studylist" :key="st.id">
+              <b-dropdown-item href="#">
+                <router-link class="text-unset pr-4 py-2" to="/st1">{{st.title}}</router-link>
+              </b-dropdown-item>
+            </div>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -57,7 +52,8 @@ export default {
   data() {
     return {
       userok: false,
-      id: ""
+      id: "",
+      studylist: []
     };
   },
   components: {
@@ -66,15 +62,21 @@ export default {
   created() {
     console.log("(header.vue)store: " + this.$store.getters.id);
     this.id = this.$store.getters.id;
+    // this.studylist = this.$store.getters.studylist;
   },
   methods: {
     logout() {
       dataManager.clearData("id");
       this.$store.commit("logout");
       this.id = this.$store.getters.id;
-      if(window.location.pathname=='/')location.reload();
-      else this.$router.push('/')
+      if (window.location.pathname == "/") location.reload();
+      else this.$router.push("/");
     }
+  },
+  async beforeCreate() {
+    const res =await this.$store.dispatch("getStudylist",{ idx: this.$store.getters.idx});
+    this.studylist=res
+    console.log(res)
   }
 };
 </script>

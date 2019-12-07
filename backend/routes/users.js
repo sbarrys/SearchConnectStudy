@@ -30,12 +30,19 @@ router.get('/:username', util.isLoggedin, function(req,res,next){
     });
 });
 
+router.get('/:username/study', util.isLoggedin, function(req,res,next){
+  User.findById({_id:req.params.username}).populate('studyList')
+  .exec(function(err,user){
+    res.json(err||!user? util.successFalse(err): util.successTrue(user));
+  });
+});
+
 
 // destroy 
 router.delete('/:username', util.isLoggedin, checkPermission, function(req,res,next){
     User.findOneAndRemove({username:req.params.username})
     .exec(function(err,user){
-      res.json(err||!user? util.successFalse(err): util.successTrue(user));
+      res.json(err||!user? util.successFalse(err): util.successTrue(user.studyList));
     });
   });//로그인되어있는지 확인후 삭제해준다.
 

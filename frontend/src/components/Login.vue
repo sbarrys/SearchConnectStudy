@@ -72,13 +72,24 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log("asdasd"+res.data.data.idx);
           if (res.data.success) {
             dataManager.saveData("id", res.data.data.id);
             dataManager.saveData("token", res.data.data.token);
             dataManager.saveData("idx", res.data.data.idx);
+            var arr = [];
+            // localStorage.setItem('studylist', res.data.data.studyList)
+            for (var st of res.data.data.studyList) {
+              arr.push({
+                id: st._id,
+                title: st.title
+              });
+            }
+            dataManager.saveData("studylist",arr);
+            // console.log(JSON.stringify(arr))
 
             alert(res.data.data.id + "님 환영합니다");
+            // console.log(res.data.data.studyList)
+
             location.reload();
           } else {
             alert(res.data.message);

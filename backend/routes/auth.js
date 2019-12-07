@@ -13,23 +13,23 @@ router.post('/login',
     var validationError = {
       name:'ValidationError',
       errors:{}
-    };
+    };    
 
     if(!req.body.id){ //id가 없다면 오류처리
       isValid = false;
-      validationError.errors.id = {message:'id is required!'};
+      validationError.errors.id = {message:'id is requiredisValid!'};
     }
     if(!req.body.password){ //비밀번호없다면 오류처리
       isValid = false;
       validationError.errors.password = {message:'Password is required!'};
     }
 
-    if(!isValid) return res.json(util.successFalse(validationError));  //util의 에러 메세지 응답해주는 함수이용
+    if(!isValid) return res.json(util.successFalse());  //util의 에러 메세지 응답해주는 함수이용
     else next();    //아니라면 다음함수로 넘어감
   },
   //아이디와 패스워드가 있다면 넘어오는 함수
   function(req,res,next){
-    User.findOne({id:req.body.id})
+    User.findOne({id:req.body.id}).populate('studyList')
     .select({password:1,id:1,name:1,major:1,gender:1 }) //비밀번호, 아이디, 이름, 전공, 성을 상위한개만 가져온다.
     .exec(function(err,user){
       if(err)
@@ -42,16 +42,15 @@ router.post('/login',
          return res.json(util.successFalse(null,'id or Password is invalid'));
 
       else {
-
         var payload = {     //토큰에 들어갈정보 이것이 암호화되서 토큰에 실린다.
           _id : user._id,
           id: user.id
         };
         var secretOrPrivateKey ="abcd"  //process.env.JWT_SECRET;
-        var options = {expiresIn: 60*60*24};
+        var options = {expiresIn: 60*20};//20분간 로그인 유효기간 
         jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
           if(err) {return res.json(util.successFalse(err));}        
-          res.json(util.successTrue({token:token , id: user.id, idx: user._id}));                //토큰 보내준다.
+          res.json(util.successTrue({token:token , id: user.id, idx: user._id ,studyList: user.studyList}));                //토큰 보내준다.
         });
       }
     });
@@ -87,7 +86,7 @@ router.get('/refresh', util.isLoggedin,
           id: user.id
         };
         var secretOrPrivateKey = "abcd"//process.env.JWT_SECRET;
-        var options = {expiresIn: 60*60*24};
+        var options = {expiresIn: 60*20};
         jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
           if(err) return res.json(util.successFalse(err));
           res.json(util.successTrue(token));

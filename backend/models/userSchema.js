@@ -27,7 +27,11 @@ var userSchema= mongoose.Schema({
   },
   gender:{
     type:String
-  }
+  },
+  studyList:
+    [
+      { type: mongoose.Schema.Types.ObjectId, ref: 'notice' }
+    ]
 },{
   toObject:{virtuals:true}
 });
@@ -35,6 +39,7 @@ var userSchema= mongoose.Schema({
 // userSchema.virtual('passwordConfirmation')
 // .get(function(){return this._passwordConfirmation;})
 // .set(function(value){this._passwordConfirmation=value;});
+
 
 userSchema.virtual('originalPassword').
 get(function(){return this._originalPassword;})
@@ -86,7 +91,6 @@ userSchema.pre('save',function(next){
 // 비밀번호 확을 위해서 메소드 만들어주기
 userSchema.methods.authenticate=function(password){
   var user = this;
-  console.log("참거짓?"+bcrypt.compareSync(password,user.password));
   
   return bcrypt.compareSync(password,user.password);
 

@@ -6,7 +6,7 @@ var AssignmentSchema = new Schema({
 
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'user'
+        ref:'user'//소문자로해야합니다.수정by태윤
     },
     title : String,
     content: String,
@@ -40,7 +40,7 @@ var imageSchema = new Schema({
 var commentSchema = new Schema({
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     content:String
 })
@@ -77,11 +77,10 @@ var noticeSchema = new Schema({
     },
     title: String,
     content:String,
-    studyMember:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'user'
-        }],
+    studyMember:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
+    }],
     date : { type: Date, default: Date.now },
     notice:[studyNoticeSchema], //writer
     board:[boardSchema], //writer

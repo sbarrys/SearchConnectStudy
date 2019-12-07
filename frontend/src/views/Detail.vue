@@ -33,19 +33,14 @@
 export default {
   data: function() {
     return {
-      notice: {},
+      notice:{writer:''},
       chkwriter: false
     };
   },
-  //   created() {
-  //     if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
-  //     console.log(this.notice.writer + "???" + this.$store.getters.id);
-  //   },
   methods: {
     editNotice() {
       var id = this.$route.params.id;
       this.$router.push({
-        name: "Edit",
         params: {
           id: id
         }
@@ -61,6 +56,7 @@ export default {
           {}
         )
         .then(res => {
+          console.log(res.data)
           if (res.data.success == true) alert("신청완료");
         });
     },

@@ -9,7 +9,7 @@ const multer = require('multer')
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
-var userRouter = require('./routes/user');
+// var userRouter = require('./routes/user');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -55,7 +55,6 @@ app.use(function (req, res, next) {
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use('/', indexRouter);
-app.use('/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/notices', noticeRouter);

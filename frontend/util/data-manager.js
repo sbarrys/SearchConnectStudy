@@ -7,6 +7,7 @@ import cookieManager from './cookie-manager.js';
  * @param {object} data
  */
 const saveDataVuex = (dataName, data) => {
+  // console.log("?"+data+dataName)
   store.commit(dataName, data);
   // console.log('(data-manager.js)쿠키저장값:'+cookieManager.getCookie('id'))
   // console.log('(data-manager.js)store.commit함수 dataName: '+dataName+", id:"+data)
@@ -22,8 +23,15 @@ export default {
     let exdate = new Date();
     // 쿠키 저장시간을 1일로 설정
     exdate.setDate(exdate.getDate() + 1);
-    cookieManager.setCookieObj(dataName,
-      data, exdate.toUTCString());
+    if (dataName == 'studylist') {
+      // console.log("dm-"+data)
+      cookieManager.setCookieArray(dataName,
+        data, exdate.toUTCString());
+    }
+    else {
+      cookieManager.setCookieObj(dataName,
+        data, exdate.toUTCString());
+    }
 
   },
   /**
@@ -35,15 +43,15 @@ export default {
     const userId = JSON.parse(cookieManager.getCookie('id'));
     const token = JSON.parse(cookieManager.getCookie('token'));
     const idx = JSON.parse(cookieManager.getCookie('idx'));
-
-
+    // const studylist = JSON.parse(cookieManager.getCookie('studylist'));
+    // const studylist = JSON.parse(cookieManager.getCookie('studylist'));
 
     // 쿠키에 데이터가 있었는지 확인 후 vuex에 저장
     if (userId != null) {
       saveDataVuex('id', userId);
       saveDataVuex('token', token);
       saveDataVuex('idx', idx);
-
+      // saveDataVuex('studylist', studylist);
 
     }
   },
@@ -55,13 +63,14 @@ export default {
     store.commit('id', []);
     store.commit('token', []);
     store.commit('idx', []);
+    // store.commit('studylist', []);
 
 
     // Cookie에서 tabStack들을 삭제
     cookieManager.deleteCookie('id');
     cookieManager.deleteCookie('token');
     cookieManager.deleteCookie('idx');
-
+    // cookieManager.deleteCookie('studylist');
 
   },
 };
