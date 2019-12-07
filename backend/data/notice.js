@@ -10,7 +10,7 @@ var AssignmentSchema = new Schema({
     },
     title : String,
     content: String,
-    deadline: String,
+    deadline: Date,
     anonymous : Boolean,
     file:Object,
     userID:Number
