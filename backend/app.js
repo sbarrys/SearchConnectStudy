@@ -5,6 +5,7 @@ var logger = require('morgan');
 var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
 const autoInc = require('mongoose-auto-increment')
+const multer = require('multer')
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
@@ -16,8 +17,8 @@ var app = express();
 var db = mongoose.connection;
 console.log('데이터베이스 연결 시도')
 mongoose.set('useCreateIndex', true);
-
-mongoose.connect('mongodb://localhost/teamproject',{useNewUrlParser: true   , useUnifiedTopology: true});
+//테스트
+mongoose.connect('mongodb://localhost/teamproject',{useNewUrlParser: true   , useUnifiedTopology: true, useFindAndModify:false});
 autoInc.initialize(mongoose.connection)
 
 db.on('error', console.error);
@@ -42,16 +43,14 @@ var port = process.env.PORT || 8080;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-var noticeRouter = require('./routes/notice');
+var noticeRouter = require('./routes/study');
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'content-type, x-access-token'); //1
     next();
   });
-
-
 
 
 app.use(logger('dev'));
@@ -60,7 +59,8 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/notices', noticeRouter); ///
+app.use('/notices', noticeRouter);
+
 
 
 module.exports = app;

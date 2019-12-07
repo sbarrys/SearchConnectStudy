@@ -90,18 +90,34 @@ const routes = [
     }
   },
   {
-    path: '/study/:id/lecturenote',
-    name: 'LectureNote',
-    component: function () {
+    path:'/study/:id/lecturenote',
+    name:'LectureNote',
+    component:function () {
       return import('../views/LectureNote.vue')
 
     }
   },
   {
-    path:'/study/:id/lecturenote/create',
-    name:'LectureNoteCreate',
-    component:function () {
+    path: '/study/:id/lecturenote/create',
+    name: 'LectureNoteCreate',
+    component: function () {
       return import('../views/LectureNoteCreate.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/lecturenote/edit/:idd',
+    name: 'LectureNoteEdit',
+    component: function () {
+      return import('../views/LectureNoteEdit.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/lecturenote/detail/:idd',
+    name: 'LectureNoteDetail',
+    component: function () {
+      return import('../views/LectureNoteDetail.vue')
 
     }
   },
@@ -114,20 +130,53 @@ const routes = [
     }
   },
   {
-    path:'/study/:id/lecturenote/detail/:idd',
-    name:'LectureNoteDetail',
-    component:function () {
-      return import('../views/LectureNoteDetail.vue')
+    path: '/study/:id/notice/create',
+    name: 'StudyNoticeCreate',
+    component: function () {
+      return import('../views/StudyNoticeCreate.vue')
 
     }
   },
   {
-    path:'/study/:id/lecturenote/edit/:idd',
-    name:'LectureNoteEdit',
-    component:function () {
-      return import('../views/LectureNoteEdit.vue')
+    path: '/study/:id/notice/edit/:idx',
+    name: 'StudyNoticeEdit',
+    component: function () {
+      return import('../views/StudyNoticeEdit.vue')
 
     }
+  },
+  {
+    path: '/study/:id/notice/detail/:idx',
+    name: 'StudyNoticeDetail',
+    component: function () {
+      return import('../views/StudyNoticeDetail.vue')
+
+    }
+  },
+  {
+    path:'/study/:id/board/create',
+    name:'StudyBoardCreate',
+    component:function () {
+      return import('../views/StudyBoardCreate.vue')
+
+    }
+  },
+  {
+    path:'/study/:id/board/edit/:idx',
+    name:'StudyBoardEdit',
+    component:function () {
+      return import('../views/StudyBoardEdit.vue')
+
+    }
+  },
+  {
+    path:'/study/:id/board/detail/:idx',
+    name:'StudyBoardDetail',
+    component:function () {
+      return import('../views/StudyBoardDetail.vue')
+
+    }
+
   },
   {
     path: '/study/:id',
@@ -135,7 +184,8 @@ const routes = [
     component: function () {
       return import('../views/study.vue')
     }
-  }
+  },
+
 ]
 
 const router = new VueRouter({

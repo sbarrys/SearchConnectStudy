@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h2 class="text-center my-3">스터디 모집</h2>
+    <h2 v-if="notices" class="text-center my-3" >스터디 모집</h2>
     <div>
       <div class="card-columns">
         <div class="card" v-for="value in notices" :key="value.id" @click="detail(value)">
@@ -8,9 +8,9 @@
             <h5 class="card-title">{{value.studyType}}</h5>
             <p class="card-text">
               <br>멤버: {{value.maxMember}}
-              <br>작성자: {{value.writer}}
+              <br>작성자: {{value.writer.name}}
               <br>제목: {{value.title}}
-              <br>시간: {{value.create_date}}
+              <br>시간: {{value.date}}
             </p>
           </div>
         </div>
@@ -53,7 +53,8 @@ export default {
   computed: {
     notices() {
       var temp = this.$store.state.notices;
-      return temp.slice(0, 5);
+      console.log(temp)
+      return temp.slice(0, 6);
     }
   },
   methods: {

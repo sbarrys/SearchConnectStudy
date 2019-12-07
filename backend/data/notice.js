@@ -6,53 +6,65 @@ var AssignmentSchema = new Schema({
 
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title : String,
     content: String,
     anonymous : String,
     file:Object,
     userID:Number
-});
- //keep
+}); //keep
 var LectureSchema = new Schema({
 
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title : String,
     content:String,
     file:Object,
-    date:String
+
+    date:{ type: Date, default: Date.now }
 
 });
 var imageSchema = new Schema({
-    imagePath:String
+
+    data:Buffer,
+
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
 
 })
 
-
-var boardSchema = new Schema({
+var commentSchema = new Schema({
     writer:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    content:String
+})
+var boardSchema = new Schema({
+    writer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
+    },
     title:String,
     content:String,
+    comment:[commentSchema],
     date : { type: Date, default: Date.now }
 })
 
 var studyNoticeSchema=new Schema({
     writer:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+    type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
     },
     title:String,
     content:String,
     date : { type: Date, default: Date.now }
 })
-
 
 var noticeSchema = new Schema({
 
@@ -60,18 +72,18 @@ var noticeSchema = new Schema({
     studyType : String,
     maxMember: Number,
     studyName:String,
-    writer : {
+    writer :  {
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title: String,
     content:String,
     studyMember:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:'User'
+            ref:'user'
         }],
-    date : String,
+    date : { type: Date, default: Date.now },
     notice:[studyNoticeSchema], //writer
     board:[boardSchema], //writer
     schedule: [imageSchema],
@@ -80,7 +92,7 @@ var noticeSchema = new Schema({
 
 });
 
+//noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice =  mongoose.model('notice',noticeSchema);
 
 module.exports = notice
-

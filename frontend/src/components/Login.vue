@@ -72,10 +72,11 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res.data);
+          console.log("asdasd"+res.data.data.idx);
           if (res.data.success) {
             dataManager.saveData("id", res.data.data.id);
             dataManager.saveData("token", res.data.data.token);
+            dataManager.saveData("idx", res.data.data.idx);
 
             alert(res.data.data.id + "님 환영합니다");
             location.reload();

@@ -8,8 +8,8 @@ import cookieManager from './cookie-manager.js';
  */
 const saveDataVuex = (dataName, data) => {
   store.commit(dataName, data);
-  console.log('(data-manager.js)쿠키저장값:'+cookieManager.getCookie('id'))
-  console.log('(data-manager.js)store.commit함수 dataName: '+dataName+", id:"+data)
+  // console.log('(data-manager.js)쿠키저장값:'+cookieManager.getCookie('id'))
+  // console.log('(data-manager.js)store.commit함수 dataName: '+dataName+", id:"+data)
 };
 
 export default {
@@ -34,12 +34,16 @@ export default {
     // string 으로 받아서 json파싱
     const userId = JSON.parse(cookieManager.getCookie('id'));
     const token = JSON.parse(cookieManager.getCookie('token'));
+    const idx = JSON.parse(cookieManager.getCookie('idx'));
+
 
 
     // 쿠키에 데이터가 있었는지 확인 후 vuex에 저장
     if (userId != null) {
       saveDataVuex('id', userId);
       saveDataVuex('token', token);
+      saveDataVuex('idx', idx);
+
 
     }
   },
@@ -50,10 +54,14 @@ export default {
     // Vuex에서 tabStack들을 삭제
     store.commit('id', []);
     store.commit('token', []);
+    store.commit('idx', []);
+
 
     // Cookie에서 tabStack들을 삭제
     cookieManager.deleteCookie('id');
     cookieManager.deleteCookie('token');
+    cookieManager.deleteCookie('idx');
+
 
   },
 };

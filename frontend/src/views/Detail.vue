@@ -14,13 +14,15 @@
         </tr>
         <tr>
           <td>작성자</td>
-          <td>{{notice.writer}}</td>
+          <td>{{notice.writer.name}}</td>
         </tr>
         <tr>
           <td>내용</td>
           <td>{{notice.content}}</td>
         </tr>
       </table>
+      <button @click="regist" class="mybtn btn">가입신청</button>
+
       <button v-if="chkwriter" @click="editNotice" class="mybtn btn">수정</button>
       <button v-if="chkwriter" @click="deleteNotice" class="mybtn btn">삭제</button>
     </div>
@@ -49,6 +51,19 @@ export default {
         }
       });
     },
+    async regist() {
+      await this.$http
+        .put(
+          "http://localhost:3000/notices/" +
+            this.$route.params.id +
+            "/member/" +
+            this.$store.getters.idx,
+          {}
+        )
+        .then(res => {
+          if (res.data.success == true) alert("신청완료");
+        });
+    },
     async deleteNotice() {
       const res = await this.$store.dispatch("deleteNotice", {
         id: this.$route.params.id
@@ -64,7 +79,8 @@ export default {
     if (res.success === false) alert(res.message);
     else {
       this.notice = res.result;
-      if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
+      if (this.notice.writer.id == this.$store.getters.id)
+        this.chkwriter = true;
     }
   }
 };
