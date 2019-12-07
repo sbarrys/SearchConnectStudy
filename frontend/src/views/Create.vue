@@ -79,7 +79,7 @@ export default {
         studyType: "",
         studyName: "",
         maxMember: "",
-        writer: "",
+        writer: this.$store.getters.idx,
         title: "",
         content: ""
       },
