@@ -93,93 +93,93 @@ export default new Vuex.Store({
     },
 
     async fetchStudyNotices({commit},{id}) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/notice`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/notice`)
       if (res.data.success === true) commit('updateStudyNotice', res.data.result)
       // return success/result to action caller
       return res.data
     },
     async appendStudyNotice({}, {id,data}) {
-      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/notice`, data)
+      const res = await Vue.axios.post(API_HOST+`/notices/${id}/notice`, data)
       // return success/result to action caller
       return res.data
     },
     async fetchStudyNotice({}, { id,idx }) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/notice/${idx}`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/notice/${idx}`)
       // return success/result to action caller
       return res.data
     },
     async updateStudyNotice({}, { id, data,idx }) {
-      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/notice/${idx}`, data)
+      const res = await Vue.axios.put( API_HOST+`/notices/${id}/notice/${idx}`, data)
       // return success/result to action caller
       return res.data
     },
     async deleteStudyNotice({}, { id,idx }) {
-      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/notice/${idx}`)
+      const res = await Vue.axios.delete(API_HOST+`/notices/${id}/notice/${idx}`)
       // return success/result to action caller
       return res.data
     },
 
     async fetchStudyBoards({commit},{id}) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/board`)
       if (res.data.success === true) commit('updateStudyBoard', res.data.result)
       // return success/result to action caller
       return res.data
     },
     async appendStudyBoard({}, {id,data}) {
-      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/board`, data)
+      const res = await Vue.axios.post(API_HOST+`/notices/${id}/board`, data)
       // return success/result to action caller
       return res.data
     },
     async fetchStudyBoard({}, { id,idx }) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board/${idx}`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/board/${idx}`)
       // return success/result to action caller
       return res.data
     },
     async updateStudyBoard({}, { id, data,idx }) {
-      const res = await Vue.axios.put( API_HOST+`/notices/study/${id}/board/${idx}`, data)
+      const res = await Vue.axios.put( API_HOST+`/notices/${id}/board/${idx}`, data)
       // return success/result to action caller
       return res.data
     },
     async deleteStudyBoard({}, { id,idx }) {
-      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/board/${idx}`)
+      const res = await Vue.axios.delete(API_HOST+`/notices/${id}/board/${idx}`)
       // return success/result to action caller
       return res.data
     },
     //추가한 부분
     async fetchStudySchedules({commit},{id}) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/schedule`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/schedule`)
       if (res.data.success === true) commit('updateStudySchedule', res.data.result)
       // return success/result to action caller
       return res.data
     },
     async fetchStudySchedule({}, { id,idx }) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/schedule/${idx}`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/schedule/${idx}`)
       // return success/result to action caller
       return res.data
     },
     async appendStudySchedule({}, {id,data}) {
-      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/schedule`, data)
+      const res = await Vue.axios.post(API_HOST+`/notices/${id}/schedule`, data)
       // return success/result to action caller
       return res.data
     },
     async deleteStudySchedule({}, { id,idx }) {
-      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/schedule/${idx}`)
+      const res = await Vue.axios.delete(API_HOST+`/notices/${id}/schedule/${idx}`)
       // return success/result to action caller
       return res.data
     },
     async fetchBoardComments({commit},{id,idx,index}) {
-      const res = await Vue.axios.get(API_HOST+`/notices/study/${id}/board/${idx}/${index}`)
+      const res = await Vue.axios.get(API_HOST+`/notices/${id}/board/${idx}/${index}`)
       if (res.data.success === true) commit('updateBoardComment', res.data.result)
       // return success/result to action caller
       return res.data
     },
     async appendBoardComment({}, {id,data,idx,index}) {
-      const res = await Vue.axios.post(API_HOST+`/notices/study/${id}/board/${idx}/${index}`, data)
+      const res = await Vue.axios.post(API_HOST+`/notices/${id}/board/${idx}/${index}`, data)
       // return success/result to action caller
       return res.data
     },
     async deleteBoardComment({}, { id,idx,index,cid }) {
-      const res = await Vue.axios.delete(API_HOST+`/notices/study/${id}/board/${idx}/${index}/${cid}`)
+      const res = await Vue.axios.delete(API_HOST+`/notices/${id}/board/${idx}/${index}/${cid}`)
       // return success/result to action caller
       return res.data
     }
