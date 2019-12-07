@@ -1,17 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const notices= require('../data/notice');
-
-
+var User     = require('../models/UserSchema');
+var util     = require('../models/util');
 router.get('/notice', function(req, res){
-    notices.find( (err, post) => {
-        if(err) return res.status(500).send({error: 'database failure'});
-        res.json({success : true, result : post});
+    notices.find({studyName :'eng2'}).populate('writer').exec((err,post)=>{
+        console.log(post)
+       res.json({success : true, result : post});
+
     })
+    // notices.find( (err, post) => {
+    //     if(err) return res.status(500).send({error: 'database failure'});
+    //     res.json({success : true, result : post});
+    // })
 });
 
 router.post('/create', function(req, res) {
-
 
     var temp = new notices()
     temp.studyType = req.body.studyType;
@@ -177,5 +181,32 @@ router.delete('/study/:id/board/:id', (req, res) => {
     res.json({success:true})
 
 });
+//신청버튼 누를 경우 유저에 스터디등록, 스터디에 유저등록
+router.put('/notice/:id/member/:idx',async function(req,res){
+    console.log(req.params.id);
+    console.log(req.params.idx);
+    // 유저의 스터디목록 추가
 
+
+
+    await User.findByIdAndUpdate(
+        req.params.idx,
+        {$push: {"studyList": req.params.id}},
+        {safe: true, upsert: true, new : true},
+        function(err, model) {
+            if(err) res.json(util.successFalse(err));
+        }
+    );
+    await notices.findByIdAndUpdate(
+        req.params.id,
+        {$push: {"studyMember": req.params.idx}},
+        {safe: true, upsert: true, new : true , useFindAndModify: false},
+        function(err, model) {
+            if(err) res.json(util.successFalse(err));
+        }
+    );
+    await res.json(util.successTrue());
+
+
+});
 module.exports = router;

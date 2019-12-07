@@ -6,7 +6,7 @@ var AssignmentSchema = new Schema({
 
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'//소문자로해야합니다.수정by태윤
     },
     title : String,
     content: String,
@@ -18,7 +18,7 @@ var LectureSchema = new Schema({
 
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title : String,
     content:String,
@@ -34,7 +34,7 @@ var imageSchema = new Schema({
 var boardSchema = new Schema({
     writer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title:String,
     content:String
@@ -43,7 +43,7 @@ var boardSchema = new Schema({
 var studyNoticeSchema=new Schema({
     writer:{
     type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title:String,
     content:String
@@ -57,13 +57,13 @@ var noticeSchema = new Schema({
     studyName:String,
     writer :{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     },
     title: String,
     content:String,
     studyMember:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'user'
     }],
     date : { type: Date, default: Date.now },
     notice:[studyNoticeSchema], //writer

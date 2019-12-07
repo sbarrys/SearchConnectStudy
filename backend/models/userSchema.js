@@ -28,9 +28,9 @@ var userSchema= mongoose.Schema({
   gender:{
     type:String
   },
-  study:
+  studyList:
     [
-      { type: mongoose.Schema.Types.ObjectId, ref: 'Study' }
+      { type: mongoose.Schema.Types.ObjectId, ref: 'notice' }
     ]
 },{
   toObject:{virtuals:true}

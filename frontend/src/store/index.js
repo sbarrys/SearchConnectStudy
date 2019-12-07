@@ -46,6 +46,8 @@ export default new Vuex.Store({
         state.idx = '';
 
         alert('로그아웃성공')
+        
+
       }
     },
     logincheck: function (state) {
