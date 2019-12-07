@@ -240,7 +240,6 @@ router.delete('/:id/schedule/:idx', (req, res) => {
     })
 
 });
-
 //schedule detail
 router.get('/:id/schedule/:idx', function (req, res) {
 
@@ -252,7 +251,6 @@ router.get('/:id/schedule/:idx', function (req, res) {
     })
 
 });
-
 router.get('/:id/lecturenote', function(req, res){
     notices.findOne({_id:req.params.id}).select('lecture').exec(function (err, result) {
         var temp = result.lecture
@@ -260,27 +258,23 @@ router.get('/:id/lecturenote', function(req, res){
     })
 });
 router.post('/:id/lecturenote/create', function(req, res) {
-
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
         post.lecture.push(req.body)
         post.save()
         res.json({success: true});
     });
-
 });
 router.get('/:id/lecturenote/:idd', function(req, res){
     notices.findOne({_id:req.params.id}).select('lecture').exec(function (err, result) {
         if (err) return next(err);
         var temp = result.lecture;
-        var dum = temp[req.params.nowIndex];
+        var dum = temp[req.body.nowIndex];
         res.json({success : true, result : dum});
 
     })
-
 });
 router.put('/:id/lecturenote/edit/:idd', function(req, res) {
-
     notices.findOneAndUpdate(
         {_id:req.params.id, lecture:{$elemMatch:{_id:req.body._id}}},
         {$set:{"lecture.$.title":req.body.title,
@@ -291,7 +285,6 @@ router.put('/:id/lecturenote/edit/:idd', function(req, res) {
             res.json({success: true});
         }
     )
-
 });
 router.delete('/:id/lecturenote/:idd', (req, res) => {
 
@@ -301,7 +294,6 @@ router.delete('/:id/lecturenote/:idd', (req, res) => {
         post.save()
         res.json({success:true})
     })
-
 });
 
 module.exports = router;
