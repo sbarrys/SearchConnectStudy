@@ -319,11 +319,10 @@ router.get('/:id/assignment/:idd', function(req, res){
 
     })
 });
-router.put('/:id/assignment/edit/:idd', function(req, res) {
+router.put('/:id/assignment/submit/:idd', function(req, res) {
     notices.findOneAndUpdate(
         {_id:req.params.id, assignment:{$elemMatch:{_id:req.body._id}}},
-        {$set:{"assignment.$.title":req.body.title,
-                "assignment.$.content":req.body.content
+        {$set:{"assignment.$.file":req.body.file
         }},
         function (err, result) {
             if (err) return next(err);

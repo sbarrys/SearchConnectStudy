@@ -1,19 +1,19 @@
 <template>
     <div class="outer text-center">
-        <h2 class="bg-custom6 my-3 py-3">{{lecture.title}}</h2>
+        <h2 class="bg-custom6 my-3 py-3">{{assignment.title}}</h2>
         <div class="container">
             <table class="notice table table-borderless">
                 <tr>
                     <td>작성자</td>
-                    <td>{{lecture.writer}}</td>
+                    <td>{{assignment.writer}}</td>
                 </tr>
                 <tr>
                     <td>내용</td>
-                    <td>{{lecture.content}}</td>
+                    <td>{{assignment.content}}</td>
                 </tr>
             </table>
-            <button v-if="chkwriter" @click="editLecture" class="mybtn btn">수정</button>
-            <button v-if="chkwriter" @click="deleteLecture" class="mybtn btn">삭제</button>
+            <button v-if="chkwriter" @click="submitAssignment" class="mybtn btn">제출</button>
+            <button v-if="chkwriter" @click="deleteAssignment" class="mybtn btn">삭제</button>
         </div>
     </div>
 </template>
@@ -22,15 +22,15 @@
     export default {
         data: function() {
             return {
-                lecture: {},
+                assignment: {},
                 chkwriter: false
             };
         },
         methods: {
-            editLecture() {
+            submitAssignment() {
                 var id = this.$route.params.id;
                 this.$router.push({
-                    name: "LectureNoteEdit",
+                    name: "AssignmentSubmit",
                     params: {
                         id: id,
                         temp:this.$route.params.temp,
@@ -38,17 +38,17 @@
                     }
                 });
             },
-            async deleteLecture() {
-                const res = await this.$store.dispatch("deleteLecture", {
+            async deleteAssignment() {
+                const res = await this.$store.dispatch("deleteAssignment", {
                     id: this.$route.params.id,
                     idd:this.$route.params.temp
                 });
                 if (res.success === false) alert(res.message);
-                else this.$router.push(`/study/${this.route.params.id}/lecturenote`);
+                else this.$router.push(`/study/${this.route.params.id}/assignment`);
             }
         },
         async beforeCreate() {
-            const res = await this.$store.dispatch("fetchLecture", {
+            const res = await this.$store.dispatch("fetchAssignment", {
                 id: this.$route.params.id,
                 idd: this.$route.params.temp
             });

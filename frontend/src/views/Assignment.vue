@@ -7,19 +7,15 @@
             <br>
             <table class="notice">
                 <tr>
-                    <td>Type</td>
-                    <td>Member</td>
                     <td>Writer</td>&nbsp;&nbsp;&nbsp;
                     <td>Title</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <td>Date</td>
+                    <td>Deadline</td>
                 </tr>
 
-                <tr v-for ="value in notices"  @click="detail(value)" style="border: 1px solid #e5ccc8 !important" >
-                    <td>{{value.studyType}}</td>
-                    <td>{{value.maxMember}}</td>
+                <tr v-for ="value in assignment"  @click="detail(value)" style="border: 1px solid #e5ccc8 !important" >
                     <td >{{value.writer}}</td>&nbsp;&nbsp;&nbsp;
                     <td >{{value.title}}</td>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <td >{{value.date}}</td>
+                    <td >{{value.deadline}}</td>
                 </tr>
                 <br>
                 <br>
@@ -33,7 +29,7 @@
             <br>
             <br>
             <br>
-            <button type="submit" class = "mybtn" @click="write()"> Study 생성 </button>
+            <button type="submit" class = "mybtn" @click="write()"> 과제 생성 </button>
         </div>
     </div>
 </template>
@@ -43,13 +39,14 @@
             return {
                 pageNumber:0,
                 size :10,
+                id: ''
             }
         },
         computed:{
-            notices(){
+            assignment(){
                 const start = this.pageNumber * this.size,
                     end = start + this.size
-                var temp =this.$store.state.notices
+                var temp =this.$store.state.assignment
                 return temp.slice(start,end)
             },
 
@@ -61,12 +58,14 @@
 
                 })
             },
-            detail(index){
+            detail(value, index){
 
                 this.$router.push({
                     name :'Detail',
                     params:{
-                        id:index._id
+                        id:this.id,
+                        temp:value._id,
+                        nowIndex:index
                     }
                 })
 
@@ -80,7 +79,8 @@
         },
 
         async beforeCreate() {
-            await this.$store.dispatch('fetchNotices')
+            await this.$store.dispatch('fetchAssignments')
+            this.id = this.$route.params.id
         }
     }
 </script>

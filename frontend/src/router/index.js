@@ -98,15 +98,15 @@ const routes = [
     }
   },
   {
-    path: '/study/:id/assignment/edit/:idd',
-    name: 'AssignmentEdit',
+    path: '/study/:id/assignment/detail/:idd',
+    name: 'AssignmentDetail',
     component: function () {
-      return import('../views/AssignmentEdit.vue')
+      return import('../views/AssignmentDetail.vue')
 
     }
   },
   {
-    path: '/study/:id/assignment/detail/:idd',
+    path: '/study/:id/assignment/submit/:idd',
     name: 'AssignmentSubmit',
     component: function () {
       return import('../views/AssignmentSubmit.vue')
