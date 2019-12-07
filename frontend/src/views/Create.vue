@@ -133,9 +133,5 @@ export default {
   margin: auto;
   text-align: center;
 }
-<<<<<<< HEAD
-</style>
-=======
 
 </style>
->>>>>>> b6d8d08d6c976e456a87c4c56d968376553a56b1

@@ -66,7 +66,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    
+
     async fetchNotices({ commit }) {
       const res = await Vue.axios.get(API_HOST + '/notices/notice')
       if (res.data.success === true) commit('updateList', res.data.result)
@@ -93,7 +93,6 @@ export default new Vuex.Store({
       // return success/result to action caller
       return res.data
     },
-<<<<<<< HEAD
     async fetchLectures({ commit },{id}) {
       const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/lecturenote`)
       if (res.data.success === true) commit('updateLecture', res.data.result)
@@ -115,7 +114,6 @@ export default new Vuex.Store({
       // return success/result to action caller
       return res.data
     },
-=======
 
     async fetchStudyNotices({ commit }, { id }) {
       const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/notice`)
@@ -169,8 +167,7 @@ export default new Vuex.Store({
       const res = await Vue.axios.delete(API_HOST + `/notices/study/${id}/board/${idx}`)
       // return success/result to action caller
       return res.data
-    }
->>>>>>> b6d8d08d6c976e456a87c4c56d968376553a56b1
+    },
 
       async updateLecture({ }, { id, data, idd }) {
           const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/lecturenote/${idd}`, data)
