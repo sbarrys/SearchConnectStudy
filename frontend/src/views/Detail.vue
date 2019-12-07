@@ -1,30 +1,29 @@
 <template>
   <div class="outer text-center">
-    <h2 class="bg-custom6 my-3 py-3">{{notice.title}}</h2>
     <div class="container">
-      <table class="notice table table-borderless">
-        <tr>
-          <td style="width:15%">이름</td>
-          <td>{{notice.studyName}}</td>
-        </tr>
-        <tr>
-          <td>타입</td>
+      <table class="notice mt-4 table py-3 table-borderless">
+        <div class="justify-content-end">
+          <div class="badge text-left">{{notice.studyType}}</div>
+        </div>
 
-          <td>{{notice.studyType}}</td>
-        </tr>
-        <tr>
-          <td>작성자</td>
-          <td>{{notice.writer.name}}</td>
-        </tr>
-        <tr>
-          <td>내용</td>
-          <td>{{notice.content}}</td>
-        </tr>
+        <div class="h2 text-custom1">{{notice.title}}</div>
+
+        <hr />
+        <div class="h4 text-custom2">{{notice.studyName}}</div>
+        <hr />
+        <div class="text-secondary my-3">{{notice.content}}</div>
+        <div class="row m-0 p-3 justify-content-end">
+          <strong class="text-custom1">by {{notice.writer.name}}</strong>
+        </div>
       </table>
-      <button @click="regist" class="mybtn btn">가입신청</button>
+      <p>
+        <button @click="regist" class="btn bg-custom1 text-white">가입신청</button>
+      </p>
 
-      <button v-if="chkwriter" @click="editNotice" class="mybtn btn">수정</button>
-      <button v-if="chkwriter" @click="deleteNotice" class="mybtn btn">삭제</button>
+      <div class="row justify-content-end">
+        <button v-if="chkwriter" @click="editNotice" class="border py-1 btn">수정</button>
+        <button v-if="chkwriter" @click="deleteNotice" class="border py-1 mx-3 btn">삭제</button>
+      </div>
     </div>
   </div>
 </template>
@@ -33,7 +32,7 @@
 export default {
   data: function() {
     return {
-      notice:{writer:''},
+      notice: { writer: "" },
       chkwriter: false
     };
   },
@@ -56,7 +55,7 @@ export default {
           {}
         )
         .then(res => {
-          console.log(res.data)
+          console.log(res.data);
           if (res.data.success == true) alert("신청완료");
         });
     },
@@ -81,10 +80,19 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .mybtn {
   border: 2px solid #e5ccc8;
   border-radius: 10px;
   background-color: #ecd7d2 !important;
+}
+.table {
+  box-shadow: 0 17px 30px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+.maintitle {
+  color: #455dff;
+  font-weight: 500;
+  padding-bottom: 15px;
 }
 </style>

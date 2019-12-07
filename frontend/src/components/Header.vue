@@ -17,7 +17,7 @@
           <b-nav-item-dropdown text="나의스터디" class="transition-slow pr-4 py-2" v-if="id" right>
             <div v-for="st in studylist" :key="st.id">
               <b-dropdown-item href="#">
-                <router-link class="text-unset pr-4 py-2" to="/st1">{{st.title}}</router-link>
+                <router-link class="text-unset pr-4 py-2" :to="'/study/'+st._id">{{st.title}}</router-link>
               </b-dropdown-item>
             </div>
           </b-nav-item-dropdown>
@@ -74,9 +74,21 @@ export default {
     }
   },
   async beforeCreate() {
-    const res =await this.$store.dispatch("getStudylist",{ idx: this.$store.getters.idx});
-    this.studylist=res
-    console.log(res)
+    const res = await this.$store.dispatch("getStudylist", {
+      idx: this.$store.getters.idx
+    });
+    console.log(res);
+    if (!res.success) {
+      alert("로그인 토큰 만료 로그아웃됩니다.");
+      this.$store.commit("logout");
+      this.id = this.$store.getters.id;
+      if (window.location.pathname == "/") location.reload();
+      else this.$router.push("/");
+    }
+    if (!res.data.studyList)
+      this.studylist.title = "가입된 스터디가 없습니다.";
+    else this.studylist = res.data.studyList;
+    console.log(res);
   }
 };
 </script>

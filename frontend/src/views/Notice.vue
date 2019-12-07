@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid text-center" >
+  <div class="container-fluid text-center">
     <b-table-simple hover class="table small table-hover">
       <b-thead>
         <b-tr>
@@ -21,17 +21,21 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-    <p><button class="btn mybtn2" @click="prevPage">Previous</button>
-    <button class="btn mybtn2" @click="nextPage">Next</button></p>
+    <p>
+      <button class="btn mybtn2" @click="prevPage">Previous</button>
+      <button class="btn mybtn2" @click="nextPage">Next</button>
+    </p>
 
     <button type="submit" class="mybtn btn" @click="write()">Study 생성</button>
   </div>
 </template>
 <script>
+import moment from "moment";
+
 export default {
   data: function() {
     return {
-//       fields: ["studyType", "maxMember", "writer", "title", "create_date"],
+      //       fields: ["studyType", "maxMember", "writer", "title", "create_date"],
       pageNumber: 0,
       size: 5
     };
@@ -41,7 +45,9 @@ export default {
       const start = this.pageNumber * this.size,
         end = start + this.size;
       var temp = this.$store.state.notices;
-      console.log(temp)
+      for (var tmp of temp) {
+        tmp.date = moment(String(tmp.date)).format("YYYY-MM-DD");
+      }
       return temp.slice(start, end);
     }
   },
@@ -89,5 +95,4 @@ table > td {
 table {
   text-align: center;
 }
-
 </style>
