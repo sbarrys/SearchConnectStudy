@@ -81,12 +81,12 @@ export default new Vuex.Store({
       return res.data
     },
       async fetchLecture({},{id,idd}) {
-          const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/lecturenote/detail/${idd}`)
+          const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/lecturenote/${idd}`)
           // return success/result to action caller
           return res.data
       },
     async appendLecture({ }, {id,data}) {
-      const res = await Vue.axios.post(API_HOST + `/notices/study/${id}/lecturenote/create`, data)
+      const res = await Vue.axios.post(API_HOST + `/notices/study/${id}/lecturenote`, data)
       // return success/result to action caller
       return res.data
     },
@@ -97,7 +97,7 @@ export default new Vuex.Store({
     },
 
       async updateLecture({ }, { id, data, idd }) {
-          const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/lecturenote/edit/${idd}`, data)
+          const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/lecturenote/${idd}`, data)
           // return success/result to action caller
           return res.data
       }

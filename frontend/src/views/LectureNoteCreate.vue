@@ -70,8 +70,7 @@
                     content: "",
                     file: '',
                     date:this.$moment(new Date()).format('YYYYMMDD')
-                },
-                selected: ""
+                }
             };
         },
         methods: {

@@ -29,7 +29,8 @@
             return {
 //       fields: ["writer", "title", "date"],
                 pageNumber: 0,
-                size: 5
+                size: 5,
+                id:''
             };
         },
         computed: {
@@ -51,7 +52,7 @@
                     name: "LectureNoteDetail",
                     params: {
                         id: this.id,
-                        temp: value._id,
+                        vid: value._id,
                         nowIndex:index
                     }
                 });
@@ -65,7 +66,7 @@
         },
 
         async beforeCreate() {
-            await this.$store.dispatch("fetchLectures");
+            await this.$store.dispatch("fetchLectures", {id:this.$route.params.id});
             this.id = this.$route.params.id;
         }
     };
