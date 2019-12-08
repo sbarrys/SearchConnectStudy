@@ -2,6 +2,19 @@ var express  = require('express');
 var router   = express.Router();
 var User     = require('../models/UserSchema');
 var util     = require('../models/util');
+router.put('/:id/schedule', function (req, res) {
+ 
+});
+
+
+router.get('/:id/schedule',function(req,res){ 
+});
+
+
+
+
+
+
 
 // index
 router.get('/', util.isLoggedin, function(req,res,next){
@@ -15,7 +28,6 @@ router.get('/', util.isLoggedin, function(req,res,next){
 // create
 router.post('/signup', function(req,res,next){
     var user = new User(req.body);
-    console.log(req.body);
     user.save(function(err,user){
       res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });//성공하면 user보낸다. ##이거를 로그인 페이지로 이동하게 해주면 딱좋음

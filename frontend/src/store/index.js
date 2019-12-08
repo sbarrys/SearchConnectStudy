@@ -77,8 +77,7 @@ export default new Vuex.Store({
     async getStudylist({ }, { idx }) {
       const res = await Vue.axios.get(API_HOST + `/api/users/${idx}/study`,
         { headers: { 'x-access-token': this.state.token } })
-      if (res.data.success === true)
-        return res.data.data.studyList
+      return res.data
     },
 
     async fetchNotices({ commit }) {

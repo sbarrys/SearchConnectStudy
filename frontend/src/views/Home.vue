@@ -1,27 +1,13 @@
 <template>
   <div class="home bg-custom6">
-    <h2 v-if="notices" class="text-center text-custom1">Search Study</h2>
-    <!-- <div>
-      <div class="card-columns">
-        <div class="card" v-for="value in notices" :key="value.id" @click="detail(value)">
-          <div class="card-body small">
-            <h5 class="card-title">{{value.studyType}}</h5>
-            <p class="card-text">
-              <br />
-              멤버: {{value.maxMember}}
-              <br />
-              작성자: {{value.writer.name}}
-              <br />
-              제목: {{value.title}}
-              <br />
-              시간: {{value.date}}
-            </p>
-          </div>
-        </div>
-    </div>-->
+    <h2 v-if="notices" class="text-center text-custom1 text-font1">
+      <strong>Search </strong>Study
+    </h2>
     <StudyCard />
 
-    <h2 class="text-center my-3 text-custom1">Connect Study</h2>
+    <h2 class="text-center my-3 text-custom1 text-font1">
+      <strong>Connect </strong>Study
+    </h2>
     <div class="mt-4">
       <h4>Left and Right (or Start and End)</h4>
       <b-card

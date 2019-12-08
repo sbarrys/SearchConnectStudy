@@ -9,6 +9,10 @@ var userSchema= mongoose.Schema({
     trim:true,
     unique:true
   },
+  schedule:{
+    data:Buffer,
+    contentType:String
+  },
   password:{
     type:String,
     required:[true,'Password is required!'],
@@ -31,8 +35,8 @@ var userSchema= mongoose.Schema({
   studyList:
   [
       { type: mongoose.Schema.Types.ObjectId, ref: 'notice' }
-  ]
-  
+  ],
+ 
 },{
   toObject:{virtuals:true}
 });

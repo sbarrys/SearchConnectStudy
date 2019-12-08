@@ -2,9 +2,6 @@
   <div>
     <section class="row">
       <div class="col-sm popular-course pad-horizontal">
-        <h3 class="title text-center">
-          <strong>당신을 위한</strong>스터디
-        </h3>
         <section class="row pad-vertical">
           <!-- 코스 리스트 -->
 
@@ -17,21 +14,21 @@
             <a class="content" href="#">
               <div class="cover">
                 <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge">{{value.studyType}}</span>
+                <span class="badge badge-danger navbar-badge ">{{value.studyType}}</span>
                 <img v-bind:src="'/images/photo_'+index+'.jpg'" class="img-fluid" />
               </div>
               <div class="info">
-                <h5 class="name">{{value.title}}</h5>
+                <h5 class="name ">{{value.title}}</h5>
                 <p class="description">{{value.content}}</p>
               </div>
               <div class="price">
-                <span class="tag-price">시간 협의</span>
+                <span class="tag-price">{{value.studyName}} </span>
 
                 <span class="deposit-amount"></span>
               </div>
               <hr />
               <div class="schedule">
-                <span class="duration">{{value.studyName}} by {{value.writer.name}}</span>
+                <span class="duration">by {{value.writer.name}}</span>
 
                 <time data-timestamp="1575817200" class="start-date">{{value.date}}</time>
               </div>
@@ -46,11 +43,15 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
  
   computed: {
     notices() {
       var temp = this.$store.state.notices;
+      for (var tmp of temp){
+        tmp.date=moment(String(tmp.date)).format('YYYY-MM-DD')
+      }
       return temp.slice(0, 4);
     }
   },
@@ -73,7 +74,7 @@ export default {
 .course-card > .content {
   -ms-flex-direction: column;
   flex-direction: column;
-  box-shadow: 0 17px 30px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 17px 30px 0 rgba(0, 0, 0, 0.4);
   background: #fff;
   text-decoration: none;
   color: #444;
@@ -132,18 +133,7 @@ p {
   flex-direction: row;
   justify-content: flex-start;
 }
-.course-card .price .discount-price + .tag-price {
-  width: 100%;
-  font-size: 10px;
-  text-decoration: line-through;
-}
-.course-card .price .tag-price {
-  -ms-flex-order: -1;
-  order: -1;
-}
-.course-card .price .discount-price {
-  color: #ff5c75;
-}
+
 .course-card .price > * {
   font-size: 13px;
   padding-right: 5px;
@@ -160,11 +150,6 @@ p {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   overflow-x: hidden;
-}
-hr {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  box-sizing: content-box;
-  overflow: visible;
 }
 
 hr {
