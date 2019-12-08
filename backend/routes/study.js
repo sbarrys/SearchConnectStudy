@@ -5,7 +5,7 @@ const fs = require('fs')
 const multer = require('multer')
 
 router.get('/notice', function(req, res){
-    notices.find( (err, post) => {
+    notices.notice.find( (err, post) => {
         if(err) return res.status(500).send({error: 'database failure'});
         res.json({success : true, result : post});
     })
@@ -13,16 +13,17 @@ router.get('/notice', function(req, res){
 
 router.post('/create', function(req, res) {
 
-    notices.create(req.body, function (err, post) {
+    notices.notice.create(req.body, function (err, post) {
         if (err) return console.log(err);
         else {
-          res.json({success: true});
+         res.json({success: true});
         }
     });
+
 });
 
 router.get('/:id', function(req, res){
-    notices.findById(req.params.id, function (err, post) {
+    notices.notice.findById(req.params.id, function (err, post) {
         if (err) return next(err);
         res.json({success : true, result : post});
     });
@@ -184,31 +185,7 @@ router.post('/:id/schedule',function (req,res) {
         res.json({success: true});
     });
 
-    /*
-    var title = req.body.title
-    var fileObj = req.files.myFile
 
-    if(fileObj.truncated) {
-        var err = new Error("파일 용량 초과")
-
-        next(err)
-
-        return
-    }
-    var orgFileName=fileObj.originalname
-    var filesize = fileObj.size
-    var savePath = __dirname+"/../upload"+fileObj.saveFileName
-
-    fs.open(savePath,"r",function (err,fd) {
-        var buffer = new Buffer(filesize)
-        fs.read(fd,buffer,0,buffer.length,null,function (err, bytes,buffer) {
-            var obj ={
-
-            }
-        })
-
-    })
-    */
 })
 
 //schedule delete
