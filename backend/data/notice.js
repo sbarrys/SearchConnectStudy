@@ -28,7 +28,7 @@ var LectureSchema = new Schema({
 });
 var imageSchema = new Schema({
 
-    data:Buffer,
+    img: { data: Buffer, contentType: String },
 
     writer:{
         type:mongoose.Schema.Types.ObjectId,
@@ -92,5 +92,6 @@ var noticeSchema = new Schema({
 
 //noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice =  mongoose.model('notice',noticeSchema);
+const img =mongoose.model('img',imageSchema)
 
-module.exports = notice
+module.exports = {notice ,img}
