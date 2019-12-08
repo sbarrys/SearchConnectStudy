@@ -21,7 +21,7 @@
               <h5 class="name">과제</h5>
               <p class="description"></p>
             </div>
-            <Table :items="assignment" :item_field="assignment_field"></Table>
+            <Table :items="assignment" :item_field="assignment_field" val='Assignment'></Table>
           </router-link>
         </div>
         <div class="course-card polaroid col-12 my-3">

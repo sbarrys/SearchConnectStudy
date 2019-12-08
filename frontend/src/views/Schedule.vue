@@ -1,70 +1,76 @@
 <template>
-
-    <input type="file" name="url" placeholder="Schedule Img" required v-model="newImage.path">
-    <button type="submit" class="mybtn btn" @click="postSchedule">Upload</button>
-
-    <div class="schedule" v-for="(value,index) in image" :key="value.id">
-
-        <img v-bind:src="value.data" class="img" @click="detail(value, index)">
-
+  <div>
+    <input type="image" src alt />
+    <div class="col-6 mx-auto">
+      <b-form-group label="스케줄 올리기">
+        <b-form-file
+          v-model="file"
+          :state="Boolean(file)"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+          id="imgfile"
+        ></b-form-file>
+      </b-form-group>
+      <button class="btn btn-primary" @click="submittt">제출</button>
     </div>
-
+    <img :src="srcc" alt />
+  </div>
 </template>
 
 <script>
-
-    export default{
-
-        data(){
-            return{
-               newImage:{
-                   writer:"",
-                   path:""
-               },
-                id:""
-            }
-
-        },
-        computed:{
-            image(){
-                return this.$store.state.studySchedules
-            }
-        },
-        methods:{
-            async postSchedule() {
-                const res = await this.$store.dispatch('appendStudySchedule', {id:this.$route.params.id,data:this.newImage})
-                if(res.success === false) alert(res.message)
-               // else this.$router.push(`/study/${this.$route.params.id}/schedule`)
-                this.newImage.path ="" //칸 비우기
-            },
-            detail(value,index){
-                this.$router.push({
-                    name :'ScheduleDetail',
-                    params:{
-                        id:this.id, //스터디 아이디
-                        temp:value._id, //선택된 보드 _id
-                        nowIndex:index //선택된 보드 인덱스
-                    }
-                })
-
-            },
-        },
-        async beforeCreate() {
-            await this.$store.dispatch('fetchStudySchedule',{id:this.$route.params.id}) //
-            this.id =this.$route.params.id //스터디 아이디
-        }
+export default {
+  data() {
+    return {
+      newImage: {
+        writer: "",
+        path: ""
+      },
+      img: "",
+      file: [],
+      srcc: "",
+      sr:
+        "file:///D:/web_sisul/projec_v1/wepproject/backend/routes/uploads/2019-12-08T12-17-52.319Z233DB44C555C85C629.jpg"
+    };
+  },
+  computed: {
+    image() {
+      return this.$store.state.studySchedules;
     }
+  },
+  methods: {
+    async submittt() {
+      var id = this.$store.getters.idx;
 
+      console.log(this.file);
+      console.log(document.getElementById("imgfile"));
+      const formData = new FormData();
+      formData.append("scheduleImg", this.file);
+      //   formData.append(name, this.file, this.file.name);
+      //   alert('?')
+      const res2 = await this.$http.put(
+        `http://localhost:3000/api/users/${id}/scheduleImg`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+    }
+  },
+  async beforeCreate() {
+    var id = this.$store.getters.idx;
+    const res = await this.$http.get(
+      `http://localhost:3000/api/users/${id}/scheduleImg`
+    );
+    console.log(res);
+    this.srcc = res.data.data.scheduleImg;
+    this.srcc;
+  }
+};
 </script>
 <style>
-    .mybtn {
-        border: 2px solid #e5ccc8;
-        border-radius: 10px;
-        background-color: #ecd7d2 !important;
-    }
-    .schedule{
-
-
-    }
-
+.mybtn {
+  border: 2px solid #e5ccc8;
+  border-radius: 10px;
+  background-color: #ecd7d2 !important;
+}
+.schedule {
+}
 </style>

@@ -2,7 +2,7 @@
 <template>
   <div class="outer">
     <div class="inner">
-      <Table :items="assignment" :item_field="item_field"></Table>
+      <Table :items="assignment" :item_field="item_field" val='Assignment'></Table>
 
       <button class="mybtn2" @click="prevPage">Previous</button>&nbsp;&nbsp;&nbsp;
       <button class="mybtn2" @click="nextPage">Next</button>

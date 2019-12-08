@@ -14,6 +14,7 @@ const storage =multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage, limits: { fileSize: 1024 * 1000 * 5 } });
+
 router.put('/:id/scheduleImg', upload.single('scheduleImg'), function (req, res) {
   if (!req.file) return res.send('Please upload a file');
   User.findByIdAndUpdate(req.params.id,{$set:{scheduleImg:req.file.path}}).exec((err,user)=>{ 
