@@ -5,7 +5,6 @@ var User = require('../models/UserSchema');
 var util = require('../models/util');
 router.get('/notice', function (req, res) {
     notices.find({ studyName: 'eng2' }).populate('writer').exec((err, post) => {
-        console.log(post)
         res.json({ success: true, result: post });
 
     })
@@ -183,23 +182,20 @@ router.delete('/study/:id/board/:id', (req, res) => {
 });
 //신청버튼 누를 경우 유저에 스터디등록, 스터디에 유저등록
 router.put('/:id/member/:idx', async function (req, res) {
-    console.log(req.params.id);
-    console.log(req.params.idx);
     // 유저의 스터디목록 추가
-
 
     await User.findByIdAndUpdate(
         req.params.idx,
-        {$addToSet: {"studyList": req.params.id}},
-        {safe: true, upsert: true, new : true},
+        {$addToSet: {studyList: req.params.id}},
+        {safe: true, new : true},
         function(err, model) {
             if(err) res.json(util.successFalse(err));
         }
     );
     await notices.findByIdAndUpdate(
         req.params.id,
-        {$addToSet: {"studyMember": req.params.idx}},
-        {safe: true, upsert: true, new : true , useFindAndModify: false},
+        {$addToSet: {studyMember: req.params.idx}},
+        {safe: true, new : true , useFindAndModify: false},
         function(err, model) {
             if(err) res.json(util.successFalse(err));
         }

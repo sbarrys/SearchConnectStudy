@@ -6,20 +6,12 @@ var AssignmentSchema = new Schema({
 
     writer: {
         type: mongoose.Schema.Types.ObjectId,
-<<<<<<< HEAD
-        ref: 'user'//소문자로해야합니다.수정by태윤
+        ref: 'user'
     },
     title: String,
     content: String,
-    anonymous: String,
-=======
-        ref:'user'
-    },
-    title : String,
-    content: String,
     deadline: Date,
-    anonymous : Boolean,
->>>>>>> 965a262b57fc2b3254cd4ab84dd054c11d14875c
+    anonymous: Boolean,
     file: Object,
     userID: Number
 }); //keep
@@ -32,16 +24,12 @@ var LectureSchema = new Schema({
     title: String,
     content: String,
     file: Object,
-<<<<<<< HEAD
-=======
-
->>>>>>> 965a262b57fc2b3254cd4ab84dd054c11d14875c
     date: { type: Date, default: Date.now }
 
 });
 var imageSchema = new Schema({
 
-    data: Buffer,
+    img: { data: Buffer, contentType: String },
 
     writer: {
         type: mongoose.Schema.Types.ObjectId,
@@ -53,11 +41,7 @@ var imageSchema = new Schema({
 var commentSchema = new Schema({
     writer: {
         type: mongoose.Schema.Types.ObjectId,
-<<<<<<< HEAD
         ref: 'user'
-=======
-        ref:'User'
->>>>>>> 965a262b57fc2b3254cd4ab84dd054c11d14875c
     },
     content: String
 })
@@ -109,5 +93,6 @@ var noticeSchema = new Schema({
 
 //noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice = mongoose.model('notice', noticeSchema);
+const img = mongoose.model('img', imageSchema)
 
-module.exports = notice
+module.exports = { notice, img }

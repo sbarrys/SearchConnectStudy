@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const notices = require('../data/notice');
 const fs = require('fs')
-const multer = require('multer')
-var User = require('../models/UserSchema');
-var util = require('../models/util');
+// const multer = require('multer')
+var User     = require('../models/UserSchema');
+var util     = require('../models/util');
 
 
 
@@ -70,6 +70,7 @@ router.put('/:id/member/:idx', async function (req, res) {
         }
     );
     await res.json(util.successTrue());
+
 
 });
 
@@ -214,6 +215,20 @@ router.post('/:id/schedule', function (req, res) {
 
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
+
+//태윤 // upload 할때 req.body 에  title ,myFile, 
+        var fileObj =req.files.myFIle; //파일객체
+        if(fileObj.truncated){
+            var err = new Error("파일용량이 16mb를 초과하였습니다.");
+            req.json(util.successFalse(err));
+        }
+        var orgFileName= fileObj.originalname; //원본파일명 저장
+        var filesize= fileObj.size;//파일사이즈저장
+        var savePath =_dirname+"../upload/"+orgFileName;
+        //파일시스템에서 파일 읽기
+
+
+
 
         //파일 path
         //var temp =fs.readFileSync(req.body.data) ///

@@ -5,7 +5,7 @@ var logger = require('morgan');
 var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
 const autoInc = require('mongoose-auto-increment')
-const multer = require('multer')
+// const multer = require('multe    r')
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
