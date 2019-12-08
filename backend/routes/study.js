@@ -50,11 +50,10 @@ router.delete('/:id', (req, res) => {
 
 //신청버튼 누를 경우 유저에 스터디등록, 스터디에 유저등록
 router.put('/:id/member/:idx', async function (req, res) {
-
     await User.findByIdAndUpdate(
         req.params.idx,
-        { $addToSet: { "studyList": req.params.id } },
-        { safe: true, upsert: true, new: true },
+        { $addToSet: { studyList: req.params.id } },
+        { safe: true, new: true },
         function (err, model) {
             if (err) res.json(util.successFalse(err));
         }
