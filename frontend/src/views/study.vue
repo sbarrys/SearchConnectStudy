@@ -12,16 +12,16 @@
               <h5 class="name">공지사항</h5>
               <p class="description"></p>
             </div>
-            <b-table striped hover :items="items"></b-table>
+            <Table :items="notice" :item_field="notice_field"></Table>
           </router-link>
         </div>
         <div class="course-card polaroid col-sm-12 col-md-6 my-3">
-          <router-link :to="link+'/assignment'" class="content" href="#">
+          <router-link :to="link+'/assignment'" class="content" hef="#">
             <div class="info">
               <h5 class="name">과제</h5>
               <p class="description"></p>
             </div>
-            <Table :items='assignment'  :item_field='item_field' ></Table>
+            <Table :items="assignment" :item_field="assignment_field"></Table>
           </router-link>
         </div>
         <div class="course-card polaroid col-12 my-3">
@@ -30,7 +30,7 @@
               <h5 class="name">시간표</h5>
               <p class="description"></p>
             </div>
-            <b-table striped hover :items="items"></b-table>
+            <b-table striped hover ></b-table>
           </router-link>
         </div>
       </div>
@@ -49,13 +49,9 @@ export default {
   },
   data: function() {
     return {
-      items: [
-        { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
-        { age: 21, first_name: "Larsen", last_name: "Shaw" },
-        { age: 89, first_name: "Geneva", last_name: "Wilson" },
-        { age: 38, first_name: "Jami", last_name: "Carney" }
-      ],
-      item_field: ["title", "content", "deadline"],
+      assignment_field: ["title", "content", "deadline"],
+      notice_field: ["title", "content", "date"],
+
       link: "/study/" + this.$route.params.id
     };
   },
@@ -68,10 +64,22 @@ export default {
         }
         return temp.slice(0, 5);
       }
+    },
+    notice() {
+      if (this.$store.state.studyNotices) {
+        var temp = this.$store.state.studyNotices;
+        for (var tmp of temp) {
+          tmp.date = moment(tmp.date).format("YYYY-MM-DD");
+        }
+        return temp.slice(0, 5);
+      }
     }
   },
   async beforeCreate() {
     const res = await this.$store.dispatch("fetchAssignments", {
+      id: this.$route.params.id
+    });
+    const res2 = await this.$store.dispatch("fetchStudyNotices", {
       id: this.$route.params.id
     });
   }

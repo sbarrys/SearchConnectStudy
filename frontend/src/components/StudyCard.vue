@@ -2,11 +2,11 @@
   <div>
     <section class="row">
       <div class="col-sm popular-course pad-horizontal">
-        <section class="row pad-vertical">
+        <section class="row justify-content-center">
           <!-- 코스 리스트 -->
 
           <div
-            class="course-card polaroid col-sm-6 col-md-4 col-lg-3 my-3"
+            class="course-card polaroid col-12 col-sm-10 col-md-6 col-lg-3 my-3"
             v-for="(value,index) in notices"
             :key="value.id"
             @click="detail(value)"
@@ -19,7 +19,7 @@
               </div>
               <div class="info">
                 <h5 class="name ">{{value.title}}</h5>
-                <p class="description">{{value.content}}</p>
+                <p class="description pre-wrap">{{value.content}}</p>
               </div>
               <div class="price">
                 <span class="tag-price">{{value.studyName}} </span>
@@ -175,5 +175,9 @@ hr {
   border: 1px solid #fff;
   border-radius: 4px 0 0 0;
   font-size: 11px;
+}
+
+.pre-wrap{
+  white-space: pre-wrap;
 }
 </style>

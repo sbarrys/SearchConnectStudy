@@ -31,7 +31,7 @@ export default {
     assignment() {
       const start = this.pageNumber * this.size,
         end = start + this.size;
-      if (this.$store.state.studyAssignment) {
+      if (this.$store.state.studyAssignment[0]) {
         var temp = this.$store.state.studyAssignment;
         for (var tmp of temp) {
           tmp.deadline = moment(tmp.deadline).format("YYYY-MM-DD");

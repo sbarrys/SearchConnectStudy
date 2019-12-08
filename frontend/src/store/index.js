@@ -148,29 +148,30 @@ export default new Vuex.Store({
 
     //스터디속 공지사항 글 전체
     async fetchStudyNotices({ commit }, { id }) {
-      const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/notice`)
+      const res = await Vue.axios.get(API_HOST + `/notices/${id}/notice`)
       if (res.data.success === true) commit('updateStudyNotice', res.data.result)
       // return success/result to action caller
       return res.data
     },
+
     //스터디속 공지 상세 CRUD 
     async fetchStudyNotice({ }, { id, idx }) {
-      const res = await Vue.axios.get(API_HOST + `/notices/study/${id}/notice/${idx}`)
+      const res = await Vue.axios.get(API_HOST + `/notices/${id}/notice/${idx}`)
       // return success/result to action caller
       return res.data
     },
     async appendStudyNotice({ }, { id, data }) {
-      const res = await Vue.axios.post(API_HOST + `/notices/study/${id}/notice`, data)
+      const res = await Vue.axios.post(API_HOST + `/notices/${id}/notice`, data)
       // return success/result to action caller
       return res.data
     },
     async updateStudyNotice({ }, { id, data, idx }) {
-      const res = await Vue.axios.put(API_HOST + `/notices/study/${id}/notice/${idx}`, data)
+      const res = await Vue.axios.put(API_HOST + `/notices/${id}/notice/${idx}`, data)
       // return success/result to action caller
       return res.data
     },
     async deleteStudyNotice({ }, { id, idx }) {
-      const res = await Vue.axios.delete(API_HOST + `/notices/study/${id}/notice/${idx}`)
+      const res = await Vue.axios.delete(API_HOST + `/notices/${id}/notice/${idx}`)
       // return success/result to action caller
       return res.data
     },

@@ -10,8 +10,8 @@
               class="form-control"
               type="text"
               name="writer"
-              required
-              v-model="notice.writer"
+              v-model="name"
+              readonly
               placeholder="글쓴이"
             />
           </td>
@@ -55,7 +55,8 @@ export default {
         writer: "",
         title: "",
         content: ""
-      }
+      },
+      name:''
     };
   },
   methods: {
@@ -67,6 +68,10 @@ export default {
       if (res.success === false) alert(res.message);
       else this.$router.push(`/study/${this.$route.params.id}/notice`); //
     }
+  },
+  created() {
+    this.notice.writer = this.$store.getters.idx;
+    this.name=this.$store.getters.id;
   }
 };
 </script>

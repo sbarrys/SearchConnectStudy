@@ -74,9 +74,8 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 ///
 router.get("/:id/notice", function (req, res) {
-    console.log('!!!!')
 
-    notices.findOne({ _id: req.params.id }).select('notice').exec(function (err, result) {
+    notices.findOne({ _id: req.params.id }).select('notice').populate('notice.writer').exec(function (err, result) {
         var temp = result.notice
         res.json({ success: true, result: temp });
     })
@@ -335,7 +334,7 @@ router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
 });
 
 router.get('/:id/assignment', function (req, res) {
-    notices.findOne({ _id: req.params.id }).select('assignment').exec(function (err, result) {
+    notices.findOne({ _id: req.params.id }).select('assignment').populate('writer').exec(function (err, result) {
         var temp = result.assignment
         if (err) res.json({ success: false, result: err });
         else res.json({ success: true, result: temp });
