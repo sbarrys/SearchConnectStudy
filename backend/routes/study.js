@@ -75,66 +75,74 @@ router.put('/:id/member/:idx', async function (req, res) {
 });
 
 ///
-router.get("/:id/notice", function (req, res) {
+router.get("/:id/notice", function(req, res){
 
-    notices.findOne({ _id: req.params.id }).select('notice').exec(function (err, result) {
-        var temp = result.notice
+    notices.notice.findOne({_id:req.params.id}).populate('studyNotice').exec((err, post) => {
+        if (err) return res.status(500).send({ error: 'database failure' });
+        var temp = post.studyNotice
         res.json({ success: true, result: temp });
     })
 
 });
 
-router.post('/:id/notice', function (req, res) {
+router.post('/:id/user/:idx/notice', function(req, res) {
 
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        post.notice.push(req.body) // .. 안되면 직접 대입
-        post.save()
-        res.json({ success: true });
-    });
+    const temp= new notices.studyNotice()
+   // temp.user=req.params.idx
+    temp.title = req.body.title
+    temp.content = req.body.content
+    temp.writer = req.params.idx
+    temp.study = req.params.id
+    temp.save()
+
+    notices.notice.findByIdAndUpdate(req.params.id,
+        {$addToSet: {studyNotice: temp._id}},
+        {safe: true, new : true},
+        function(err, model) {
+            res.json({success: true});
+        }
+    );
 
 });
 
-router.get('/:id/notice/:idx', function (req, res) {
+router.get('/:id/notice/:idx', function(req, res){
 
-    notices.findOne({ _id: req.params.id }).select({ notice: { $elemMatch: { _id: req.params.idx } } }).exec(function (err, result) {
-        var temp = result.notice
-        res.json({ success: true, result: temp });
+    notices.notice.findOne({_id:req.params.id}).populate({path:'studyNotice',match:{_id:req.params.idx}}).select('studyNotice').exec(function (err,result) {
+        var temp = result.studyNotice
+        res.json({success : true, result : temp});
     })
 
 });
 
 
 //notice edit
-router.put('/:id/notice/:idx', function (req, res) {
+router.put('/:id/notice/:idx', function(req, res) {
 
-    notices.findOneAndUpdate(
-        { _id: req.params.id, notice: { $elemMatch: { _id: req.params.idx } } },
-        {
-            $set: {
-                "notice.$.title": req.body.title,
-                "notice.$.content": req.body.content
-            }
-        },
-        function (err, result) {
-            if (err) return next(err);
-            res.json({ success: true });
-        }
-    )
+    notices.studyNotice.findByIdAndUpdate(req.params.idx, {$set:{title:req.body.title,content:req.body.content}}, function (err, post) {
+        if (err) res.json({success:false, message:'cannot find notice'})
+        else res.json({success:true});
+    });
+
 
 });
 
 //notice delete
 router.delete('/:id/notice/:idx', (req, res) => {
 
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err)
-        post.notice.pull({ _id: req.body._id }) //
+    notices.studyNotice.remove({ _id: req.params.idx }, (err, output) => {
+        if(err) return res.status(500).json({ error: "database failure" });
+
+    })
+    notices.notice.findById(req.params.id,function (err, post) {
+        if(err) return next(err)
+        post.studyNotice.pull({_id:req.params.idx}) //
         post.save()
-        res.json({ success: true })
+        res.json({success:true})
     })
 
+
 });
+
 
 /////보드
 

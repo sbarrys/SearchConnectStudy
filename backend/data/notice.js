@@ -66,6 +66,10 @@ var studyNoticeSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    study:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'notice'
+    },
     title: String,
     content: String,
     date: { type: Date, default: Date.now }
@@ -90,7 +94,11 @@ var noticeSchema = new Schema({
             ref: 'user'
         }],
     date: { type: Date, default: Date.now },
-    notice: [studyNoticeSchema], //writer
+    studyNotice:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'studyNotice'
+        }],
     board: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -107,4 +115,5 @@ var noticeSchema = new Schema({
 const notice = mongoose.model('notice', noticeSchema);
 const img = mongoose.model('img', imageSchema)
 const board = mongoose.model('board', boardSchema)
-module.exports = { notice, img, board }
+const studyNotice = mongoose.model('studyNotice',studyNoticeSchema)
+module.exports = {notice,board,studyNotice}
