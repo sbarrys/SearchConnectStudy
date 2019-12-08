@@ -444,7 +444,3 @@ module.exports = router;
 
 
 module.exports = router;
-<<<<<<< HEAD
-=======
-
->>>>>>> 061e9495dfa961f51080fe2dd120ffe4749ceb38
