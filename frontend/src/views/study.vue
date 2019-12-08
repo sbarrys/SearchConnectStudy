@@ -1,69 +1,40 @@
 <template>
   <div>
-    <section class="row">
-      <div class="col-sm popular-course pad-horizontal">
-        <h3 class="title">
-          <strong>당신을 위한</strong>스터디
-        </h3>
-        <section class="pad-vertical container">
-          <!-- 코스 리스트 -->
-          <div class="row justify-content-center">
-            <div class="course-card polaroid col-sm-10 col-md-8 col-lg-6">
-              <a class="content" href="#">
-                <div class="cover">
-                  <i class="far fa-comments"></i>
-                  <img
-                    alt="course image"
-                    src="https://source.unsplash.com/random"
-                    class="img-fluid"
-                  />
-                </div>
-                <div class="info">
-                  <h5 class="name">공지사항</h5>
-                  <p class="description"></p>
-                </div>
-                <b-table striped hover :items="items"></b-table>
-              </a>
+    <h3 class="title ml-4">
+      <strong>스터디 제목</strong>
+    </h3>
+    <section class="container-fluid">
+      <!-- 코스 리스트 -->
+      <div class="row justify-content-center">
+        <div class="course-card polaroid col-sm-12 col-md-6 my-2">
+          <router-link :to="link+'/notice'" class="content">
+            <div class="info">
+              <h5 class="name">공지사항</h5>
+              <p class="description"></p>
             </div>
-
-            <div class="course-card col-sm-6 col-md-4 col-lg-3">
-              <a class="content">
-                <div class="cover">
-                  <span class="badge">특별할인</span>
-
-                  <img
-                    class="top loaded"
-                    data-src="/ko/public/course/english_correction_trend/cover"
-                    alt="course image"
-                    loading="lazy"
-                    src="/ko/public/course/english_correction_trend/cover"
-                    data-was-processed="true"
-                  />
-                </div>
-                <div class="info">
-                  <h4 class="name">첨삭으로 배우는 실전영어 - 자기계발 &amp; 트렌드 편</h4>
-                  <p class="description">4년간 1만 명 이상을 첨삭 지도한 텔라의 CEO와 원어민 튜터가 함께 진행하는 스터디입니다.</p>
-                </div>
-                <div class="price">
-                  <span class="discount-price">13만5000원</span>
-
-                  <span class="tag-price">16만5000원</span>
-
-                  <span class="deposit-amount">5만원</span>
-                </div>
-                <hr />
-                <div class="schedule">
-                  <span class="duration">4주</span>
-
-                  <time data-timestamp="1577977200" class="start-date">01월 03일</time>
-                </div>
-              </a>
+            <b-table striped hover :items="items"></b-table>
+          </router-link>
+        </div>
+        <div class="course-card polaroid col-sm-12 col-md-6 my-2">
+          <router-link :to="link+'/board'" class="content" href="#">
+            <div class="info">
+              <h5 class="name">게시판</h5>
+              <p class="description"></p>
             </div>
-          </div>
-
-          <!-- end -->
-        </section>
+            <b-table striped hover :items="items"></b-table>
+          </router-link>
+        </div>
+        <div class="course-card polaroid col-12">
+          <router-link :to="link+'/schedule'" class="content" href="#">
+            <div class="info">
+              <h5 class="name">시간표</h5>
+              <p class="description"></p>
+            </div>
+            <b-table striped hover :items="items"></b-table>
+          </router-link>
+        </div>
       </div>
+      <!-- end -->
     </section>
   </div>
 </template>
@@ -82,7 +53,8 @@ export default {
         { age: 21, first_name: "Larsen", last_name: "Shaw" },
         { age: 89, first_name: "Geneva", last_name: "Wilson" },
         { age: 38, first_name: "Jami", last_name: "Carney" }
-      ]
+      ],
+      link:'/study/'+this.$route.params.id
     };
   }
 };

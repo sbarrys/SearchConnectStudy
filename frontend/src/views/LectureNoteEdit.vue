@@ -2,19 +2,20 @@
     <div class="outer">
         <div class="inner">
             <div class="notice">
-                Title : <input type="text" name="title" required v-model="notice.title" placeholder="제목">
+                Title : <input type="text" name="title" required v-model="lecture.title" placeholder="제목">
                 <br>
                 <br>
                 Content
                 <br>
-                <textarea name="content" required v-model="notice.content" placeholder="내용"></textarea>
+                <textarea name="content" required v-model="lecture.content" placeholder="내용"></textarea>
                 <br>
-                <button  @click="editNotice" class="mybtn">수정</button>
+                <button  @click="editLecture" class="mybtn">수정</button>
             </div>
         </div>
     </div>
 </template>
 <script>
+    // file 추가필요
     // import temp from '../../../backend/data/notice.json'
 
     export default {
@@ -22,7 +23,7 @@
         data(){
             return{
 
-                notice:{
+                lecture:{
                     title: "",
                     content: ""
                 },
@@ -30,17 +31,17 @@
             }
         },
         methods:{
-            async editNotice() {
-                const res = await this.$store.dispatch('updateNotice', { id: this.$route.params.id, data: this.notice })
+            async editLecture() {
+                const res = await this.$store.dispatch('updateLecture', { id: this.$route.params.id, data: this.lecture })
                 if(res.success === false) alert(res.message)
-                else this.$router.push("/notice")
+                else this.$router.push(`/study/${this.$route.params.id}/lecturenote`)
             }
 
         },
         async beforeCreate() {
-            const res = await this.$store.dispatch('fetchNotice', {id : this.$route.params.id })
+            const res = await this.$store.dispatch('fetchLecture', {id : this.$route.params.id, idd:this.$route.params.temp })
             if(res.success === false) alert(res.message)
-            else this.notice = res.result
+            else this.lecture = res.result
         }
 
     }

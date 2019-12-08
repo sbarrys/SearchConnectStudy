@@ -81,7 +81,8 @@ export default {
         maxMember: "",
         writer: this.$store.getters.idx,
         title: "",
-        content: ""
+        content: "",
+        date:this.$moment(new Date()).format('YYYYMMDD')
       },
       selected: ""
     };

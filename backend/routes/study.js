@@ -17,7 +17,7 @@ router.get('/notice', function (req, res) {
 
 router.post('/create', function (req, res) {
 
-    notices.create(req.body, function (err, post) {
+    notices.notice.create(req.body, function (err, post) {
         if (err) return console.log(err);
         else {
             res.json({ success: true });
@@ -139,10 +139,10 @@ router.delete('/:id/notice/:idx', (req, res) => {
 
 router.get("/:id/board", function (req, res) {
 
-
     notices.find({ _id: req.params.id }).select('board').exec(function (err, result) {
         if (err) return res.status(500).send({ error: 'database failure' });
-        res.json({ success: true, result: result });
+        var temp = result.board
+        res.json({ success: true, result: temp });
     })
 
 });
@@ -169,7 +169,6 @@ router.get('/:id/board/:idx', function (req, res) {
 //board edit
 router.put('/:id/board/:idx', function (req, res) {
 
-
     notices.findOneAndUpdate(
         { _id: req.params.id, board: { $elemMatch: { _id: req.params.idx } } },
         {
@@ -191,11 +190,10 @@ router.delete('/:id/board/:idx', (req, res) => {
 
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err)
-        post.board.pull({ _id: req.body._id }) //
+        post.board.pull({ _id: req.params.idx }) //
         post.save()
         res.json({ success: true })
     })
-
 
 });
 
@@ -205,9 +203,9 @@ router.get("/:id/schedule", function (req, res) {
 
     notices.find({ _id: req.params.id }).select('schedule').exec(function (err, result) {
         if (err) return res.status(500).send({ error: 'database failure' });
-        res.json({ success: true, result: result });
+        var temp = result.schedule
+        res.json({ success: true, result: temp });
     })
-
 });
 
 router.post('/:id/schedule', function (req, res) {
@@ -238,31 +236,7 @@ router.post('/:id/schedule', function (req, res) {
         res.json({ success: true });
     });
 
-    /*
-    var title = req.body.title
-    var fileObj = req.files.myFile
 
-    if(fileObj.truncated) {
-        var err = new Error("파일 용량 초과")
-
-        next(err)
-
-        return
-    }
-    var orgFileName=fileObj.originalname
-    var filesize = fileObj.size
-    var savePath = __dirname+"/../upload"+fileObj.saveFileName
-
-    fs.open(savePath,"r",function (err,fd) {
-        var buffer = new Buffer(filesize)
-        fs.read(fd,buffer,0,buffer.length,null,function (err, bytes,buffer) {
-            var obj ={
-
-            }
-        })
-
-    })
-    */
 })
 
 //schedule delete
@@ -270,23 +244,202 @@ router.delete('/:id/schedule/:idx', (req, res) => {
 
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err)
-        post.board.pull({ _id: req.body._id })
+        post.board.pull({ _id: req.params.idx })
         post.save()
         res.json({ success: true })
     })
 
 });
-
 //schedule detail
 router.get('/:id/schedule/:idx', function (req, res) {
 
-    notices.findOne({ _id: req.params.id }).select('schedule').exec(function (err, result) {
-        if (err) return next(err);
-        var temp = result.schedule;
-        var dum = temp[req.body.nowIndex]; //index
-        res.json({ success: true, result: dum });
+    notices.findOne({ _id: req.params.id }).select({ schedule: { $elemMatch: { _id: req.params.idx } } }).exec(function (err, result) {
+        var temp = result.schedule
+        res.json({ success: true, result: temp });
     })
 
 });
+
+router.get('/:id/lecturenote', function (req, res) {
+    notices.findOne({ _id: req.params.id }).select('lecture').exec(function (err, result) {
+        var temp = result.lecture
+        res.json({ success: true, result: temp });
+    })
+});
+router.post('/:id/lecturenote/create', function (req, res) {
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err);
+        post.lecture.push(req.body)
+        post.save()
+        res.json({ success: true });
+    });
+});
+
+router.put('/:id/lecturenote/edit/:idd', function (req, res) {
+    notices.findOneAndUpdate(
+        { _id: req.params.id, lecture: { $elemMatch: { _id: req.body._id } } },
+        {
+            $set: {
+                "lecture.$.title": req.body.title,
+                "lecture.$.content": req.body.content,
+                "lecture.$.file": req.body.file
+            }
+        },
+        function (err, result) {
+            if (err) return next(err);
+            res.json({ success: true });
+        }
+    )
+});
+router.delete('/:id/lecturenote/:idd', (req, res) => {
+
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err)
+        post.lecture.pull({ _id: req.body._id })
+        post.save()
+        res.json({ success: true })
+    })
+});
+//
+
+//index는 보드 인덱스
+router.get('/:id/board/:idx/:index', function (req, res) {
+
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err);
+        var temp = post.board[req.params.index].comment
+        res.json({ success: true, result: temp });
+
+    });
+
+})
+
+router.post('/:id/board/:idx/:index', function (req, res) {
+
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err);
+        post.board[req.params.index].comment.push({ content: req.body.content }) //
+        post.save()
+        console.log(post)
+        res.json({ success: true });
+    });
+})
+
+router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
+
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err)
+        post.board[req.params.index].comment.pull({ _id: req.params.cid })
+        post.save()
+        res.json({ success: true })
+    })
+});
+
+router.get('/:id/assignment', function (req, res) {
+    notices.findOne({ _id: req.params.id }).select('assignment').exec(function (err, result) {
+        var temp = result.assignment
+        res.json({ success: true, result: temp });
+    })
+});
+router.post('/:id/assignment/create', function (req, res) {
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err);
+        post.assignment.push(req.body)
+        post.save()
+        res.json({ success: true });
+    });
+});
+router.get('/:id/assignment/:idd', function (req, res) {
+    notices.findOne({ _id: req.params.id }).select('assignment').exec(function (err, result) {
+        if (err) return next(err);
+        var temp = result.assignment;
+        var dum = temp[req.body.nowIndex];
+        res.json({ success: true, result: dum });
+
+    })
+});
+router.put('/:id/assignment/submit/:idd', function (req, res) {
+    notices.findOneAndUpdate(
+        { _id: req.params.id, assignment: { $elemMatch: { _id: req.body._id } } },
+        {
+            $set: {
+                "assignment.$.file": req.body.file
+            }
+        },
+        function (err, result) {
+            if (err) return next(err);
+            res.json({ success: true });
+        }
+    )
+});
+router.delete('/:id/assignment/:idd', (req, res) => {
+    notices.findById(req.params.id, function (err, post) {
+        if (err) return next(err)
+        post.assignment.pull({ _id: req.body._id })
+        post.save()
+        res.json({ success: true })
+    })
+});
+
+module.exports = router;
+/*
+*    var title = req.body.title;
+    var fileObj = req.files.myFile;
+    if(fileObj.truncated){
+        var err = new Error("16MB");
+        next(err);
+        return;
+    }
+    var orgFileName = fileObj.originalname;
+    var filesize = fileObj.size;
+    var savePath = __dirname + "/../upload/" + saveFileName;
+    fs.open(savePath, "r", function(err, fd){
+        var buffer = new Buffer(filesize);
+        fs.read(fd, buffer, 0, buffer.length, null, function(err, bytes, buffer){
+            var obj={
+                "title":title,
+                "filename":orgFileName,
+                "filesize":filesize,
+                "file":buffer
+            };
+            var newData = new DBData(obj);
+            newData.save(function(err){
+                if(err) res.send(err);
+                fs.unlink(savePath, function(){});
+                res.end();
+            });
+        });
+    });
+    *
+    *  var tmp = new notices();
+    var title = req.body.title;
+    var fileObj = req.files.myFile;
+    if(fileObj.truncated){
+        var err = new Error("16MB");
+        next(err);
+        return;
+    }
+    var orgFileName = fileObj.originalname;
+    var filesize = fileObj.size;
+    var savePath = __dirname + "/../upload/" + saveFileName;
+    fs.open(savePath, "r", function(err, fd){
+        var buffer = new Buffer(filesize);
+        fs.read(fd, buffer, 0, buffer.length, null, function(err, bytes, buffer){
+            var obj={
+                "title":title,
+                "filename":orgFileName,
+                "filesize":filesize,
+                "file":buffer
+            };
+            tmp.lecture.file = new DBData(obj);
+        });
+    });
+    tmp.lecture.push({title: req.body.title, writer: req.body.writer, content: req.body.content});
+    tmp.save();
+    res.json({success: true});
+*/
+
+
+
 
 module.exports = router;
