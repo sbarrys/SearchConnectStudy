@@ -10,13 +10,12 @@ export default new Vuex.Store({
     id: '',
     idx: '',
     role: '',
-<<<<<<< HEAD
-    // studylist: [],
-=======
->>>>>>> 965a262b57fc2b3254cd4ab84dd054c11d14875c
-    notices: [],
-    studyNotices: [],
-    studyBoards: []
+
+    notices:[],
+    studyNotices:[],
+    studyBoards:[],
+    studySchedules:[],
+    boardComments:[]
 
   },
   getters: {
@@ -74,6 +73,12 @@ export default new Vuex.Store({
     },
     updateStudyBoard(state, studyBoards) {
       state.studyBoards = studyBoards
+    },
+    updateStudySchedule(state,studySchedules){
+      state.studySchedules = studySchedules
+    },
+    updateBoardComment(state,boardComments){
+      state.boardComments = boardComments
     }
   },
   actions: {

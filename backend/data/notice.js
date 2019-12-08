@@ -29,11 +29,11 @@ var LectureSchema = new Schema({
 });
 var imageSchema = new Schema({
 
-    img: { data: Buffer, contentType: String },
-
+    data: Buffer,
     writer: {
+
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'user'
     }
 
 })
@@ -50,10 +50,15 @@ var boardSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    study: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'notice'
+    },
     title: String,
     content: String,
-    comment: [commentSchema],
+    comment: [commentSchema], //
     date: { type: Date, default: Date.now }
+
 })
 
 var studyNoticeSchema = new Schema({
@@ -76,23 +81,30 @@ var noticeSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    writer: String,
     title: String,
     content: String,
-    studyMember: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }],
+    studyMember: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
+        }],
     date: { type: Date, default: Date.now },
     notice: [studyNoticeSchema], //writer
-    board: [boardSchema], //writer
+    board: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'board'
+        }],
     schedule: [imageSchema],
     lecture: [LectureSchema],
     assignment: [AssignmentSchema],
 
 });
 
+
 //noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice = mongoose.model('notice', noticeSchema);
 const img = mongoose.model('img', imageSchema)
-
-module.exports = { notice, img }
+const board = mongoose.model('board', boardSchema)
+module.exports = { notice, img, board }

@@ -209,6 +209,13 @@ const routes = [
       return import('../views/study.vue')
     }
   },
+  {
+    path:'/study/:id/schedule',
+    name:'studySchedule',
+    component:function () {
+      return import('../views/Schedule.vue')
+    }
+  }
 
 ]
 
