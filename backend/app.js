@@ -58,7 +58,7 @@ app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/notices', noticeRouter);
-
+app.use('/uploads',express.static('uploads'));
 
 
 module.exports = app;

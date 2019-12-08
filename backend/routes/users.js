@@ -2,12 +2,36 @@ var express  = require('express');
 var router   = express.Router();
 var User     = require('../models/UserSchema');
 var util     = require('../models/util');
-router.put('/:id/schedule', function (req, res) {
- 
+const multer =require('multer')
+var path = require('path');
+const storage =multer.diskStorage({
+  destination:function(req,file,cb){
+    cb(null,path.join(__dirname+'/uploads/'));
+
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+  }
 });
+const upload = multer({ storage: storage, limits: { fileSize: 1024 * 1000 * 5 } });
+router.put('/:id/scheduleImg', upload.single('scheduleImg'), function (req, res) {
+  if (!req.file) return res.send('Please upload a file');
+  User.findByIdAndUpdate(req.params.id,{$set:{scheduleImg:req.file.path}}).exec((err,user)=>{ 
+    if(err){
+      res.json(util.successFalse(err));
+    }
+    else res.json(util.successTrue(user))
+  })
+});
+//10분부터
 
-
-router.get('/:id/schedule',function(req,res){ 
+router.get('/:id/scheduleImg',function(req,res){ 
+  User.findById(req.params.id).exec((err,user)=>{ 
+    if(err){
+      res.json(util.successFalse(err));
+    }
+    else res.json(util.successTrue({scheduleImg: user.scheduleImg}))
+  })
 });
 
 

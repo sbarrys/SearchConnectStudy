@@ -9,9 +9,8 @@ var userSchema= mongoose.Schema({
     trim:true,
     unique:true
   },
-  schedule:{
-    data:Buffer,
-    contentType:String
+  scheduleImg:{
+      type:String
   },
   password:{
     type:String,
