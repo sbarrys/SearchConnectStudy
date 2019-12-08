@@ -83,9 +83,33 @@ const routes = [
   },
   {
     path:'/study/:id/assignment',
-    name:'StudyAssignment',
+    name:'Assignment',
     component:function () {
       return import('../views/Assignment.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/assignment/create',
+    name: 'AssignmentCreate',
+    component: function () {
+      return import('../views/AssignmentCreate.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/assignment/detail/:idd',
+    name: 'AssignmentDetail',
+    component: function () {
+      return import('../views/AssignmentDetail.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/assignment/submit/:idd',
+    name: 'AssignmentSubmit',
+    component: function () {
+      return import('../views/AssignmentSubmit.vue')
 
     }
   },
@@ -94,6 +118,30 @@ const routes = [
     name:'LectureNote',
     component:function () {
       return import('../views/LectureNote.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/lecturenote/create',
+    name: 'LectureNoteCreate',
+    component: function () {
+      return import('../views/LectureNoteCreate.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/lecturenote/edit/:idd',
+    name: 'LectureNoteEdit',
+    component: function () {
+      return import('../views/LectureNoteEdit.vue')
+
+    }
+  },
+  {
+    path: '/study/:id/lecturenote/detail/:idd',
+    name: 'LectureNoteDetail',
+    component: function () {
+      return import('../views/LectureNoteDetail.vue')
 
     }
   },
@@ -153,7 +201,8 @@ const routes = [
 
     }
 
-  }, {
+  },
+  {
     path: '/study/:id',
     name: 'study',
     component: function () {
