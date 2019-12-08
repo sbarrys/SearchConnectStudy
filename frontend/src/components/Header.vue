@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     logout() {
-      dataManager.clearData("id");
+      dataManager.clearData();
       this.$store.commit("logout");
       this.id = this.$store.getters.id;
       if (window.location.pathname == "/") location.reload();
@@ -74,21 +74,24 @@ export default {
     }
   },
   async beforeCreate() {
-    const res = await this.$store.dispatch("getStudylist", {
-      idx: this.$store.getters.idx
-    });
-    console.log(res);
-    if (!res.success) {
-      alert("로그인 토큰 만료 로그아웃됩니다.");
-      this.$store.commit("logout");
-      this.id = this.$store.getters.id;
-      if (window.location.pathname == "/") location.reload();
-      else this.$router.push("/");
+    console.log(this.$store.getters.id);
+    if (this.$store.getters.id != "") {
+      const res = await this.$store.dispatch("getStudylist", {
+        idx: this.$store.getters.idx
+      });
+      if (!res.success) {
+        alert("로그인 토큰 만료 로그아웃됩니다.");
+        dataManager.clearData();
+        this.$store.commit("logout");
+        console.log("!!!" + this.$store.getters.id);
+        this.id = this.$store.getters.id;
+        if (window.location.pathname == "/") location.reload();
+        else this.$router.push("/");
+      }
+      if (!res.data.studyList)
+        this.studylist.title = "가입된 스터디가 없습니다.";
+      else this.studylist = res.data.studyList;
     }
-    if (!res.data.studyList)
-      this.studylist.title = "가입된 스터디가 없습니다.";
-    else this.studylist = res.data.studyList;
-    console.log(res);
   }
 };
 </script>

@@ -81,7 +81,10 @@ var noticeSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    writer: String,
+    writer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    },
     title: String,
     content: String,
     studyMember: [
@@ -107,4 +110,4 @@ var noticeSchema = new Schema({
 const notice = mongoose.model('notice', noticeSchema);
 const img = mongoose.model('img', imageSchema)
 const board = mongoose.model('board', boardSchema)
-module.exports = { notice, img, board }
+module.exports = notice

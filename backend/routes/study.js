@@ -7,7 +7,6 @@ var User = require('../models/UserSchema');
 var util = require('../models/util');
 
 
-
 router.get('/notice', function (req, res) {
     notices.find().populate('writer').exec((err, post) => {
         if (err) return res.status(500).send({ error: 'database failure' });
@@ -16,15 +15,14 @@ router.get('/notice', function (req, res) {
 });
 
 router.post('/create', function (req, res) {
-
-    notices.notice.create(req.body, function (err, post) {
+    notices.create(req.body, function (err, post) {
         if (err) return console.log(err);
         else {
             res.json({ success: true });
         }
     });
-
 });
+
 
 router.get('/:id', function (req, res) {
     notices.findById(req.params.id).populate('writer').exec(function (err, post) {
@@ -76,6 +74,7 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 ///
 router.get("/:id/notice", function (req, res) {
+    console.log('!!!!')
 
     notices.findOne({ _id: req.params.id }).select('notice').exec(function (err, result) {
         var temp = result.notice
@@ -85,7 +84,6 @@ router.get("/:id/notice", function (req, res) {
 });
 
 router.post('/:id/notice', function (req, res) {
-
     notices.findById(req.params.id, function (err, post) {
         if (err) return next(err);
         post.notice.push(req.body) // .. 안되면 직접 대입
@@ -339,15 +337,18 @@ router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
 router.get('/:id/assignment', function (req, res) {
     notices.findOne({ _id: req.params.id }).select('assignment').exec(function (err, result) {
         var temp = result.assignment
-        res.json({ success: true, result: temp });
+        if (err) res.json({ success: false, result: err });
+        else res.json({ success: true, result: temp });
     })
 });
-router.post('/:id/assignment/create', function (req, res) {
+router.post('/:id/assignment', function (req, res) {
     notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        post.assignment.push(req.body)
-        post.save()
-        res.json({ success: true });
+        if (err) { res.json(util.successFalse(err)) }
+        else {
+            post.assignment.push(req.body)
+            post.save()
+            res.json({ success: true });
+        }
     });
 });
 router.get('/:id/assignment/:idd', function (req, res) {

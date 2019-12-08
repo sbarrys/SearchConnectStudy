@@ -11,7 +11,9 @@
         <hr />
         <div class="h4 text-custom2">{{notice.studyName}}</div>
         <hr />
-        <div class="text-secondary my-3">{{notice.content}}</div>
+        <div class="text-secondary mx-4 small pre-wrap">
+          {{notice.content}}
+        </div>
         <div class="row m-0 p-3 justify-content-end">
           <strong class="text-custom1">by {{notice.writer.name}}</strong>
         </div>
@@ -55,11 +57,13 @@ export default {
           {}
         )
         .then(res => {
-<<<<<<< HEAD
           console.log(res.data);
-=======
->>>>>>> 965a262b57fc2b3254cd4ab84dd054c11d14875c
           if (res.data.success == true) alert("신청완료");
+          else {
+            console.log(res.data);
+            alert("신청실패:");
+          }
+          this.$router.push("/notice");
         });
     },
     async deleteNotice() {
@@ -89,7 +93,6 @@ export default {
   border-radius: 10px;
   background-color: #ecd7d2 !important;
 }
-<<<<<<< HEAD
 .table {
   box-shadow: 0 17px 30px 0 rgba(0, 0, 0, 0.4);
   border-radius: 4px;
@@ -99,7 +102,7 @@ export default {
   font-weight: 500;
   padding-bottom: 15px;
 }
+.pre-wrap{
+  white-space: pre-wrap;
+}
 </style>
-=======
-</style>
->>>>>>> 965a262b57fc2b3254cd4ab84dd054c11d14875c

@@ -6,7 +6,7 @@
     <section class="container-fluid">
       <!-- 코스 리스트 -->
       <div class="row justify-content-center">
-        <div class="course-card polaroid col-sm-12 col-md-6 my-2">
+        <div class="course-card polaroid col-sm-12 col-md-6 my-3">
           <router-link :to="link+'/notice'" class="content">
             <div class="info">
               <h5 class="name">공지사항</h5>
@@ -15,16 +15,16 @@
             <b-table striped hover :items="items"></b-table>
           </router-link>
         </div>
-        <div class="course-card polaroid col-sm-12 col-md-6 my-2">
-          <router-link :to="link+'/board'" class="content" href="#">
+        <div class="course-card polaroid col-sm-12 col-md-6 my-3">
+          <router-link :to="link+'/assignment'" class="content" href="#">
             <div class="info">
-              <h5 class="name">게시판</h5>
+              <h5 class="name">과제</h5>
               <p class="description"></p>
             </div>
-            <b-table striped hover :items="items"></b-table>
+            <Table :items='assignment'  :item_field='item_field' ></Table>
           </router-link>
         </div>
-        <div class="course-card polaroid col-12">
+        <div class="course-card polaroid col-12 my-3">
           <router-link :to="link+'/schedule'" class="content" href="#">
             <div class="info">
               <h5 class="name">시간표</h5>
@@ -40,11 +40,12 @@
 </template>
 
 <script>
-import Login from "@/components/Login.vue";
+import moment from "moment";
+import Table from "@/components/Table.vue";
 export default {
   name: "test",
   components: {
-    Login
+    Table
   },
   data: function() {
     return {
@@ -54,8 +55,25 @@ export default {
         { age: 89, first_name: "Geneva", last_name: "Wilson" },
         { age: 38, first_name: "Jami", last_name: "Carney" }
       ],
-      link:'/study/'+this.$route.params.id
+      item_field: ["title", "content", "deadline"],
+      link: "/study/" + this.$route.params.id
     };
+  },
+  computed: {
+    assignment() {
+      if (this.$store.state.studyAssignment) {
+        var temp = this.$store.state.studyAssignment;
+        for (var tmp of temp) {
+          tmp.deadline = moment(tmp.deadline).format("YYYY-MM-DD");
+        }
+        return temp.slice(0, 5);
+      }
+    }
+  },
+  async beforeCreate() {
+    const res = await this.$store.dispatch("fetchAssignments", {
+      id: this.$route.params.id
+    });
   }
 };
 </script>
@@ -73,8 +91,6 @@ export default {
   display: flex;
   height: 100%;
   min-width: 140px;
-  margin-right: 15px;
-  margin-left: 15px;
   border: 2px solid rgba(0, 0, 0, 0.2);
 }
 .content:hover {
