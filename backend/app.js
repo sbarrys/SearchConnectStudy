@@ -5,12 +5,11 @@ var logger = require('morgan');
 var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
 const autoInc = require('mongoose-auto-increment')
-// const multer = require('multe    r')
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
-// var userRouter = require('./routes/user');
 var usersRouter = require('./routes/users');
+var studyRouter = require('./routes/study');
 
 var app = express();
 // CONNECT TO MONGODB SERVER//////////////////////////
@@ -43,7 +42,6 @@ var port = process.env.PORT || 8080;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-var noticeRouter = require('./routes/study');
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -57,7 +55,7 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/notices', noticeRouter);
+app.use('/study', studyRouter);
 app.use('/uploads',express.static('uploads'));
 
 

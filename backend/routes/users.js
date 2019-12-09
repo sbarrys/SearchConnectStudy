@@ -43,7 +43,7 @@ router.get('/:id/scheduleImg',function(req,res){
 
 // index
 router.get('/', util.isLoggedin, function(req,res,next){
-    User.find({})
+    User.find({}).populate([{path:'studyList'}])
     .sort({username:1})
     .exec(function(err,users){
       res.json(err||!users? util.successFalse(err): util.successTrue(users)); //실패하면 오류메세지,  성공하면 유저와 함꼐 성공메세지
@@ -68,7 +68,7 @@ router.get('/:username', util.isLoggedin, function(req,res,next){
 });
 
 router.get('/:username/study', util.isLoggedin, function(req,res,next){
-  User.findById({_id:req.params.username}).populate('studyList')
+  User.findById({_id:req.params.username}).populate([{path:'studyList'}])
   .exec(function(err,user){
     res.json(err||!user? util.successFalse(err): util.successTrue(user));
   });
