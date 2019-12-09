@@ -26,7 +26,7 @@
       <button class="btn mybtn2" @click="nextPage">Next</button>
     </p>
 
-    <button type="submit" class="mybtn btn" @click="write()">Study 생성</button>
+    <button type="submit" v-if="$store.getters.idx" class="mybtn btn" @click="write()">Study 생성</button>
   </div>
 </template>
 <script>

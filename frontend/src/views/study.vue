@@ -30,7 +30,7 @@
               <h5 class="name">시간표</h5>
               <p class="description"></p>
             </div>
-            <b-table striped hover ></b-table>
+     <Carousel></Carousel>
           </router-link>
         </div>
       </div>
@@ -42,10 +42,13 @@
 <script>
 import moment from "moment";
 import Table from "@/components/Table.vue";
+import Carousel from "@/components/Carousel.vue";
+
 export default {
   name: "test",
   components: {
-    Table
+    Table,
+    Carousel
   },
   data: function() {
     return {
