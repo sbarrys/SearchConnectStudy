@@ -61,7 +61,8 @@ router.post('/signup', function(req,res,next){
 
 // show
 router.get('/:id', util.isLoggedin, function(req,res,next){
-    User.findOne({id:req.params.id})
+  console.log(req.params.id)
+    User.findById(req.params.id)
     .exec(function(err,user){
       res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });

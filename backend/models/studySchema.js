@@ -28,7 +28,11 @@ var studySchema = new Schema({
             ref: 'post'
         }]
         ,
-            // assignment: [AssignmentSchema],
+     assignment:  [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'post'
+        }],
 
 });
 

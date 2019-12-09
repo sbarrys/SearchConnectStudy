@@ -314,9 +314,7 @@ router.get('/:id/board/:idx/:index', function (req, res) {
         if (err) return next(err);
         var temp = post.board[req.params.index].comment
         res.json({ success: true, result: temp });
-
     });
-
 })
 
 router.post('/:id/board/:idx/:index', function (req, res) {
@@ -363,7 +361,6 @@ router.get('/:id/assignment/:idd', function (req, res) {
         var temp = result.assignment;
         var dum = temp[req.body.nowIndex];
         res.json({ success: true, result: dum });
-
     })
 });
 router.put('/:id/assignment/submit/:idd', function (req, res) {
