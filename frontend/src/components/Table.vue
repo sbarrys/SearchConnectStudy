@@ -14,8 +14,7 @@ export default {
         name: this.val+'Detail',
         params: {
           id: this.record.id,
-          temp: value._id,
-          nowIndex: index
+          temp: re._id,
         }
       });
     },

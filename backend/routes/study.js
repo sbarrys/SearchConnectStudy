@@ -25,7 +25,7 @@ router.post('/create', function (req, res) {
 
 
 router.get('/:id', function (req, res) {
-    notices.findById(req.params.id).populate('writer').exec(function (err, post) {
+    notices.findById(req.params.id).populate('writer','studyMember').exec(function (err, post) {
         if (err) return next(err);
         res.json({ success: true, result: post });
     });
