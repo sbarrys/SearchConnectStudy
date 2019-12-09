@@ -82,80 +82,82 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 });
 
+/////해당하는 스터디에 notice를 추가해준다.
 
-//해당하는 스터디에 notice를 추가해준다.
-router.post('/:id/notice', async function (req, res) {
-    
-    var post = new Post({
-        fromstudy : req.params.id,
-        title :req.body.title,
-        content: req.body.content,
-        writer: req.body.writer
-    });
-     
-    await post.save(function(err, result){
-        console.log(result.fromstudy, result.title);
-         if(err) res.json(util.successFalse(err));
-    });
-    
-    
-    
+router.get("/:id/notice", function(req, res){
 
-    await Study.findByIdAndUpdate(
-        req.params.id,
-        { $addToSet: { notice: post._id } },
-        { safe: true, new: true },
-        function (err, model) {
-            if (err) res.json(util.successFalse(err));
-            else res.json(util.successTrue());
+    notices.notice.findOne({_id:req.params.id}).populate('studyNotice').exec((err, post) => {
+        if (err) return res.status(500).send({ error: 'database failure' });
+        var temp = post.studyNotice
+        res.json({ success: true, result: temp });
+    })
+
+});
+
+router.post('/:id/user/:idx/notice', function(req, res) {
+
+    const temp= new notices.studyNotice()
+   // temp.user=req.params.idx
+    temp.title = req.body.title
+    temp.content = req.body.content
+    temp.writer = req.params.idx
+    temp.study = req.params.id
+    temp.save()
+
+    notices.notice.findByIdAndUpdate(req.params.id,
+        {$addToSet: {studyNotice: temp._id}},
+        {safe: true, new : true},
+        function(err, model) {
+            res.json({success: true});
+        }
+    );
 
         }
     );
 });
 
-//study에해당하는 notice를 출력해 준다.
-router.get("/:id/notice", function (req, res) {
-    Study.findOne({ _id: req.params.id }).select('notice')
-    .populate({
-        path:'notice',
-        populate:{
-            path:'writer'
-        }
-    }).exec(function(err,notice){
-        res.json(util.successTrue(notice));
-    })
-})
+router.get('/:id/notice/:idx', function(req, res){
 
-//해당하는 스터디의 idx에 해당하는 notice를 리턴한다.
-router.get('/:id/notice/:idx', function (req, res) {
-    Post.findById(req.params.idx).populate('writer').exec(function(err,result){
-        console.log(result);
+    notices.notice.findOne({_id:req.params.id}).populate({path:'studyNotice',match:{_id:req.params.idx}}).select('studyNotice').exec(function (err,result) {
+        var temp = result.studyNotice
+        res.json({success : true, result : temp});
     })
 
 });
 
-//이거수정
-//해당하는 id 의 study 에 idx 아이디를 가진 notice수정
-router.put('/:id/notice/:idx', function (req, res) {
 
-     Post.findByIdAndUpdate(
-        req.params.idx,
-        { $set: { title: req.body.title , content:req.body.content } },
-        { safe: true, new: true },
-        function (err, post) {
-            if (err) res.json(util.successFalse(err));
-            else res.json(util.successTrue(post));
-        }
-    );
+//notice edit
+router.put('/:id/notice/:idx', function(req, res) {
+
+    notices.studyNotice.findByIdAndUpdate(req.params.idx, {$set:{title:req.body.title,content:req.body.content}}, function (err, post) {
+        if (err) res.json({success:false, message:'cannot find notice'})
+        else res.json({success:true});
+    });
+
+
 });
 
 //notice delete
 router.delete('/:id/notice/:idx', (req, res) => {
 
-        //포스트 삭제
-        Post.findByIdAndDelete(req.params.idx).exec(function(err){
-            if(err) res.json(util.successFalse(err));
-            else res.json(util.successTrue());
+    notices.studyNotice.remove({ _id: req.params.idx }, (err, output) => {
+        if(err) return res.status(500).json({ error: "database failure" });
+
+    })
+    notices.notice.findById(req.params.id,function (err, post) {
+        if(err) return next(err)
+        post.studyNotice.pull({_id:req.params.idx}) //
+        post.save()
+        res.json({success:true})
+    })
+
+
+});
+
+
+/////보드
+
+router.get("/:id/board", function (req, res) {
 
         });
         

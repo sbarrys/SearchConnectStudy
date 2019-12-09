@@ -57,6 +57,10 @@ var studyNoticeSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    study:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'notice'
+    },
     title: String,
     content: String,
     date: { type: Date, default: Date.now }
@@ -84,7 +88,11 @@ var noticeSchema = new Schema({
             ref: 'user'
         }],
     date: { type: Date, default: Date.now },
-    notice: [studyNoticeSchema], //writer
+    studyNotice:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'studyNotice'
+        }],
     board: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -99,4 +107,9 @@ var noticeSchema = new Schema({
 //noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice = mongoose.model('notice', noticeSchema);
 const board = mongoose.model('board', boardSchema)
+<<<<<<< HEAD
 module.exports = notice
+=======
+const studyNotice = mongoose.model('studyNotice',studyNoticeSchema)
+module.exports = {notice,board,studyNotice}
+>>>>>>> 8d737c8c25d39fccdd979626d228f6c04f12031a

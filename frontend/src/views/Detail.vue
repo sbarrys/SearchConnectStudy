@@ -19,7 +19,7 @@
         </div>
       </table>
       <p>
-        <button @click="regist" class="btn bg-custom1 text-white">가입신청</button>
+        <button @click="regist" v-if="$route.params.id" class="btn bg-custom1 text-white">가입신청</button>
       </p>
 
       <div class="row justify-content-end">
@@ -35,7 +35,7 @@ export default {
   data: function() {
     return {
       notice: { writer: "" },
-      chkwriter: false
+      chkwriter: false,
     };
   },
   methods: {

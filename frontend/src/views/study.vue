@@ -21,7 +21,7 @@
               <h5 class="name">과제</h5>
               <p class="description"></p>
             </div>
-            <Table :items="assignment" :item_field="assignment_field" val='Assignment'></Table>
+            <Table :items="assignment" :item_field="assignment_field" val="Assignment"></Table>
           </router-link>
         </div>
         <div class="course-card polaroid col-12 my-3">
@@ -30,7 +30,9 @@
               <h5 class="name">시간표</h5>
               <p class="description"></p>
             </div>
-            <b-table striped hover ></b-table>
+            <div>
+              <Carousel></Carousel>
+            </div>
           </router-link>
         </div>
       </div>
@@ -42,10 +44,13 @@
 <script>
 import moment from "moment";
 import Table from "@/components/Table.vue";
+import Carousel from "@/components/Carousel.vue";
+
 export default {
   name: "test",
   components: {
-    Table
+    Table,
+    Carousel
   },
   data: function() {
     return {
