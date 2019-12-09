@@ -1,49 +1,60 @@
 var express = require('express');
 var router = express.Router();
+const Study= require('../models/studySchema');
 const notices = require('../data/notice');
-const fs = require('fs')
-// const multer = require('multer')
-var User = require('../models/UserSchema');
+var User = require('../models/userSchema');
 var util = require('../models/util');
+const Post=require('../models/postSchema');
 
-
-router.get('/notice', function (req, res) {
-    notices.find().populate('writer').exec((err, post) => {
+//전체목록조회
+router.get('/', function (req, res) {
+    Study.find().populate('writer').exec((err, post) => {
         if (err) return res.status(500).send({ error: 'database failure' });
         res.json({ success: true, result: post });
     })
 });
+//스터디 생성
+router.post('/', function (req, res) {
+    var study= new Study();
+    study.studyType=req.body.studyType;
+    study.maxMember=req.body.maxMember;
+    study.studyName=req.body.studyName;
+    study.title=req.body.title;
+    study.content=req.body.content;
+    study.writer=req.body.writer;
+    study.save(function(err,study){
+        if(err){
 
-router.post('/create', function (req, res) {
-    notices.create(req.body, function (err, post) {
-        if (err) return console.log(err);
-        else {
-            res.json({ success: true });
+            res.json(util.successFalse(err));
         }
+
+        res.json(util.successTrue(study));
+
     });
 });
 
-
+//스터디 조회 
 router.get('/:id', function (req, res) {
-    notices.findById(req.params.id).populate('writer','studyMember').exec(function (err, post) {
-        if (err) return next(err);
-        res.json({ success: true, result: post });
+    console.log(req.params.id)
+    Study.findById(req.params.id).populate([{path:'studyMember'},{path:'writer'}]).exec(function (err, study) {
+        if (err) res.json(util.successFalse(err));
+        res.json(util.successTrue(study));
     });
 });
-
+//스터디 수정
 router.put('/:id', function (req, res) {
-    notices.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-        if (err) res.json({ success: false, message: 'cannot find notice' })
-        else res.json({ success: true });
+    Study.findByIdAndUpdate(req.params.id, req.body, function (err, study) {
+        if (err) res.json(util.successFalse(err))
+        else res.json(util.successTrue(study));
     });
 });
+//스터디삭제
 router.delete('/:id', (req, res) => {
 
-    notices.remove({ _id: req.params.id }, (err, output) => {
+    Study.remove({ _id: req.params.id }, (err, output) => {
         if (err) return res.status(500).json({ error: "database failure" });
         else {
-            res.json({ success: true })
-            res.status(204).end();
+            res.json(util.successTrue(output));
         }
     })
 });
@@ -58,7 +69,7 @@ router.put('/:id/member/:idx', async function (req, res) {
             if (err) res.json(util.successFalse(err));
         }
     );
-    await notices.findByIdAndUpdate(
+    await Study.findByIdAndUpdate(
         req.params.id,
         { $addToSet: { "studyMember": req.params.idx } },
         { safe: true, upsert: true, new: true, useFindAndModify: false },
@@ -71,267 +82,190 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 });
 
-///
-router.get("/:id/notice", function (req, res) {
 
-    notices.findOne({ _id: req.params.id }).select('notice').populate('notice.writer').exec(function (err, result) {
-        var temp = result.notice
-        res.json({ success: true, result: temp });
-    })
-
-});
-
-router.post('/:id/notice', function (req, res) {
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        post.notice.push(req.body) // .. 안되면 직접 대입
-        post.save()
-        res.json({ success: true });
+//해당하는 스터디에 notice를 추가해준다.
+router.post('/:id/notice', async function (req, res) {
+    
+    var post = new Post({
+        fromstudy : req.params.id,
+        title :req.body.title,
+        content: req.body.content,
+        writer: req.body.writer
     });
+     
+    await post.save(function(err, result){
+        console.log(result.fromstudy, result.title);
+         if(err) res.json(util.successFalse(err));
+    });
+    
+    
+    
 
+    await Study.findByIdAndUpdate(
+        req.params.id,
+        { $addToSet: { notice: post._id } },
+        { safe: true, new: true },
+        function (err, model) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue());
+
+        }
+    );
 });
 
-router.get('/:id/notice/:idx', function (req, res) {
+//study에해당하는 notice를 출력해 준다.
+router.get("/:id/notice", function (req, res) {
+    Study.findOne({ _id: req.params.id }).select('notice')
+    .populate({
+        path:'notice',
+        populate:{
+            path:'writer'
+        }
+    }).exec(function(err,notice){
+        res.json(util.successTrue(notice));
+    })
+})
 
-    notices.findOne({ _id: req.params.id }).select({ notice: { $elemMatch: { _id: req.params.idx } } }).exec(function (err, result) {
-        var temp = result.notice
-        res.json({ success: true, result: temp });
+//해당하는 스터디의 idx에 해당하는 notice를 리턴한다.
+router.get('/:id/notice/:idx', function (req, res) {
+    Post.findById(req.params.idx).populate('writer').exec(function(err,result){
+        console.log(result);
     })
 
 });
 
-
-//notice edit
+//이거수정
+//해당하는 id 의 study 에 idx 아이디를 가진 notice수정
 router.put('/:id/notice/:idx', function (req, res) {
 
-    notices.findOneAndUpdate(
-        { _id: req.params.id, notice: { $elemMatch: { _id: req.params.idx } } },
-        {
-            $set: {
-                "notice.$.title": req.body.title,
-                "notice.$.content": req.body.content
-            }
-        },
-        function (err, result) {
-            if (err) return next(err);
-            res.json({ success: true });
+     Post.findByIdAndUpdate(
+        req.params.idx,
+        { $set: { title: req.body.title , content:req.body.content } },
+        { safe: true, new: true },
+        function (err, post) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue(post));
         }
-    )
-
+    );
 });
 
 //notice delete
 router.delete('/:id/notice/:idx', (req, res) => {
 
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err)
-        post.notice.pull({ _id: req.body._id }) //
-        post.save()
-        res.json({ success: true })
-    })
+        //포스트 삭제
+        Post.findByIdAndDelete(req.params.idx).exec(function(err){
+            if(err) res.json(util.successFalse(err));
+            else res.json(util.successTrue());
+
+        });
+        
+        Study.findById(req.params.id).exec(function(err,study){
+            if(err) res.json(util.successFalse(err));
+            study.notice.splice(study.notice.indexOf(req.params.idx),1)
+            study.save();
+            if(err)res.json(util.successFalse(err));
+             else res.json(util.successTrue(study));
+        })
 
 });
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+////////////여기부터 다시하기/////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 
 /////보드
-
-router.get("/:id/board", function (req, res) {
-
-    notices.find({ _id: req.params.id }).select('board').exec(function (err, result) {
-        if (err) return res.status(500).send({ error: 'database failure' });
-        var temp = result.board
-        res.json({ success: true, result: temp });
-    })
-
-});
-
-router.post('/:id/board', function (req, res) {
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        post.board.push(req.body) // .. 안되면 직접 대입
-        post.save()
-        res.json({ success: true });
+//해당하는 스터디에 board 추가해준다.
+router.post('/:id/board', async function (req, res) {
+    
+    var post = new Post({
+        fromstudy : req.params.id,
+        title :req.body.title,
+        content: req.body.content,
+        writer: req.body.writer
     });
+     
+    await post.save(function(err, result){
+        console.log(result.fromstudy, result.title);
+         if(err) res.json(util.successFalse(err));
+    });
+    
+    
+    
+
+    await Study.findByIdAndUpdate(
+        req.params.id,
+        { $addToSet: { board: post._id } },
+        { safe: true, new: true },
+        function (err, model) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue());
+
+        }
+    );
 });
 
-//board detail
-router.get('/:id/board/:idx', function (req, res) {
+//study에해당하는 board 출력해 준다.
+router.get("/:id/board", function (req, res) {
+    Study.findOne({ _id: req.params.id }).select('board')
+    .populate({
+        path:'board',
+        populate:{
+            path:'writer'
+        }
+    }).exec(function(err,board){
+        res.json(util.successTrue(board));
+    })
+})
 
-    notices.findOne({ _id: req.params.id }).select({ board: { $elemMatch: { _id: req.params.idx } } }).exec(function (err, result) {
-        var temp = result.board
-        res.json({ success: true, result: temp });
+//해당하는 스터디의 idx에 해당하는 board 리턴한다.
+router.get('/:id/board/:idx', function (req, res) {
+    Post.findById(req.params.idx).populate('writer').exec(function(err,result){
+        console.log(result);
     })
 
 });
 
-//board edit
+//이거수정
+//해당하는 id 의 study 에 idx 아이디를 가진 board수정
 router.put('/:id/board/:idx', function (req, res) {
 
-    notices.findOneAndUpdate(
-        { _id: req.params.id, board: { $elemMatch: { _id: req.params.idx } } },
-        {
-            $set: {
-                "board.$.title": req.body.title,
-                "board.$.content": req.body.content
-            }
-        },
-        function (err, result) {
-            if (err) return next(err);
-            res.json({ success: true });
+     Post.findByIdAndUpdate(
+        req.params.idx,
+        { $set: { title: req.body.title , content:req.body.content } },
+        { safe: true, new: true },
+        function (err, post) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue(post));
         }
-    )
-
+    );
 });
 
 //board delete
 router.delete('/:id/board/:idx', (req, res) => {
 
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err)
-        post.board.pull({ _id: req.params.idx }) //
-        post.save()
-        res.json({ success: true })
-    })
+        //포스트 삭제
+        Post.findByIdAndDelete(req.params.idx).exec(function(err){
+            if(err) res.json(util.successFalse(err));
+            else res.json(util.successTrue());
+
+        });
+        
+        Study.findById(req.params.id).exec(function(err,study){
+            if(err) res.json(util.successFalse(err));
+            study.board.splice(study.board.indexOf(req.params.idx),1)
+            study.save();
+            if(err)res.json(util.successFalse(err));
+             else res.json(util.successTrue(study));
+        })
 
 });
 
-//시간표 -ing
-
-router.get("/:id/schedule", function (req, res) {
-
-    notices.find({ _id: req.params.id }).select('schedule').exec(function (err, result) {
-        if (err) return res.status(500).send({ error: 'database failure' });
-        var temp = result.schedule
-        res.json({ success: true, result: temp });
-    })
-});
-
-router.post('/:id/schedule', function (req, res) {
-
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-
-        //태윤 // upload 할때 req.body 에  title ,myFile, 
-        var fileObj = req.files.myFIle; //파일객체
-        if (fileObj.truncated) {
-            var err = new Error("파일용량이 16mb를 초과하였습니다.");
-            req.json(util.successFalse(err));
-        }
-        var orgFileName = fileObj.originalname; //원본파일명 저장
-        var filesize = fileObj.size;//파일사이즈저장
-        var savePath = _dirname + "../upload/" + orgFileName;
-        //파일시스템에서 파일 읽기
-
-
-
-
-        //파일 path
-        //var temp =fs.readFileSync(req.body.data) ///
-        var temp = fs.readFileSync(req.body.data) //안에 Path
-        post.schedule.push({ data: temp })
-        //writer 추가 ??
-        post.save()
-        res.json({ success: true });
-    });
-
-
-})
-
-//schedule delete
-router.delete('/:id/schedule/:idx', (req, res) => {
-
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err)
-        post.board.pull({ _id: req.params.idx })
-        post.save()
-        res.json({ success: true })
-    })
-
-});
-//schedule detail
-router.get('/:id/schedule/:idx', function (req, res) {
-
-    notices.findOne({ _id: req.params.id }).select({ schedule: { $elemMatch: { _id: req.params.idx } } }).exec(function (err, result) {
-        var temp = result.schedule
-        res.json({ success: true, result: temp });
-    })
-
-});
-
-router.get('/:id/lecturenote', function (req, res) {
-    notices.findOne({ _id: req.params.id }).select('lecture').exec(function (err, result) {
-        var temp = result.lecture
-        res.json({ success: true, result: temp });
-    })
-});
-router.post('/:id/lecturenote/create', function (req, res) {
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        post.lecture.push(req.body)
-        post.save()
-        res.json({ success: true });
-    });
-});
-
-router.put('/:id/lecturenote/edit/:idd', function (req, res) {
-    notices.findOneAndUpdate(
-        { _id: req.params.id, lecture: { $elemMatch: { _id: req.body._id } } },
-        {
-            $set: {
-                "lecture.$.title": req.body.title,
-                "lecture.$.content": req.body.content,
-                "lecture.$.file": req.body.file
-            }
-        },
-        function (err, result) {
-            if (err) return next(err);
-            res.json({ success: true });
-        }
-    )
-});
-router.delete('/:id/lecturenote/:idd', (req, res) => {
-
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err)
-        post.lecture.pull({ _id: req.body._id })
-        post.save()
-        res.json({ success: true })
-    })
-});
-//
-
-//index는 보드 인덱스
-router.get('/:id/board/:idx/:index', function (req, res) {
-
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        var temp = post.board[req.params.index].comment
-        res.json({ success: true, result: temp });
-
-    });
-
-})
-
-router.post('/:id/board/:idx/:index', function (req, res) {
-
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        post.board[req.params.index].comment.push({ content: req.body.content }) //
-        post.save()
-        console.log(post)
-        res.json({ success: true });
-    });
-})
-
-router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
-
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err)
-        post.board[req.params.index].comment.pull({ _id: req.params.cid })
-        post.save()
-        res.json({ success: true })
-    })
-});
-
+//assignment
 router.get('/:id/assignment', function (req, res) {
     notices.findOne({ _id: req.params.id }).select('assignment').populate('writer').exec(function (err, result) {
         var temp = result.assignment
@@ -380,66 +314,5 @@ router.delete('/:id/assignment/:idd', (req, res) => {
         res.json({ success: true })
     })
 });
-
-module.exports = router;
-/*
-*    var title = req.body.title;
-    var fileObj = req.files.myFile;
-    if(fileObj.truncated){
-        var err = new Error("16MB");
-        next(err);
-        return;
-    }
-    var orgFileName = fileObj.originalname;
-    var filesize = fileObj.size;
-    var savePath = __dirname + "/../upload/" + saveFileName;
-    fs.open(savePath, "r", function(err, fd){
-        var buffer = new Buffer(filesize);
-        fs.read(fd, buffer, 0, buffer.length, null, function(err, bytes, buffer){
-            var obj={
-                "title":title,
-                "filename":orgFileName,
-                "filesize":filesize,
-                "file":buffer
-            };
-            var newData = new DBData(obj);
-            newData.save(function(err){
-                if(err) res.send(err);
-                fs.unlink(savePath, function(){});
-                res.end();
-            });
-        });
-    });
-    *
-    *  var tmp = new notices();
-    var title = req.body.title;
-    var fileObj = req.files.myFile;
-    if(fileObj.truncated){
-        var err = new Error("16MB");
-        next(err);
-        return;
-    }
-    var orgFileName = fileObj.originalname;
-    var filesize = fileObj.size;
-    var savePath = __dirname + "/../upload/" + saveFileName;
-    fs.open(savePath, "r", function(err, fd){
-        var buffer = new Buffer(filesize);
-        fs.read(fd, buffer, 0, buffer.length, null, function(err, bytes, buffer){
-            var obj={
-                "title":title,
-                "filename":orgFileName,
-                "filesize":filesize,
-                "file":buffer
-            };
-            tmp.lecture.file = new DBData(obj);
-        });
-    });
-    tmp.lecture.push({title: req.body.title, writer: req.body.writer, content: req.body.content});
-    tmp.save();
-    res.json({success: true});
-*/
-
-
-
 
 module.exports = router;

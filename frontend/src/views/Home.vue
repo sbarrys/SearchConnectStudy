@@ -30,12 +30,10 @@
 <script>
 // @ is an alias to /src
 import moment from "moment";
-import HelloWorld from "@/components/HelloWorld.vue";
 import StudyCard from "@/components/StudyCard.vue";
 export default {
   name: "home",
   components: {
-    HelloWorld,
     StudyCard
   },
   data: function() {

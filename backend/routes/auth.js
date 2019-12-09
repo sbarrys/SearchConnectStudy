@@ -29,7 +29,7 @@ router.post('/login',
   },
   //아이디와 패스워드가 있다면 넘어오는 함수
   function(req,res,next){
-    User.findOne({id:req.body.id}).populate('studyList')
+    User.findOne({id:req.body.id}).populate([{path:'studyList'}])
     .select({password:1,id:1,name:1,major:1,gender:1 }) //비밀번호, 아이디, 이름, 전공, 성을 상위한개만 가져온다.
     .exec(function(err,user){
       if(err)

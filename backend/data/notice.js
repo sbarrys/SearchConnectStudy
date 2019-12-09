@@ -27,16 +27,7 @@ var LectureSchema = new Schema({
     date: { type: Date, default: Date.now }
 
 });
-var imageSchema = new Schema({
 
-    data: Buffer,
-    writer: {
-
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }
-
-})
 
 var commentSchema = new Schema({
     writer: {
@@ -99,7 +90,6 @@ var noticeSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'board'
         }],
-    schedule: [imageSchema],
     lecture: [LectureSchema],
     assignment: [AssignmentSchema],
 
@@ -108,6 +98,5 @@ var noticeSchema = new Schema({
 
 //noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice = mongoose.model('notice', noticeSchema);
-const img = mongoose.model('img', imageSchema)
 const board = mongoose.model('board', boardSchema)
 module.exports = notice
