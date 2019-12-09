@@ -16,13 +16,28 @@ router.get('/notice', function (req, res) {
 
 router.post('/create', function (req, res) {
     notices.create(req.body, function (err, post) {
-        if (err) return console.log(err);
+        if (err) return console.log(err)
         else {
             res.json({ success: true });
         }
     });
 });
+router.get('/:id/membersScheduleImg',function(req,res){
+    notices.findById(req.params.id).select('studyMember').populate('studyMember').exec(function(err,study){
+        var size= study.studyMember.length
+        var temp = new Array();
+        let i=0
+        for(i; i<size ;i++){
+            temp[i]=study.studyMember[i]['scheduleImg'];
+        }
+        console.log(temp);
+        if(err) res.json(util.successFalse(err));
 
+        else
+        res.json(util.successTrue(temp));
+    })
+
+});
 
 router.get('/:id', function (req, res) {
     notices.findById(req.params.id).populate('writer').exec(function (err, post) {
@@ -73,7 +88,7 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 ///
 router.get("/:id/notice", function (req, res) {
-
+    
     notices.findOne({ _id: req.params.id }).select('notice').populate('notice.writer').exec(function (err, result) {
         var temp = result.notice
         res.json({ success: true, result: temp });
@@ -204,37 +219,36 @@ router.get("/:id/schedule", function (req, res) {
         res.json({ success: true, result: temp });
     })
 });
+// router.post('/:id/schedule', function (req, res) {
 
-router.post('/:id/schedule', function (req, res) {
+//     notices.findById(req.params.id, function (err, post) {
+//         if (err) return next(err);
 
-    notices.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-
-        //태윤 // upload 할때 req.body 에  title ,myFile, 
-        var fileObj = req.files.myFIle; //파일객체
-        if (fileObj.truncated) {
-            var err = new Error("파일용량이 16mb를 초과하였습니다.");
-            req.json(util.successFalse(err));
-        }
-        var orgFileName = fileObj.originalname; //원본파일명 저장
-        var filesize = fileObj.size;//파일사이즈저장
-        var savePath = _dirname + "../upload/" + orgFileName;
-        //파일시스템에서 파일 읽기
-
+//         //태윤 // upload 할때 req.body 에  title ,myFile, 
+//         var fileObj = req.files.myFIle; //파일객체
+//         if (fileObj.truncated) {
+//             var err = new Error("파일용량이 16mb를 초과하였습니다.");
+//             req.json(util.successFalse(err));
+//         }
+//         var orgFileName = fileObj.originalname; //원본파일명 저장
+//         var filesize = fileObj.size;//파일사이즈저장
+//         var savePath = _dirname + "../upload/" + orgFileName;
+//         //파일시스템에서 파일 읽기
 
 
 
-        //파일 path
-        //var temp =fs.readFileSync(req.body.data) ///
-        var temp = fs.readFileSync(req.body.data) //안에 Path
-        post.schedule.push({ data: temp })
-        //writer 추가 ??
-        post.save()
-        res.json({ success: true });
-    });
+
+//         //파일 path
+//         //var temp =fs.readFileSync(req.body.data) ///
+//         var temp = fs.readFileSync(req.body.data) //안에 Path
+//         post.schedule.push({ data: temp })
+//         //writer 추가 ??
+//         post.save()
+//         res.json({ success: true });
+//     });
 
 
-})
+// })
 
 //schedule delete
 router.delete('/:id/schedule/:idx', (req, res) => {
