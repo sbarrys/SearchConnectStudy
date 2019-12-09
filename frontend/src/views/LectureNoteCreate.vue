@@ -49,7 +49,6 @@
                                 class="form-control"
                                 type="file"
                                 name="userfile"
-                                v-model="lecture.file"
                         />
                     </td>
                 </tr>

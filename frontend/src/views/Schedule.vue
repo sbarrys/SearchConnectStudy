@@ -11,58 +11,44 @@
           id="imgfile"
         ></b-form-file>
       </b-form-group>
-      <button class="btn btn-primary" @click="submittt">제출</button>
+      <button class="btn btn-primary" @click="sendfile">제출</button>
+      <!-- <img :src="sr" class=""/> -->
     </div>
-    <img :src="srcc" alt />
+    <!-- carousel -->
+   <div class="container">
+     <Carousel></Carousel>
+   </div>
+    <!-- carousel end -->
   </div>
 </template>
 
 <script>
+import moment from "moment";
+import Carousel from "@/components/Carousel.vue";
 export default {
+  components: {
+    Carousel
+  },
   data() {
     return {
-      newImage: {
-        writer: "",
-        path: ""
-      },
       img: "",
       file: [],
-      srcc: "",
-      sr:
-        "file:///D:/web_sisul/projec_v1/wepproject/backend/routes/uploads/2019-12-08T12-17-52.319Z233DB44C555C85C629.jpg"
+      imgsrc: ""
     };
   },
-  computed: {
-    image() {
-      return this.$store.state.studySchedules;
-    }
-  },
   methods: {
-    async submittt() {
+    async sendfile() {
       var id = this.$store.getters.idx;
-
-      console.log(this.file);
-      console.log(document.getElementById("imgfile"));
       const formData = new FormData();
       formData.append("scheduleImg", this.file);
-      //   formData.append(name, this.file, this.file.name);
-      //   alert('?')
       const res2 = await this.$http.put(
         `http://localhost:3000/api/users/${id}/scheduleImg`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
     }
-  },
-  async beforeCreate() {
-    var id = this.$store.getters.idx;
-    const res = await this.$http.get(
-      `http://localhost:3000/api/users/${id}/scheduleImg`
-    );
-    console.log(res);
-    this.srcc = res.data.data.scheduleImg;
-    this.srcc;
   }
+ 
 };
 </script>
 <style>
@@ -71,6 +57,6 @@ export default {
   border-radius: 10px;
   background-color: #ecd7d2 !important;
 }
-.schedule {
-}
+
+
 </style>
