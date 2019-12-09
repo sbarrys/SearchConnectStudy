@@ -44,7 +44,7 @@ export default {
     };
   },
   computed: {
-    notices() {
+    notices() { //이거studies라 생각해야됨
       var temp = this.$store.state.notices;
       // console.log(temp);
       return temp.slice(0, 6);

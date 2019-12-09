@@ -131,7 +131,6 @@ router.get('/:id/notice/:idx', function (req, res) {
     Post.findById(req.params.idx).populate('writer').exec(function(err,result){
         console.log(result);
     })
-
 });
 
 //이거수정

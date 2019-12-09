@@ -33,7 +33,7 @@ var userSchema= mongoose.Schema({
   },
   studyList:
   [
-      { type: mongoose.Schema.Types.ObjectId, ref: 'notice' }
+      { type: mongoose.Schema.Types.ObjectId, ref: 'study' }
   ],
  
 },{

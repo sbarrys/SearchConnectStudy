@@ -34,7 +34,7 @@
 export default {
   data: function() {
     return {
-      notice: { writer: "" },
+      notice: { writer: '' , name:'',studyType:'' },
       chkwriter: false
     };
   },
@@ -50,7 +50,7 @@ export default {
     async regist() {
       await this.$http
         .put(
-          "http://localhost:3000/notices/" +
+          "http://localhost:3000/study/" +
             this.$route.params.id +
             "/member/" +
             this.$store.getters.idx,
@@ -78,9 +78,11 @@ export default {
     const res = await this.$store.dispatch("fetchNotice", {
       id: this.$route.params.id
     });
+
     if (res.success === false) alert(res.message);
     else {
-      this.notice = res.result;
+
+      this.notice = res.data;
       if (this.notice.writer.id == this.$store.getters.id)
         this.chkwriter = true;
     }
