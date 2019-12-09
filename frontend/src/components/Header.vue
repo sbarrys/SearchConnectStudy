@@ -62,7 +62,19 @@ export default {
   created() {
     console.log("(header.vue)store: " + this.$store.getters.id);
     this.id = this.$store.getters.id;
-    // this.studylist = this.$store.getters.studylist;
+    //스터디리스트 넣어주기.
+    // this.studylist= this.$http.get("http://localhost:3000/api/users/"+this.$store.getters.idx,{headers:{'x-access-token':this.$store.getters.token}}).then(res=>{
+    //       if (res.data.success == true) {
+    //         this.studylist=res.data.studyList;
+    //       }
+    //       else
+    //       {
+    //         console.log(res.data);
+    //         alert(" 회원님의 스터디 리스트 조회에 실패하였습니다.")
+    //       }
+
+// })
+
   },
   methods: {
     logout() {

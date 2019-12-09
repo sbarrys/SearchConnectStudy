@@ -97,10 +97,11 @@ export default new Vuex.Store({
     },
     //스터디 공고 상세 CRUD
     async appendNotice({ }, data) {
-      const res = await Vue.axios.post(API_HOST + '/study/create', data)
+      const res = await Vue.axios.post(API_HOST + '/study/' /*'/notices/create'*/, data)
       // return success/result to action caller
       return res.data
     },
+    //해당스터디얻기
     async fetchNotice({ }, { id }) {
       const res = await Vue.axios.get(API_HOST + `/study/${id}`)
       // return success/result to action caller

@@ -107,9 +107,5 @@ var noticeSchema = new Schema({
 //noticeSchema.plugin(autoInc.plugin, 'notice')
 const notice = mongoose.model('notice', noticeSchema);
 const board = mongoose.model('board', boardSchema)
-<<<<<<< HEAD
-module.exports = notice
-=======
 const studyNotice = mongoose.model('studyNotice',studyNoticeSchema)
 module.exports = {notice,board,studyNotice}
->>>>>>> 8d737c8c25d39fccdd979626d228f6c04f12031a

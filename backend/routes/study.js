@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const Study= require('../models/studySchema');
+const Study = require('../models/studySchema');
 const notices = require('../data/notice');
 var User = require('../models/userSchema');
 var util = require('../models/util');
-const Post=require('../models/postSchema');
+const Post = require('../models/postSchema');
 
 //전체목록조회
 router.get('/', function (req, res) {
@@ -15,15 +15,15 @@ router.get('/', function (req, res) {
 });
 //스터디 생성
 router.post('/', function (req, res) {
-    var study= new Study();
-    study.studyType=req.body.studyType;
-    study.maxMember=req.body.maxMember;
-    study.studyName=req.body.studyName;
-    study.title=req.body.title;
-    study.content=req.body.content;
-    study.writer=req.body.writer;
-    study.save(function(err,study){
-        if(err){
+    var study = new Study();
+    study.studyType = req.body.studyType;
+    study.maxMember = req.body.maxMember;
+    study.studyName = req.body.studyName;
+    study.title = req.body.title;
+    study.content = req.body.content;
+    study.writer = req.body.writer;
+    study.save(function (err, study) {
+        if (err) {
 
             res.json(util.successFalse(err));
         }
@@ -36,7 +36,7 @@ router.post('/', function (req, res) {
 //스터디 조회 
 router.get('/:id', function (req, res) {
     console.log(req.params.id)
-    Study.findById(req.params.id).populate([{path:'studyMember'},{path:'writer'}]).exec(function (err, study) {
+    Study.findById(req.params.id).populate([{ path: 'studyMember' }, { path: 'writer' }]).exec(function (err, study) {
         if (err) res.json(util.successFalse(err));
         res.json(util.successTrue(study));
     });
@@ -82,92 +82,87 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 });
 
-/////해당하는 스터디에 notice를 추가해준다.
+//해당하는 스터디에 notice를 추가해준다.
+router.post('/:id/notice', async function (req, res) {
+    
+    var post = new Post({
+        fromstudy : req.params.id,
+        title :req.body.title,
+        content: req.body.content,
+        writer: req.body.writer
+    });
+     
+    await post.save(function(err, result){
+        console.log(result.fromstudy, result.title);
+         if(err) res.json(util.successFalse(err));
+    });
 
-router.get("/:id/notice", function(req, res){
+    await Study.findByIdAndUpdate(
+        req.params.id,
+        { $addToSet: { notice: post._id } },
+        { safe: true, new: true },
+        function (err, model) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue());
 
-    notices.notice.findOne({_id:req.params.id}).populate('studyNotice').exec((err, post) => {
-        if (err) return res.status(500).send({ error: 'database failure' });
-        var temp = post.studyNotice
+        }
+    );
+});
+
+//study에해당하는 notice를 출력해 준다.
+router.get("/:id/notice", function (req, res) {
+    Study.findOne({ _id: req.params.id }).select('notice')
+    .populate({
+        path:'notice',
+        populate:{
+            path:'writer'
+        }
+    }).exec(function(err,notice){
+        res.json(util.successTrue(notice));
+    })
+})
+
+router.get('/:id/notice/:idx', function (req, res) {
+
+    notices.notice.findOne({ _id: req.params.id }).populate({ path: 'studyNotice', match: { _id: req.params.idx } }).select('studyNotice').exec(function (err, result) {
+        var temp = result.studyNotice
         res.json({ success: true, result: temp });
     })
 
 });
 
-router.post('/:id/user/:idx/notice', function(req, res) {
+//이거수정
+//해당하는 id 의 study 에 idx 아이디를 가진 notice수정
+router.put('/:id/notice/:idx', function (req, res) {
 
-    const temp= new notices.studyNotice()
-   // temp.user=req.params.idx
-    temp.title = req.body.title
-    temp.content = req.body.content
-    temp.writer = req.params.idx
-    temp.study = req.params.id
-    temp.save()
-
-    notices.notice.findByIdAndUpdate(req.params.id,
-        {$addToSet: {studyNotice: temp._id}},
-        {safe: true, new : true},
-        function(err, model) {
-            res.json({success: true});
+    Post.findByIdAndUpdate(
+        req.params.idx,
+        { $set: { title: req.body.title, content: req.body.content } },
+        { safe: true, new: true },
+        function (err, post) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue(post));
         }
     );
-
-        }
-    );
-});
-
-router.get('/:id/notice/:idx', function(req, res){
-
-    notices.notice.findOne({_id:req.params.id}).populate({path:'studyNotice',match:{_id:req.params.idx}}).select('studyNotice').exec(function (err,result) {
-        var temp = result.studyNotice
-        res.json({success : true, result : temp});
-    })
-
-});
-
-
-//notice edit
-router.put('/:id/notice/:idx', function(req, res) {
-
-    notices.studyNotice.findByIdAndUpdate(req.params.idx, {$set:{title:req.body.title,content:req.body.content}}, function (err, post) {
-        if (err) res.json({success:false, message:'cannot find notice'})
-        else res.json({success:true});
-    });
-
-
 });
 
 //notice delete
 router.delete('/:id/notice/:idx', (req, res) => {
 
-    notices.studyNotice.remove({ _id: req.params.idx }, (err, output) => {
-        if(err) return res.status(500).json({ error: "database failure" });
+    //포스트 삭제
+    Post.findByIdAndDelete(req.params.idx).exec(function (err) {
+        if (err) res.json(util.successFalse(err));
+        else res.json(util.successTrue());
 
+    });
+
+    Study.findById(req.params.id).exec(function (err, study) {
+        if (err) res.json(util.successFalse(err));
+        study.notice.splice(study.notice.indexOf(req.params.idx), 1)
+        study.save();
+        if (err) res.json(util.successFalse(err));
+        else res.json(util.successTrue(study));
     })
-    notices.notice.findById(req.params.id,function (err, post) {
-        if(err) return next(err)
-        post.studyNotice.pull({_id:req.params.idx}) //
-        post.save()
-        res.json({success:true})
-    })
-
-
-});
-
-
-/////보드
-
-router.get("/:id/board", function (req, res) {
-
-        });
-        
-        Study.findById(req.params.id).exec(function(err,study){
-            if(err) res.json(util.successFalse(err));
-            study.notice.splice(study.notice.indexOf(req.params.idx),1)
-            study.save();
-            if(err)res.json(util.successFalse(err));
-             else res.json(util.successTrue(study));
-        })
 
 });
 /////////////////////////////////////////////////////
@@ -183,21 +178,21 @@ router.get("/:id/board", function (req, res) {
 /////보드
 //해당하는 스터디에 board 추가해준다.
 router.post('/:id/board', async function (req, res) {
-    
+
     var post = new Post({
-        fromstudy : req.params.id,
-        title :req.body.title,
+        fromstudy: req.params.id,
+        title: req.body.title,
         content: req.body.content,
         writer: req.body.writer
     });
-     
-    await post.save(function(err, result){
+
+    await post.save(function (err, result) {
         console.log(result.fromstudy, result.title);
-         if(err) res.json(util.successFalse(err));
+        if (err) res.json(util.successFalse(err));
     });
-    
-    
-    
+
+
+
 
     await Study.findByIdAndUpdate(
         req.params.id,
@@ -214,19 +209,19 @@ router.post('/:id/board', async function (req, res) {
 //study에해당하는 board 출력해 준다.
 router.get("/:id/board", function (req, res) {
     Study.findOne({ _id: req.params.id }).select('board')
-    .populate({
-        path:'board',
-        populate:{
-            path:'writer'
-        }
-    }).exec(function(err,board){
-        res.json(util.successTrue(board));
-    })
+        .populate({
+            path: 'board',
+            populate: {
+                path: 'writer'
+            }
+        }).exec(function (err, board) {
+            res.json(util.successTrue(board));
+        })
 })
 
 //해당하는 스터디의 idx에 해당하는 board 리턴한다.
 router.get('/:id/board/:idx', function (req, res) {
-    Post.findById(req.params.idx).populate('writer').exec(function(err,result){
+    Post.findById(req.params.idx).populate('writer').exec(function (err, result) {
         console.log(result);
     })
 
@@ -236,9 +231,9 @@ router.get('/:id/board/:idx', function (req, res) {
 //해당하는 id 의 study 에 idx 아이디를 가진 board수정
 router.put('/:id/board/:idx', function (req, res) {
 
-     Post.findByIdAndUpdate(
+    Post.findByIdAndUpdate(
         req.params.idx,
-        { $set: { title: req.body.title , content:req.body.content } },
+        { $set: { title: req.body.title, content: req.body.content } },
         { safe: true, new: true },
         function (err, post) {
             if (err) res.json(util.successFalse(err));
@@ -250,20 +245,20 @@ router.put('/:id/board/:idx', function (req, res) {
 //board delete
 router.delete('/:id/board/:idx', (req, res) => {
 
-        //포스트 삭제
-        Post.findByIdAndDelete(req.params.idx).exec(function(err){
-            if(err) res.json(util.successFalse(err));
-            else res.json(util.successTrue());
+    //포스트 삭제
+    Post.findByIdAndDelete(req.params.idx).exec(function (err) {
+        if (err) res.json(util.successFalse(err));
+        else res.json(util.successTrue());
 
-        });
-        
-        Study.findById(req.params.id).exec(function(err,study){
-            if(err) res.json(util.successFalse(err));
-            study.board.splice(study.board.indexOf(req.params.idx),1)
-            study.save();
-            if(err)res.json(util.successFalse(err));
-             else res.json(util.successTrue(study));
-        })
+    });
+
+    Study.findById(req.params.id).exec(function (err, study) {
+        if (err) res.json(util.successFalse(err));
+        study.board.splice(study.board.indexOf(req.params.idx), 1)
+        study.save();
+        if (err) res.json(util.successFalse(err));
+        else res.json(util.successTrue(study));
+    })
 
 });
 

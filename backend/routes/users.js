@@ -66,26 +66,28 @@ router.post('/signup', function (req, res, next) {
 
 
 // show
-router.get('/:username', util.isLoggedin, function (req, res, next) {
-  User.findOne({ username: req.params.username })
-    .exec(function (err, user) {
-      res.json(err || !user ? util.successFalse(err) : util.successTrue(user));
+router.get('/:id', util.isLoggedin, function(req,res,next){
+    User.findOne({id:req.params.id})
+    .exec(function(err,user){
+      res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });
 });
 
-router.get('/:username/study', util.isLoggedin, function(req,res,next){
-  User.findById({_id:req.params.username}).populate([{path:'studyList'}])
+router.get('/:id/study', util.isLoggedin, function(req,res,next){
+  User.findById(req.params.id).populate('studyList')
   .exec(function(err,user){
+    console.log(user)
+
     res.json(err||!user? util.successFalse(err): util.successTrue(user));
   });
 });
 
 
 // destroy 
-router.delete('/:username', util.isLoggedin, checkPermission, function (req, res, next) {
-  User.findOneAndRemove({ username: req.params.username })
-    .exec(function (err, user) {
-      res.json(err || !user ? util.successFalse(err) : util.successTrue(user.studyList));
+router.delete('/:id', util.isLoggedin, checkPermission, function(req,res,next){
+    User.findOneAndRemove({id:req.params.id})
+    .exec(function(err,user){
+      res.json(err||!user? util.successFalse(err): util.successTrue(user.studyList));
     });
 });//로그인되어있는지 확인후 삭제해준다.
 
