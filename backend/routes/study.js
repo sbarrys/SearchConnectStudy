@@ -5,6 +5,7 @@ const notices = require('../data/notice');
 var User = require('../models/userSchema');
 var util = require('../models/util');
 const Post=require('../models/postSchema');
+const Assignment=require('../models/assignmentSchema');
 
 //전체목록조회
 router.get('/', function (req, res) {
@@ -35,7 +36,6 @@ router.post('/', function (req, res) {
 
 //스터디 조회 
 router.get('/:id', function (req, res) {
-    console.log(req.params.id)
     Study.findById(req.params.id).populate([{path:'studyMember'},{path:'writer'}]).exec(function (err, study) {
         if (err) res.json(util.successFalse(err));
         res.json(util.successTrue(study));
@@ -94,7 +94,6 @@ router.post('/:id/notice', async function (req, res) {
     });
      
     await post.save(function(err, result){
-        console.log(result.fromstudy, result.title);
          if(err) res.json(util.successFalse(err));
     });
     
@@ -129,7 +128,6 @@ router.get("/:id/notice", function (req, res) {
 //해당하는 스터디의 idx에 해당하는 notice를 리턴한다.
 router.get('/:id/notice/:idx', function (req, res) {
     Post.findById(req.params.idx).populate('writer').exec(function(err,result){
-        console.log(result);
     })
 });
 
@@ -339,21 +337,34 @@ router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
 });
 
 router.get('/:id/assignment', function (req, res) {
-    notices.findOne({ _id: req.params.id }).select('assignment').populate('writer').exec(function (err, result) {
-        var temp = result.assignment
-        if (err) res.json({ success: false, result: err });
-        else res.json({ success: true, result: temp });
+    Study.findByIdAndDelete(req.params.id).populate('assignment').exec(function(err,result){
+        if(err)res.json(util.successFalse(err))
+        else res.json(util.successTrue(result));
     })
 });
 router.post('/:id/assignment', function (req, res) {
-    notices.findById(req.params.id, function (err, post) {
-        if (err) { res.json(util.successFalse(err)) }
-        else {
-            post.assignment.push(req.body)
-            post.save()
-            res.json({ success: true });
-        }
+    ////////추가.
+       
+    var assignment = new Assignment({
+        fromstudy : req.params.id,
+        writer: req.body.writer,
+        title :req.body.title,
+        content: req.body.content,
+        anonymous: req.body.anonymous,
     });
+     
+    await assignment.save(function(err, result){
+         if(err) res.json(util.successFalse(err));
+    });
+    await Study.findByIdAndUpdate(
+        req.params.id,
+        { $addToSet: { assignment: assignment._id } },
+        { safe: true, new: true },
+        function (err, model) {
+            if (err) res.json(util.successFalse(err));
+            else res.json(util.successTrue());
+        }
+    );
 });
 router.get('/:id/assignment/:idd', function (req, res) {
     notices.findOne({ _id: req.params.id }).select('assignment').exec(function (err, result) {

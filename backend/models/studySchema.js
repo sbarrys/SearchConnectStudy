@@ -31,7 +31,7 @@ var studySchema = new Schema({
      assignment:  [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'post'
+            ref: 'assignment'
         }],
 
 });

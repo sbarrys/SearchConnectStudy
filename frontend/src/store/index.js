@@ -147,9 +147,12 @@ export default new Vuex.Store({
     //   return res.data
     // },
 
+
+
     //스터디속 공지사항 글 전체
     async fetchStudyNotices({ commit }, { id }) {
       const res = await Vue.axios.get(API_HOST + `/study/${id}/notice`)
+      console.log("여기 :"+ res.data.result)
       if (res.data.success === true) commit('updateStudyNotice', res.data.result)
       // return success/result to action caller
       return res.data
@@ -158,6 +161,8 @@ export default new Vuex.Store({
     //스터디속 공지 상세 CRUD 
     async fetchStudyNotice({ }, { id, idx }) {
       const res = await Vue.axios.get(API_HOST + `/study/${id}/notice/${idx}`)
+      console.log("여기 :"+ res)
+
       // return success/result to action caller
       return res.data
     },

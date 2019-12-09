@@ -68,6 +68,7 @@ router.get('/:id', util.isLoggedin, function(req,res,next){
     });
 });
 
+
 router.get('/:id/study', util.isLoggedin, function(req,res,next){
   User.findById(req.params.id).populate('studyList')
   .exec(function(err,user){
