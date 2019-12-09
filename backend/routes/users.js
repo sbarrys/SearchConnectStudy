@@ -33,6 +33,7 @@ router.get('/:id/scheduleImg', function (req, res) {
     if (err) {
       res.json(util.successFalse(err));
     }
+
     else {
       fs.readFile(user.scheduleImg, (err, data) => {
         // res.writeHead(200,{ "Context-Type": "image/jpg" })
