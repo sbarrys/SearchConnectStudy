@@ -1,6 +1,5 @@
 <template>
   <div>
-    <section class="row">
       <div class="col-sm popular-course pad-horizontal">
         <section class="row justify-content-center">
           <!-- 코스 리스트 -->
@@ -38,7 +37,6 @@
           <!-- end -->
         </section>
       </div>
-    </section>
   </div>
 </template>
 

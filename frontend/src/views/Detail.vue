@@ -11,15 +11,13 @@
         <hr />
         <div class="h4 text-custom2">{{notice.studyName}}</div>
         <hr />
-        <div class="text-secondary mx-4 small pre-wrap">
-          {{notice.content}}
-        </div>
+        <div class="text-secondary mx-4 small pre-wrap">{{notice.content}}</div>
         <div class="row m-0 p-3 justify-content-end">
           <strong class="text-custom1">by {{notice.writer.name}}</strong>
         </div>
       </table>
       <p>
-        <button @click="regist" v-if="$store.getters.idx" class="btn bg-custom1 text-white">가입신청</button>
+        <button @click="regist" v-if="$store.getters.idx&&chkwriter" class="btn bg-custom1 text-white">가입신청</button>
       </p>
 
       <div class="row justify-content-end">
@@ -35,7 +33,8 @@ export default {
   data: function() {
     return {
       notice: { writer: "" },
-      chkwriter: false
+      chkwriter: true,
+      chkregist: false
     };
   },
   methods: {
@@ -47,31 +46,22 @@ export default {
         }
       });
     },
-    async regist() {
-      await this.$http
-        .put(
-          "http://localhost:3000/notices/" +
-            this.$route.params.id +
-            "/member/" +
-            this.$store.getters.idx,
-          {}
-        )
-        .then(res => {
-          console.log(res.data);
-          if (res.data.success == true) alert("신청완료");
-          else {
-            console.log(res.data);
-            alert("신청실패:");
-          }
-          this.$router.push("/notice");
-        });
-    },
+
     async deleteNotice() {
       const res = await this.$store.dispatch("deleteNotice", {
         id: this.$route.params.id
       });
       if (res.success === false) alert(res.message);
       else this.$router.push("/notice");
+    },
+    async regist() {
+      const res2 = await this.$store.dispatch("regist", {
+        id: this.$route.params.id,
+        idx: this.$store.getters.idx
+      });
+      if (res2.success === true) alert("가입완료");
+      else alert("가입실패");
+      this.$router.push("/notice").catch(err => {});
     }
   },
   async beforeCreate() {
@@ -84,6 +74,13 @@ export default {
       if (this.notice.writer.id == this.$store.getters.id)
         this.chkwriter = true;
     }
+    for (var std of this.$store.state.study) {
+      if (std._id == this.$route.params.id) {
+        console.log("!!!!!!!!!");
+        this.chkwriter = false;
+      }
+    }
+    console.log("@@@@@@@@@@");
   }
 };
 </script>
@@ -102,7 +99,7 @@ export default {
   font-weight: 500;
   padding-bottom: 15px;
 }
-.pre-wrap{
+.pre-wrap {
   white-space: pre-wrap;
 }
 </style>
