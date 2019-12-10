@@ -3,7 +3,7 @@
     <div class="container shadow-lg rounded">
       <div class="notice my-4 py-3 table-borderless">
         <div class="justify-content-end">
-          <div class="badge text-left">{{notice.studyType}}</div>
+          <div class="badge text-left">DeadLine: {{notice.deadline}}</div>
         </div>
         <div class="h2 text-custom1">{{notice.title}}</div>
         <hr />
@@ -19,6 +19,8 @@
 </template>
 <script>
 /* eslint-disable */
+import moment from "moment";
+
 export default {
   data: function() {
     return {
@@ -54,10 +56,16 @@ export default {
     });
     if (res.success === false) alert(res.message);
     else {
-      console.log(res);
-    //   this.notice = res.result;
-    //   if (res.result.writer == this.$store.getters.idx)
-    //     this.chkwriter = true;
+      console.log(this.$route.params);
+      this.notice = res.result[this.$route.params.nowIndex];
+
+      this.notice.deadline = moment(String(this.notice.deadline)).format(
+        "YYYY-MM-DD"
+      );
+
+      //   this.notice = res.result;
+      //   if (res.result.writer == this.$store.getters.idx)
+      //     this.chkwriter = true;
     }
   }
 };

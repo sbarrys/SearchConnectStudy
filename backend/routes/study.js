@@ -108,11 +108,22 @@ router.post('/:id/notice', function (req, res) {
 
 });
 
-router.get('/:id/notice/:idx', function (req, res) {
+router.get('/:id/notice/:idx',  function (req, res) {
+    
+    
+     notices.findById(req.params.id)
+    .select({ notice: { $elemMatch: { _id: req.params.idx } }})
+    .exec(function (err, result) {
+        var temp = result.notice[0].writer;
 
-    notices.findOne({ _id: req.params.id }).select({ notice: { $elemMatch: { _id: req.params.idx } } }).exec(function (err, result) {
-        var temp = result.notice
-        res.json({ success: true, result: temp });
+        var temp2= result.notice;
+        User.findById(temp).select('name').exec(function(err,rs){
+            temp=rs.name;
+
+            res.json({ success: true, result: temp2 ,name:temp});
+
+        })
+    
     })
 
 });
@@ -371,7 +382,7 @@ router.get('/:id/assignment/:idd', function (req, res) {
         if (err) return next(err);
         var temp = result.assignment;
         var dum = temp[req.body.nowIndex];
-        res.json({ success: true, result: dum });
+        res.json({ success: true, result: temp });
 
     })
 });

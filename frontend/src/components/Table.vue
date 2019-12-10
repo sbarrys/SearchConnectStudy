@@ -10,7 +10,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="value in items" :key="value.id" @click="detail(value)">
+        <tr v-for="(value,index) in items" :key="value.id" @click="detail(value,index)">
           <td>{{value[item_field[0]]}}</td>
           <td>{{value[item_field[1]]}}</td>
           <td>{{value[item_field[2]]}}</td>
@@ -24,13 +24,14 @@
 export default {
   props: ["item_field", "items", "val"],
   methods: {
-    detail(value) {
-      console.log(this.val)
+    detail(value,index) {
       this.$router.push({
         name: this.val + "Detail",
+
         params: {
           id: this.$route.params.id,
           idx: value._id,
+          nowIndex: index
         }
       });
     }

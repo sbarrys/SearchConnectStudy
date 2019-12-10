@@ -46,7 +46,7 @@ router.post('/login',
           _id : user._id,
           id: user.id
         };
-        var secretOrPrivateKey ="abcd"  //process.env.JWT_SECRET;
+        var secretOrPrivateKey ="a0eff3l76bca"  //process.env.JWT_SECRET;
         var options = {expiresIn: 60*20};//20분간 로그인 유효기간 
         jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
           if(err) {return res.json(util.successFalse(err));}        
@@ -85,7 +85,7 @@ router.get('/refresh', util.isLoggedin,
           _id : user._id,
           id: user.id
         };
-        var secretOrPrivateKey = "abcd"//process.env.JWT_SECRET;
+        var secretOrPrivateKey = "a0eff3l76bca"//process.env.JWT_SECRET;
         var options = {expiresIn: 60*20};
         jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
           if(err) return res.json(util.successFalse(err));

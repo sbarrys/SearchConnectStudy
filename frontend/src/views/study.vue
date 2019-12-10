@@ -9,8 +9,9 @@
         <div class="course-card polaroid col-sm-12 col-md-6 my-3">
           <a href='#' class="content">
             <div class="info">
-              <h5 class="name">공지사항</h5>
-              <p class="description"></p>
+              <router-link :to='tonotice'>
+                <h5 class="name">공지사항</h5>
+              </router-link>
             </div>
             <Table :items="notice" :item_field="notice_field" val='StudyNotice'></Table>
           </a>
@@ -18,7 +19,9 @@
         <div class="course-card polaroid col-sm-12 col-md-6 my-3">
           <a href="#" class="content">
             <div class="info">
-              <h5 class="name">과제</h5>
+              <router-link :to='toassignemt'>
+                <h5 class="name">과제</h5>
+              </router-link>
               <p class="description"></p>
             </div>
             <Table :items="assignment" :item_field="assignment_field" val="Assignment"></Table>
@@ -54,7 +57,8 @@ export default {
     return {
       assignment_field: ["title", "content", "deadline"],
       notice_field: ["title", "content", "date"],
-
+      tonotice:{ name: 'StudyNotice', params: { id: this.$route.params.id} },
+      toassignemt:{name: 'Assignment', params: { id: this.$route.params.id}},
       link: "/study/" + this.$route.params.id
     };
   },
