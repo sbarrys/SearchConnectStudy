@@ -58,7 +58,7 @@ util.isLoggedin = function (req, res, next) {
     
     if (!token) return res.json(util.successFalse(null, 'token is required!'));
     else {
-        jwt.verify(token, "abcd"/*process.env.JWT_SECRET*/, function (err, decoded) {
+        jwt.verify(token, "a0eff3l76bca"/*process.env.JWT_SECRET*/, function (err, decoded) {
             if (err) return res.json(util.successFalse(err));
             else {
                 req.decoded = decoded;

@@ -5,7 +5,7 @@
             <table class="notice table table-borderless">
                 <tr>
                     <td>작성자</td>
-                    <td>{{notice.writer}}</td>
+                    <td>{{name}}</td>
                 </tr>
                 <tr>
                     <td>내용</td>
@@ -22,7 +22,7 @@
     export default {
         data:function () {
             return {
-
+                name :"",
                 notice: {
                     noticeID:"",
                     nowIndex:this.$route.params.nowIndex,
@@ -57,7 +57,8 @@
             const res = await this.$store.dispatch("fetchStudyNotice", {id: this.$route.params.id,idx:this.$route.params.temp});
             if (res.success === false) alert(res.message);
             else {
-                this.notice = res.result;
+                this.notice = res.result[0];
+                this.name = res.name;
                 this.notice.noticeID = this.$route.params.temp
                 if (this.notice.writer == this.$store.getters.id) this.chkwriter = true;
             }
