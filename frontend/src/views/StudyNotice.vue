@@ -61,8 +61,9 @@ export default {
       this.$router.push({
         name: "StudyNoticeDetail",
         params: {
-          temp: value._id,
-          id: this.id, //스터디 아이디
+          temp: value.id,
+          id: this.$route.params.id,
+ //스터디 아이디
           nowIndex: index
         }
       });

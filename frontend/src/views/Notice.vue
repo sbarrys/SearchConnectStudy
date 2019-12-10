@@ -1,26 +1,26 @@
 <template>
   <div class="container-fluid text-center">
-    <b-table-simple hover class="table small table-hover">
-      <b-thead>
-        <b-tr>
-          <b-th>Type</b-th>
-          <b-th>Member</b-th>
-          <b-th>Writer</b-th>
-          <b-th>Title</b-th>
-          <b-th>Date</b-th>
-        </b-tr>
-      </b-thead>
+    <table hover class="table small table-hover w-100" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th style="width:12%">Type</th>
+          <th style="width:10%">Member</th>
+          <th style="width:10%">Writer</th>
+          <th style="width:52%">Title</th>
+          <th style="width:10%">Date</th>
+        </tr>
+      </thead>
 
-      <b-tbody>
-        <b-tr v-for="value in notices" :key="value.id" @click="detail(value)">
-          <b-td>{{value.studyType}}</b-td>
-          <b-td>{{value.maxMember}}</b-td>
-          <b-td>{{value.writer.name}}</b-td>
-          <b-td>{{value.title}}</b-td>
-          <b-td>{{value.date}}</b-td>
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
+      <tbody>
+        <tr v-for="value in notices" :key="value.id" @click="detail(value)">
+          <td >{{value.studyType}}</td>
+          <td >{{value.maxMember}}</td>
+          <td >{{value.writer.name}}</td>
+          <td >{{value.title}}</td>
+          <td >{{value.date}}</td>
+        </tr>
+      </tbody>
+    </table>
     <p>
       <button class="btn mybtn2" @click="prevPage">Previous</button>
       <button class="btn mybtn2" @click="nextPage">Next</button>
@@ -44,7 +44,7 @@ export default {
     notices() {
       const start = this.pageNumber * this.size,
         end = start + this.size;
-      console.log(this.$store.state.notices)
+      console.log(this.$store.state.notices);
       var temp = this.$store.state.notices;
       for (var tmp of temp) {
         tmp.date = moment(String(tmp.date)).format("YYYY-MM-DD");
@@ -96,5 +96,9 @@ table > td {
 table {
   text-align: center;
 }
-
+td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 </style>

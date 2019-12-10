@@ -7,10 +7,10 @@
       indicators
       img-width="1024"
       img-height="480"
+      v-for="src in imgsrc"
+      :key="src"
     >
-      <b-carousel-slide class="img-fluid" caption="First slide" :img-src="imgsrc"></b-carousel-slide>
-      <b-carousel-slide class="img-fluid" caption="Second Slide" :img-src="imgsrc"></b-carousel-slide>
-      <b-carousel-slide class="img-fluid" caption="Third Slide" :img-src="imgsrc"></b-carousel-slide>
+      <b-carousel-slide class="img-fluid" caption="" :img-src="src"></b-carousel-slide>
     </b-carousel>
   </div>
 </template>
@@ -24,14 +24,15 @@ export default {
   },
   async beforeCreate() {
     await this.$store.dispatch("fetchNotices");
-    var id = this.$store.getters.idx;
+    var id =this.$route.params.id
     const res = await this.$http.get(
-      `http://localhost:3000/api/users/${id}/scheduleImg`
+      `http://localhost:3000/notices/${id}/membersScheduleImg`
     );
-    this.imgsrc = Buffer.from(res.data.scheduleImg, "binary").toString(
+  console.log(res.data)
+  for(var i in res.data.data){  this.imgsrc[i] = Buffer.from(res.data.data[i], "binary").toString(
       "base64"
     );
-    this.imgsrc = "data:image/jpg;base64," + this.imgsrc;
+    this.imgsrc[i] = "data:image/jpg;base64," + this.imgsrc[i];}
   }
 };
 </script>

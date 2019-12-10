@@ -44,8 +44,13 @@ export default {
       const res2 = await this.$http.put(
         `http://localhost:3000/api/users/${id}/scheduleImg`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
+      if(res2.success)alert('전송완료')
+      this.$router.push({
+        name: 'study',
+        id:this.$route.params.id
+      });
     }
   }
  

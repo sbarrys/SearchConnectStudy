@@ -1,56 +1,69 @@
 <template>
   <div>
-      <div class="col-sm popular-course pad-horizontal">
-        <section class="row justify-content-center">
-          <!-- 코스 리스트 -->
+    <div class="col-sm popular-course pad-horizontal">
+      <section class="row justify-content-center">
+        <!-- 코스 리스트 -->
 
-          <div
-            class="course-card polaroid col-12 col-sm-10 col-md-6 col-lg-3 my-3"
-            v-for="(value,index) in notices"
-            :key="value.id"
-            @click="detail(value)"
-          >
-            <a class="content" href="#">
-              <div class="cover">
-                <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge ">{{value.studyType}}</span>
-                <img v-bind:src="'/images/photo_'+index+'.jpg'" class="img-fluid" />
-              </div>
-              <div class="info">
-                <h5 class="name ">{{value.title}}</h5>
-                <p class="description pre-wrap">{{value.content}}</p>
-              </div>
-              <div class="price">
-                <span class="tag-price">{{value.studyName}} </span>
+        <div
+          class="course-card polaroid col-12 col-sm-10 col-md-6 col-lg-3 my-3"
+          v-for="(value,index) in notices"
+          :key="value.id"
+          @click="detail(value)"
+        >
+          <a class="content" href="#">
+            <div class="cover">
+              <i class="far fa-comments"></i>
+              <span class="badge badge-danger navbar-badge">{{value.studyType}}</span>
+              <img v-bind:src="'/images/photo_'+index%4+'.jpg'" class="img-fluid" />
+            </div>
+            <div class="info">
+              <h5 class="name">{{value.title}}</h5>
+              <p class="description pre-wrap">{{value.content}}</p>
+            </div>
+            <div class="price">
+              <span class="tag-price">{{value.studyName}}</span>
 
-                <span class="deposit-amount"></span>
-              </div>
-              <hr />
-              <div class="schedule">
-                <span class="duration">by {{value.writer.name}}</span>
+              <span class="deposit-amount"></span>
+            </div>
+            <hr />
+            <div class="schedule">
+              <span class="duration">by {{value.writer.name}}</span>
 
-                <time data-timestamp="1575817200" class="start-date">{{value.date}}</time>
-              </div>
-            </a>
-          </div>
-
-          <!-- end -->
-        </section>
-      </div>
+              <time data-timestamp="1575817200" class="start-date">{{value.date}}</time>
+            </div>
+          </a>
+        </div>
+        <!-- end -->
+      </section>
+      <a
+      v-if="this.page < this.limit"
+        href="#"
+        @click="next"
+        class="text-center mt-4 p-3 mb-5 bg-white text-dark rounded d-block hov container"
+      >More...</a>
+    </div>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 export default {
- 
+  data: function() {
+    return { page: 0 };
+  },
   computed: {
+    limit(){
+      return this.$store.state.notices.length
+    },
     notices() {
       var temp = this.$store.state.notices;
-      for (var tmp of temp){
-        tmp.date=moment(String(tmp.date)).format('YYYY-MM-DD')
+      for (var tmp of temp) {
+        tmp.date = moment(String(tmp.date)).format("YYYY-MM-DD");
       }
-      return temp.slice(0, 4);
+      console.log(this.page)
+            console.log(this.limit)
+
+      return temp.slice(0, this.page + 4);
     }
   },
   methods: {
@@ -61,6 +74,9 @@ export default {
           id: index._id
         }
       });
+    },
+    next() {
+      if (this.page < this.limit) this.page += 4;
     }
   },
   async beforeCreate() {
@@ -69,6 +85,14 @@ export default {
 };
 </script>
 <style scoped>
+.hov {
+  transition: all 0.1s ease-in;
+  box-shadow: 0 17px 30px 0 rgba(0, 0, 0, 0.4);
+  text-decoration: none !important;
+}
+.hov:hover {
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
 .course-card > .content {
   -ms-flex-direction: column;
   flex-direction: column;
@@ -175,7 +199,7 @@ hr {
   font-size: 11px;
 }
 
-.pre-wrap{
+.pre-wrap {
   white-space: pre-wrap;
 }
 </style>

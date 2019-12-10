@@ -4,6 +4,7 @@ pakage-lock.json
 public
 ./public/
 /dist
+uploads
 
 # local env files
 .env.local

@@ -22,19 +22,21 @@ router.post('/create', function (req, res) {
         }
     });
 });
-router.get('/:id/membersScheduleImg',function(req,res){
-    notices.findById(req.params.id).select('studyMember').populate('studyMember').exec(function(err,study){
-        var size= study.studyMember.length
+router.get('/:id/membersScheduleImg', function (req, res) {
+    notices.findById(req.params.id).select('studyMember').populate('studyMember').exec(function (err, study) {
+        var size = study.studyMember.length
         var temp = new Array();
-        let i=0
-        for(i; i<size ;i++){
-            temp[i]=study.studyMember[i]['scheduleImg'];
+        let i = 0
+        for (i; i < size; i++) {
+            fs.readFileSync(study.studyMember[i]['scheduleImg'], (err, data) => {
+                temp[i] = data;
+                console.log(i)
+            })
         }
         console.log(temp);
-        if(err) res.json(util.successFalse(err));
-
+        if (err) res.json(util.successFalse(err));
         else
-        res.json(util.successTrue(temp));
+            res.json(util.successTrue(temp));
     })
 
 });
@@ -88,7 +90,7 @@ router.put('/:id/member/:idx', async function (req, res) {
 
 ///
 router.get("/:id/notice", function (req, res) {
-    
+
     notices.findOne({ _id: req.params.id }).select('notice').populate('notice.writer').exec(function (err, result) {
         var temp = result.notice
         res.json({ success: true, result: temp });
