@@ -10,7 +10,7 @@ export default new Vuex.Store({
     id: '',
     idx: '',
     role: '',
-
+    study: [],
     notices: [],
     studyNotices: [],
     studyAssignment: [],
@@ -65,6 +65,9 @@ export default new Vuex.Store({
       }
       else return false
     },
+    updateStudy(state, study) {
+      state.study = study
+    },
     updateList(state, notices) {
       state.notices = notices
     },
@@ -82,8 +85,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getStudylist({ }, { idx }) {
+    async getStudylist({ commit }, { idx }) {
       const res = await Vue.axios.get(API_HOST + `/api/users/${idx}/study`,
+        { headers: { 'x-access-token': this.state.token } })
+      if (res.data.success === true) commit('updateStudy', res.data.data.studyList)
+      return res.data
+    },
+    async regist({ }, { id, idx }) {
+      const res = await Vue.axios.put(API_HOST + `/notices/${id}/member/${idx}`,
         { headers: { 'x-access-token': this.state.token } })
       return res.data
     },

@@ -30,7 +30,7 @@
             <template v-slot:button-content>
               <span>{{id}} 님</span>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item to='/mypage'>Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">로그아웃</b-dropdown-item>
           </b-nav-item-dropdown>
           <template>

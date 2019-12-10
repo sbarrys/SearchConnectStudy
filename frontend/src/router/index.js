@@ -29,6 +29,14 @@ const routes = [
     }
   },
   {
+    path: '/mypage',
+    name: 'mypage',
+
+    component: function () {
+      return import('../views/Mypage.vue')
+    }
+  },
+  {
     path: '/signup',
     name: 'Signup',
 
