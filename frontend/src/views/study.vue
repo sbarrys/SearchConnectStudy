@@ -7,22 +7,22 @@
       <!-- 코스 리스트 -->
       <div class="row justify-content-center">
         <div class="course-card polaroid col-sm-12 col-md-6 my-3">
-          <router-link :to="link+'/notice'" class="content">
+          <a href='#' class="content">
             <div class="info">
               <h5 class="name">공지사항</h5>
               <p class="description"></p>
             </div>
-            <Table :items="notice" :item_field="notice_field"></Table>
-          </router-link>
+            <Table :items="notice" :item_field="notice_field" val='StudyNotice'></Table>
+          </a>
         </div>
         <div class="course-card polaroid col-sm-12 col-md-6 my-3">
-          <router-link :to="link+'/assignment'" class="content" hef="#">
+          <a href="#" class="content">
             <div class="info">
               <h5 class="name">과제</h5>
               <p class="description"></p>
             </div>
-            <Table :items="assignment" :item_field="assignment_field" val='Assignment'></Table>
-          </router-link>
+            <Table :items="assignment" :item_field="assignment_field" val="Assignment"></Table>
+          </a>
         </div>
         <div class="course-card polaroid col-12 my-3">
           <router-link :to="link+'/schedule'" class="content" href="#">
@@ -30,7 +30,7 @@
               <h5 class="name">시간표</h5>
               <p class="description"></p>
             </div>
-     <Carousel></Carousel>
+            <Carousel></Carousel>
           </router-link>
         </div>
       </div>
@@ -89,6 +89,9 @@ export default {
 };
 </script>
 <style scoped>
+table {
+  /* table-layout: fixed; */
+}
 .course-card > .content {
   -ms-flex-direction: column;
   flex-direction: column;

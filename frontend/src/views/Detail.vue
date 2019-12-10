@@ -76,11 +76,9 @@ export default {
     }
     for (var std of this.$store.state.study) {
       if (std._id == this.$route.params.id) {
-        console.log("!!!!!!!!!");
         this.chkwriter = false;
       }
     }
-    console.log("@@@@@@@@@@");
   }
 };
 </script>

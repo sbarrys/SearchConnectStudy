@@ -351,6 +351,7 @@ router.delete('/:id/board/:idx/:index/:cid', (req, res) => {
 router.get('/:id/assignment', function (req, res) {
     notices.findOne({ _id: req.params.id }).select('assignment').populate('writer').exec(function (err, result) {
         var temp = result.assignment
+        console.log(temp)
         if (err) res.json({ success: false, result: err });
         else res.json({ success: true, result: temp });
     })

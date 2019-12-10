@@ -106,7 +106,7 @@ const routes = [
     }
   },
   {
-    path: '/study/:id/assignment/detail/:idd',
+    path: '/study/:id/assignment/detail/:idx',
     name: 'AssignmentDetail',
     component: function () {
       return import('../views/AssignmentDetail.vue')
@@ -114,7 +114,7 @@ const routes = [
     }
   },
   {
-    path: '/study/:id/assignment/submit/:idd',
+    path: '/study/:id/assignment/submit/:idx',
     name: 'AssignmentSubmit',
     component: function () {
       return import('../views/AssignmentSubmit.vue')
