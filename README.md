@@ -23,3 +23,11 @@ npm start
 ## Author
 
 👤 **이제찬 김태윤 이예빈 이유진**
+
+## SW structure
+
+<img src='./swstack.jpg'>
+
+## SW usage
+
+<img src='./usage.jpg'>
